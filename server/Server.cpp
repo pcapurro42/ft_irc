@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:50:01 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 01:35:07 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:51:01 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ Server::Server(const int port, const char *password)
         _canals_nb = 0;
         _canals_slots = 0;
 
-        for (int i = 0; i != SLOTS_LIMIT + 1; i++)
+        for (int i = 0; i != SLOTS_LIMIT + 1; i++)  // -6 chiffre aléatoire pour savoir si la case est allouée par un client ou pas
             _sockets_array[i].fd = -6;
-        for (int i = 0; i != SLOTS_LIMIT; i++)
+        for (int i = 0; i != SLOTS_LIMIT; i++)      // mise à zéro de tous les profils utilisateurs
         {
             _clients_data[i].connected = false;
             _clients_data[i].authentified = false;
             _clients_data[i].identified = false;
         }
-        for (int i = 0; i != CANALS_LIMIT; i++)
+        for (int i = 0; i != CANALS_LIMIT; i++) // mise à zéro de tous les channels
         {
             _canals[i].exist = false;
             _canals[i].max = SLOTS_LIMIT;
@@ -58,7 +58,6 @@ Server::Server(const Server &original)
 Server  &Server::operator=(const Server &original)
 {
     printMessage("Cloning server", true);
-    //
     return (*this);
 }
 

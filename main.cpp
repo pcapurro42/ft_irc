@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:16:07 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 22:57:06 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:51:22 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main(const int argc, const char **argv)
 
         Server server(atoi(argv[1]), argv[2]);
 
-        if (server.fail() == true)
+        if (server.fail() == true) // vérif si le serveur a validé les args + a réussi à créer le point d'accès, etc
             return (1);
         else
         {
@@ -47,7 +47,7 @@ int main(const int argc, const char **argv)
             signal(SIGTERM, shutdown);
             signal(SIGTSTP, shutdown);
 
-            server.startLoopRoutine();
+            server.startLoopRoutine(); // démarrage de la boucle de routine
         }
     }
     return (0);
