@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:42 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 22:45:26 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:53:52 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ int Server::executePassCommand(string cmd, int id)
     if (password[0] == ':')
         password = password.c_str() + 1;
 
-    if (_clients_data[id - 1].authentified == true)
+    if (_clients_data[id].authentified == true)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " failed to authentify (already authentified)." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " failed to authentify (already authentified)." << endl;
         return (ERR_ALREADYREGISTRED);
     }
     if (password == _password)
     {
-        _clients_data[id - 1].authentified = true;
-        cout << _clients_data[id - 1].nickname << " successfully authentified." << endl;
+        _clients_data[id].authentified = true;
+        cout << _clients_data[id].nickname << " successfully authentified." << endl;
     }
     else
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " failed to authentify (incorrect password)." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " failed to authentify (incorrect password)." << endl;
         return (ERR_PASSWDMISMATCH);
     }
     return (0);

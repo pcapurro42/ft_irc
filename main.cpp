@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:16:07 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 01:00:30 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:57:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void    shutdown(int signal)
         cout << "Terminate order. Shutting down..." << endl;
     else if (signal == SIGTSTP)
         cout << endl << "\033[A^Z Ctrl-Z used. Shutting down..." << endl;
+    
+    exit(0); // temporaire mais indispensable pour l'instant
 }
 
 int main(const int argc, const char **argv)

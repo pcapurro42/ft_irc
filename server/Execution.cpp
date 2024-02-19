@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 22:48:11 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:56:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,30 +118,32 @@ void    Server::executeCommand(const char *command, string cmd_name, int id)
     int value = ERR_INVALIDCOMMAND;
     string cmd(command);
 
+    cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
+
     if (cmd_name == "PING")
-        value = executePingCommand(cmd, id);
+        value = executePingCommand(cmd, id - 1);
     else if (cmd_name == "PASS")
-        value = executePassCommand(cmd, id);
+        value = executePassCommand(cmd, id - 1);
     else if (cmd_name == "NICK")
-        value = executeNickCommand(cmd, id);
+        value = executeNickCommand(cmd, id - 1);
     else if (cmd_name == "USER")
-        value = executeUserCommand(cmd, id);
+        value = executeUserCommand(cmd, id - 1);
     else if (cmd_name == "QUIT")
-        value = executeQuitCommand(cmd, id);
+        value = executeQuitCommand(cmd, id - 1);
     else if (cmd_name == "JOIN")
-        value = executeJoinCommand(cmd, id);
+        value = executeJoinCommand(cmd, id - 1);
     else if (cmd_name == "PART")
-        value = executePartCommand(cmd, id);
+        value = executePartCommand(cmd, id - 1);
     else if (cmd_name == "PRIVMSG")
-        value = executePrivmsgCommand(cmd, id);
+        value = executePrivmsgCommand(cmd, id - 1);
     else if (cmd_name == "KICK")
-        value = executeKickCommand(cmd, id);
+        value = executeKickCommand(cmd, id - 1);
     else if (cmd_name == "INVITE")
-        value = executeInviteCommand(cmd, id);
+        value = executeInviteCommand(cmd, id - 1);
     else if (cmd_name == "TOPIC")
-        value = executeTopicCommand(cmd, id);
+        value = executeTopicCommand(cmd, id - 1);
     else if (cmd_name == "MODE")
-        value = executeModeCommand(cmd, id);
+        value = executeModeCommand(cmd, id - 1);
 
     if (value != 0)
         sendError(command, id, value);
