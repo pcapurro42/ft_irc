@@ -1,0 +1,52 @@
+# # #==============# # #
+# # ### MAKEFILE ### # #
+# # #==============# # #
+
+## === VARIABLES === ##
+
+NAME = ircserv
+
+SRCS = main.cpp \
+	Print.cpp \
+	server/RandomTools.cpp \
+	server/Server.cpp \
+	server/AnalyzeTools.cpp \
+	server/Execution.cpp \
+	server/cmds/PingCMD.cpp \
+	server/cmds/InviteCMD.cpp \
+	server/cmds/JoinCMD.cpp \
+	server/cmds/KickCMD.cpp \
+	server/cmds/ModeCMD.cpp \
+	server/cmds/NickCMD.cpp \
+	server/cmds/PartCMD.cpp \
+	server/cmds/PassCMD.cpp \
+	server/cmds/PrivmsgCMD.cpp \
+	server/cmds/QuitCMD.cpp \
+	server/cmds/TopicCMD.cpp \
+	server/cmds/UserCMD.cpp \
+	server/Initialization.cpp \
+	server/Routine.cpp \
+	server/Management.cpp \
+
+CXX = c++
+
+CXXFLAGS = -std=c++98
+
+OBJS = $(SRCS:.cpp=.o)
+
+## === RULES === ##
+
+all: ircserv
+
+ircserv: $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	@rm -rf $(OBJS) # à retirer
+
+re: fclean all
+	@rm -rf $(OBJS) # à retirer
+
+clean:
+	@rm -rf $(OBJS)
+
+fclean: clean
+	@rm -rf $(NAME)
