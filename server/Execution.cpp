@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 23:50:36 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:55:28 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,22 @@ Ce qu'il va se passer (tu pourras l'observer avec le print que j'ai mis à la li
 Pour tester les commandes, simplement écrire dans la ligne dédiée la commande en brute en majuscule (ex: QUIT "message")
 
 NOTE 3:
+
+Commandes à réaliser:
+- INVITE
+- JOIN
+- KICK
+- MODE
+- NICK
+- PART
+- PRIVMSG #canal1 <message>
+- PRIVMSG utilisateur <message>
+- TOPIC
+- USER
+
+voir RFC 1459
+
+NOTE 4:
 
 Quelques contraintes qui seront pas précisées dans la doc et que tu vas devoir implémenter:
 1. Pour exécuter n'importe quelle commande à part PING, il faut être authentifié (authentified dans chaque case _clients_data)
