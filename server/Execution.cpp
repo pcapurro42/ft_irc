@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/20 01:06:31 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:18:16 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void    Server::executeCommand(const char *command, string cmd_name, int id)
 
 NOTE:
 
-1. J'ai laissé PASS, QUIT et PING comme modèles pour que tu puisses comprendre
+1. J'ai laissé PASS, USER, NICK, QUIT et PING comme modèles pour que tu puisses comprendre
 comment correctement exécuter une fonction tout en interagissant avec les données du serveur
 
 2. en argument de toutes les commandes sont passées :
@@ -171,10 +171,13 @@ ET qu'elle peut s'exécuter (possession des droits, cohérence etc), tu dois ren
 et se décrémentant à chaque déconnexion, tu n'as pas à gérer ça c'est déjà fait)
 - CANALS_LIMIT // nombre max de channels dans le tableau
 
-Important : le profil socket d'un client est à i + 1 du profil qui contient les données
-Exemple : si l'utilisateur à ses infos à _clients_data[i], son socket est toujours à _sockets_array[i + 1] (décalage à cause de la présence du socket serveur à _sockets_array[0])
-Pouvoir connaitre l'emplacement du socket d'un client te servira lorsque tu renverras un message
-Par exemple: l'utilisateur envoie PING 'texte', il faut lui répondre PONG 'texte', donc il faut envoyer (send()) "PONG 'text'" au socket correspondant, je réexpliquerai en vocal si besoin
+5. Au sein de ces fonctions, tu peux utiliser :
+- searchCanal(string nom_du_canal)
+=> renvoie -1 si le canal n'existe pas ou renvoie l'index du canal dans _canals[] si il existe
+- searchClient(string nickname_du_client)
+=> renvoie -1 si le client n'existe pas ou renvoie l'index du client dans _clients_data[] si il existe
+- getArgument(string, numéro de l'argument)
+=> si par exemple tu as ta string qui contient la commande 'KICK #canal membre' et que tu fais getArgument(cmd, 2), ça te retournera une string qui contient 'membre', et si tu fais getArgument(cmd, 6) sur cette même commande, ça te renverra une string vide ("") pour t'indiquer que l'argument n'existe pas (ça te servira pour le parser)
 
 NOTE 2:
 
@@ -195,12 +198,10 @@ Commandes à réaliser:
 - JOIN
 - KICK
 - MODE
-- NICK
 - PART
-- PRIVMSG #canal1 <message>
+- PRIVMSG #canal <message>
 - PRIVMSG utilisateur <message>
 - TOPIC
-- USER
 
 voir RFC 1459
 
@@ -210,5 +211,15 @@ Quelques contraintes qui seront pas précisées dans la doc et que tu vas devoir
 1. Pour exécuter n'importe quelle commande à part PING, il faut être authentifié (authentified dans chaque case _clients_data)
 -> Il faut avoir exécuté 'PASS [mdp]' avec le bon mot de passe, sinon return directement ERR_NOTREGISTERED
 2. Après avoir validé le mot de passe, pour exécuter n'importe quelle commande à part PASS, PING, USER et NICK, il faut avoir utilisé USER ET NICK (= s'être identifié, variable identified dans chaque case _clients_data, strings username, realname et nickname)
+
+NOTE 5:
+
+Je m'occuperai de toute la partie communication server-client dans tes fonctions
+Par exemple: prenons la fonction KICK qui cible un utilisateur
+- Tu dois parser si la commande est valide dans sa syntaxe (voir rfc 1459)
+- Tu dois vérifier si la commande est réalisable (= que l'utilisateur qui l'exécute s'est authentifié (variable authentified) et s'est identifié (identified))
+- Tu dois vérifier si la commande est cohérente (= le canal existe, l'utilisateur ciblé existe et se trouve dans le canal, l'utilisateur envoyeur possède les droits pour kick la cible (= il est présent dans le vecteur operators du canal), etc)
+- SI tu n'as rencontré aucune ERR_ sur le chemin, tu dois exécuter la commande (= mettre à jour la liste des membres dans le vecteur du canal seulement pour cette commande)
+- Enfin le retour client (utiliser send() pour prévenir le client ciblé qu'il a été kick + pour prévenir les autres membres du canal qu'il a été kick) tu pourras laisser un commentaire dans le code pour préciser ou le faire et je m'en occuperai
 
 */
