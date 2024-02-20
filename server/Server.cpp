@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:50:01 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 23:51:01 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/20 01:06:35 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ Server::Server(const int port, const char *password)
 
         _clients_nb = 0;
         _clients_slots = 0;
-
-        _canals_nb = 0;
-        _canals_slots = 0;
 
         for (int i = 0; i != SLOTS_LIMIT + 1; i++)  // -6 chiffre aléatoire pour savoir si la case est allouée par un client ou pas
             _sockets_array[i].fd = -6;

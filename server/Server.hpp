@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 23:24:48 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/20 01:08:08 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,8 @@ class Server
         int             _port;      // port du serveur
         string          _password;  // mot de passe du serveur
 
-        int             _clients_slots;
-        int             _canals_slots;
-        int             _clients_nb;
-        int             _canals_nb;
+        int             _clients_slots; // nombre de clients connectés (s'incrémente/se décrémente à la connexion/déconnexion)
+        int             _clients_nb; // nombre de connexions depuis l'existence du serveur (ne se décrémente pas à la déconnexion)
 
         t_client_data   _clients_data[SLOTS_LIMIT]; // tableau contenant toutes les informations de tous les clients (string vide si la case n'est pas allouée pour un client)
         t_canal         _canals[CANALS_LIMIT]; // tableau contenant toutes les informations de tous les channels

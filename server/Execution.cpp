@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 23:55:28 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/20 01:06:31 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ ET qu'elle peut s'exécuter (possession des droits, cohérence etc), tu dois ren
 - _canals[] // une case du tableau = une structure contenant les informations d'un channel
 - _clients_slots (int) // juste le nombre total de clients connectés depuis le démarrage (valeur s'incrémentant à chaque connexion
 et se décrémentant à chaque déconnexion, tu n'as pas à gérer ça c'est déjà fait)
-- _canals_slots (int) // juste le nombre de channels créés/actifs
 - CANALS_LIMIT // nombre max de channels dans le tableau
 
 Important : le profil socket d'un client est à i + 1 du profil qui contient les données
