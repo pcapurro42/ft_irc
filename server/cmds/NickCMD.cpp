@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/20 19:05:42 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:51:47 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,5 @@ int Server::executeNickCommand(string cmd, int id)
             }
         }
     }
+    return (0);
 }
