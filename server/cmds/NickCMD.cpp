@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/20 19:51:47 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:38:56 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,48 +17,48 @@ int Server::executeNickCommand(string cmd, int id)
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
     if (space_nb > 1)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " typed a command with too many paramaters." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
         return (ERR_TOOMANYPARAMS);
     }
     else if (space_nb < 1)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " typed a command with not enough paramaters." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
         return (ERR_NEEDMOREPARAMS);
     }
 
     string clientname = getArgument(cmd, 1);
     if (clientname.size() > 42)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " failed to set a nickname (invalid length)." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid length)." << endl;
         return (ERR_ERRONEUSNICKNAME);
     }
     if (searchClient(clientname) != -1)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " failed to set a nickname (already taken)." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " failed to set a nickname (already taken)." << endl;
         return (ERR_NICKCOLLISION);
     }
 
-    if (_clients_data[id - 1].authentified != true)
+    if (_clients_data[id].authentified != true)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " failed to request (not authentified)." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
         return (ERR_NOTREGISTERED);
     }
     else
     {
         string nickname = getArgument(cmd, 1);
-        string oldnickname = _clients_data[id - 1].nickname;
-        _clients_data[id - 1].nickname = nickname;
+        string oldnickname = _clients_data[id].nickname;
+        _clients_data[id].nickname = nickname;
 
-        cout << _clients_data[id - 1].nickname << " set his nickname to '" << nickname << "'." << endl;
+        cout << _clients_data[id].nickname << " set his nickname to '" << nickname << "'." << endl;
 
-        if (_clients_data[id - 1].username.empty() != true && _clients_data[id - 1].identified != true)
+        if (_clients_data[id].username.empty() != true && _clients_data[id].identified != true)
         {
-            _clients_data[id - 1].identified = true;
+            _clients_data[id].identified = true;
 
-            sendToEveryone(": " + _clients_data[id - 1].nickname + " \x1Djoined the server.\x0f\r\n", id - 1, true);
+            sendToEveryone(": " + _clients_data[id].nickname + " \x1Djoined the server.\x0f\r\n", id, true);
             
-            string message = "001 " + _clients_data[id - 1].nickname + " :\r\n";
-            send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+            string message = "001 " + _clients_data[id].nickname + " :\r\n";
+            send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
             
             return (0);
         }
