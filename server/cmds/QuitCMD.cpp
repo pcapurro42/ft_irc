@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:32 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:25:20 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:46:12 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int Server::executeQuitCommand(string cmd, int id)
                 message = message.c_str() + 1;
 
             cout << _clients_data[id].nickname << " left the server saying '" << message << "' (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
-            removeClient(id, 2);
+            removeClient(id + 1, 2);
         }
         else
-            removeClient(id, 0);
+            removeClient(id + 1, 0);
     }
     return (0);
 }

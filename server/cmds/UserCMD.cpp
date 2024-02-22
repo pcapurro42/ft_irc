@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/21 11:39:57 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:43:59 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int Server::executeUserCommand(string cmd, int id)
 
         sendToEveryone(": " + _clients_data[id].nickname + " \x1Djoined the server.\x0f\r\n", id, true);
 
-        string message = "001 " + _clients_data[id].nickname + " :\r\n";
+        string message = "Welcome to our IRC server!\r\n";
         send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
             
         return (0);
