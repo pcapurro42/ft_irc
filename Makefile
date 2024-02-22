@@ -28,7 +28,7 @@ SRCS = main.cpp \
 	server/Routine.cpp \
 	server/Management.cpp \
 
-CXX = c++
+CXX = c++ -D MAX_CLIENTS=21 -D MAX_CANALS=42
 
 CXXFLAGS = -std=c++98
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 01:05:34 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/22 13:32:54 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@
 # define ERR_NOPRIVILEGES 440
 # define ERR_ALREADYREGISTRED 462
 
-# define SLOTS_LIMIT 21
-# define CANALS_LIMIT 42
+# ifndef MAX_CLIENTS
+#  define MAX_CLIENTS 21
+# endif
+
+# ifndef MAX_CANALS
+#  define MAX_CANALS 42
+# endif
 
 typedef struct s_canal
 {
@@ -133,10 +138,10 @@ class Server
         int             _clients_slots; // nombre de clients connectés (s'incrémente/se décrémente à la connexion/déconnexion)
         int             _clients_nb; // nombre de connexions depuis l'existence du serveur (ne se décrémente pas à la déconnexion)
 
-        t_client_data   _clients_data[SLOTS_LIMIT]; // tableau contenant toutes les informations de tous les clients (string vide si la case n'est pas allouée pour un client)
-        t_canal         _canals[CANALS_LIMIT]; // tableau contenant toutes les informations de tous les channels
+        t_client_data   _clients_data[MAX_CLIENTS]; // tableau contenant toutes les informations de tous les clients (string vide si la case n'est pas allouée pour un client)
+        t_canal         _canals[MAX_CANALS]; // tableau contenant toutes les informations de tous les channels
 
-        struct pollfd   _sockets_array[SLOTS_LIMIT + 1];    // tableau contenant tous les sockets de tous les clients connectés (= point d'accès par lequel renvoyer une réponse) + le socket du serveur
+        struct pollfd   _sockets_array[MAX_CLIENTS + 1];    // tableau contenant tous les sockets de tous les clients connectés (= point d'accès par lequel renvoyer une réponse) + le socket du serveur
         int             _server_socket; // socket du serveur (= case 0 du tableau sockets_array[])
 
         int             _fail;  // variable pour savoir si la construction du serveur a échoué

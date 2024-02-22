@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/20 19:18:16 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:25:30 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
 
 void    Server::sendToEveryone(string message, int id, bool self)
 {
-    for (int i = 0; i != SLOTS_LIMIT; i++)
+    for (int i = 0; i != MAX_CLIENTS; i++)
     {
         if (self == true)
             send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
@@ -169,7 +169,7 @@ ET qu'elle peut s'exécuter (possession des droits, cohérence etc), tu dois ren
 - _canals[] // une case du tableau = une structure contenant les informations d'un channel
 - _clients_slots (int) // juste le nombre total de clients connectés depuis le démarrage (valeur s'incrémentant à chaque connexion
 et se décrémentant à chaque déconnexion, tu n'as pas à gérer ça c'est déjà fait)
-- CANALS_LIMIT // nombre max de channels dans le tableau
+- MAX_CANALS // nombre max de channels dans le tableau
 
 5. Au sein de ces fonctions, tu peux utiliser :
 - searchCanal(string nom_du_canal)

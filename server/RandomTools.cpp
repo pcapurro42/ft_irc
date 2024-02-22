@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RandomTools.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/21 23:36:11 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/22 13:27:03 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ bool    Server::validateInput(const int port_nb, const char *password) const
             return (false);
         if (password[0] == '\0')
             return (false);
+        
+    if (MAX_CLIENTS < 1 || MAX_CANALS < 1)
+        return (false);
+    
     cout << "\rVerifying inputs... OK!" << endl;
     return (true);
 }

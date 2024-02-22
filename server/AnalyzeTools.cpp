@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 23:17:17 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 23:53:14 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:25:30 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int Server::searchClient(string clientname) const
 {
-    for (int i = 0; i != SLOTS_LIMIT; i++)
+    for (int i = 0; i != MAX_CLIENTS; i++)
     {
         if (_clients_data[i].nickname == clientname)
             return (i);
@@ -24,7 +24,7 @@ int Server::searchClient(string clientname) const
 
 int Server::searchCanal(string canal_name) const
 {
-    for (int i = 0; i != CANALS_LIMIT; i++)
+    for (int i = 0; i != MAX_CANALS; i++)
     {
         if (_canals[i].name == canal_name)
             return (i);

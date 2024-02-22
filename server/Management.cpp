@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 01:07:46 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:25:30 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int Server::addSocket(int socket)
 {
     int id = 0;
-    for (; id != SLOTS_LIMIT + 1; id++)
+    for (; id != MAX_CLIENTS + 1; id++)
     {
         if (_sockets_array[id].fd == -6)
         {
@@ -23,7 +23,7 @@ int Server::addSocket(int socket)
             _sockets_array[id].events = POLLIN;
             _sockets_array[id].revents = 0;
             if (id != 0)
-                cout << "Client #" << _clients_nb + 1 << " joined the server " << "(" << _clients_slots + 1 << "/" << SLOTS_LIMIT << ")." << endl;
+                cout << "Client #" << _clients_nb + 1 << " joined the server " << "(" << _clients_slots + 1 << "/" << MAX_CLIENTS << ")." << endl;
             break ;
         }
     }
@@ -41,9 +41,9 @@ void    Server::addClient(void)
     int client_socket;
 
     client_socket = accept(_server_socket, NULL, NULL);
-    if (_clients_slots == SLOTS_LIMIT)
+    if (_clients_slots == MAX_CLIENTS)
     {
-        cout << "A client couldn't connect: server is full (" << _clients_slots << "/" << SLOTS_LIMIT << ")." << endl;
+        cout << "A client couldn't connect: server is full (" << _clients_slots << "/" << MAX_CLIENTS << ")." << endl;
         send(client_socket, "471", 4, 0);
         close(client_socket);
     }
@@ -64,13 +64,13 @@ void    Server::addClient(void)
 void    Server::removeClient(int id, int value)
 {
     if (value == 0)
-        cout << _clients_data[id - 1].nickname << " left the server (" << _clients_slots - 1 << "/" << SLOTS_LIMIT << ")." << endl;
+        cout << _clients_data[id - 1].nickname << " left the server (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
     if (value == 1)
         cout << _clients_data[id - 1].nickname << " disconnected." << endl;
 
     if (_clients_data[id - 1].identified == true)
     {
-        for (int i = 0; i != CANALS_LIMIT; i++)
+        for (int i = 0; i != MAX_CANALS; i++)
         {
             vector<string>::iterator j;
             

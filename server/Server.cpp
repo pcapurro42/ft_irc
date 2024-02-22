@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:50:01 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/20 01:06:35 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:25:29 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ Server::Server(const int port, const char *password)
         _clients_nb = 0;
         _clients_slots = 0;
 
-        for (int i = 0; i != SLOTS_LIMIT + 1; i++)  // -6 chiffre aléatoire pour savoir si la case est allouée par un client ou pas
+        for (int i = 0; i != MAX_CLIENTS + 1; i++)  // -6 chiffre aléatoire pour savoir si la case est allouée par un client ou pas
             _sockets_array[i].fd = -6;
-        for (int i = 0; i != SLOTS_LIMIT; i++)      // mise à zéro de tous les profils utilisateurs
+        for (int i = 0; i != MAX_CLIENTS; i++)      // mise à zéro de tous les profils utilisateurs
         {
             _clients_data[i].connected = false;
             _clients_data[i].authentified = false;
             _clients_data[i].identified = false;
         }
-        for (int i = 0; i != CANALS_LIMIT; i++) // mise à zéro de tous les channels
+        for (int i = 0; i != MAX_CANALS; i++) // mise à zéro de tous les channels
         {
             _canals[i].exist = false;
-            _canals[i].max = SLOTS_LIMIT;
+            _canals[i].max = MAX_CLIENTS;
         }
 
         initializeServer();
@@ -63,7 +63,7 @@ Server::~Server()
     printMessage("Destroying server", true);
     
     close(_server_socket);
-    for (int i = 1; i != SLOTS_LIMIT + 1; i++)
+    for (int i = 1; i != MAX_CLIENTS + 1; i++)
     {
         if (_sockets_array[i].fd != -6)
             close(_sockets_array[i].fd);

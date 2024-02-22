@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/21 11:38:56 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:25:30 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int Server::executeNickCommand(string cmd, int id)
 
         if (oldnickname.empty() != true)
         {
-            for (int i = 0; i != CANALS_LIMIT; i++)
+            for (int i = 0; i != MAX_CANALS; i++)
             {
                 vector<string>::iterator j;
 
