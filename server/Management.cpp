@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:33:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void    Server::removeClient(int id, int value)
     _clients_data[id - 1].nickname.clear();
     _clients_data[id - 1].username.clear();
     _clients_data[id - 1].realname.clear();
+
+    _clients_data[id - 1].last_command.clear();
 
     _clients_data[id - 1].authentified = false;
     _clients_data[id - 1].identified = false;

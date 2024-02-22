@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:07:40 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:19:57 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_client_data
     bool    connected;      // est-ce que l'utilisateur s'est juste connecté au serveur (première étape)
 
     bool    ping;
+    string  last_command;
 
     bool    set_nickname;
     bool    set_username;
@@ -136,7 +137,7 @@ class Server
         int             executeTopicCommand(string cmd, int id);
         int             executeModeCommand(string cmd, int id);
 
-        void            executeCommand(const char *command, string cmd_name, int id);
+        void            executeCommand(string command, string cmd_name, int id);
         void            sendToEveryone(string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
 

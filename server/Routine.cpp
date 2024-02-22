@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:12:21 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:50:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,43 @@ void    Server::receiveData(int id)
     if (_sockets_array[id].revents == POLLIN)
     {
         char    buffer[512];
-        buffer[511] = '\0';
-        int value = recv(_sockets_array[id].fd, buffer, 511, 0); // recv prend en argument le socket qui sonne et récupère la string
+        for (int i = 0; i != 512; i++)
+            buffer[i] = '\0';
+
+        int value = recv(_sockets_array[id].fd, buffer, 511, 0);
         if (value == -1)
             cerr << "Error! Couldn't receive data from Client #" << _clients_nb + 1 << "." << endl;
-        else if (value == 0)    // ici le signal du socket signifie que le client se déconnecte
+        else if (value == 0)
             removeClient(id, 0);
         else
         {
-            int value = 0;
-            while (buffer[value] != '\r' && buffer[value] != '\n' && buffer[value] != '\0') // on se débarrasse des caractères parasites d'échappement souvent à la fin de la string reçue
-                value++;
-            buffer[value] = '\0';
-            
-            string cmd_name;
-            for (int i = 0; buffer[i] != '\0' && buffer[i] != ' '; i++) // ici on récupère le nom de la commande (le premier mot)
-                cmd_name = cmd_name + buffer[i];
-            
-            executeCommand(buffer, cmd_name, id); // exécution de la commande
+            string cmd(buffer);
+            for (int k = 0; cmd[k] != '\0'; k++)
+            {
+                if (cmd[k] < 32 || cmd[k] > 126)
+                    cmd[k] = '\0';
+            }
+
+            if (std::count(cmd.begin(), cmd.end(), '\n') != 1)
+            {
+                _clients_data[id - 1].last_command = _clients_data[id - 1].last_command + cmd;
+                cout << getTime() << "Partial command received from " << _clients_data[id - 1].nickname << ". Conserving it." << endl;
+            }
+            else
+            {
+                for (int i = 0; cmd[i] != '\0'; i++)
+                {
+                    if (cmd[i] == '\n' || cmd[i] == '\0')
+                        cmd[i] = '\0';
+                }
+                if (_clients_data[id - 1].last_command.empty() == false)
+                {
+                    cmd = _clients_data[id - 1].last_command + cmd;
+                    _clients_data[id - 1].last_command.clear();
+                }
+                string cmd_name = getArgument(cmd, 0);
+                executeCommand(cmd, cmd_name, id); // exécution de la commande
+            }
         }
     }
     else if (_sockets_array[id].revents == POLLERR || _sockets_array[id].revents == POLLNVAL) // ici le signal du socket signifie que le client se déconnecte aussi mais pour une erreur
