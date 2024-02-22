@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 15:19:46 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:50:08 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define ERR_ALREADYINCHANNEL 477
 # define ERR_PASSWDMISMATCH 161
 # define ERR_NOTREGISTERED 451
+# define ERR_NOTIDENTIFIED 452
 # define ERR_NOPRIVILEGES 440
 # define ERR_ALREADYREGISTRED 462
 

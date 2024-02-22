@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 15:11:27 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:50:40 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
     else if (value == ERR_NOTREGISTERED)
     {
         message = "'" + string(command) + "' :Authentication required.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
+    else if (value == ERR_NOTIDENTIFIED)
+    {
+        message = "'" + string(command) + "' :Identification required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_ALREADYREGISTRED)

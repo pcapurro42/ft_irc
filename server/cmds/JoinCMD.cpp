@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JoinCMD.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 16:39:20 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/22 16:53:53 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int Server::executeJoinCommand(string cmd, int id)
     if (_clients_data[id].identified != true)
     {
         cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
-        return (ERR_NOTREGISTERED); // ??????????????????????????????????????????????????? Pas trouve de NOTIDENTIFIED dans la doc
+        return (ERR_NOTIDENTIFIED);
     }
 
     std::string channels = getArgument(cmd, 1);
@@ -47,7 +47,7 @@ int Server::executeJoinCommand(string cmd, int id)
         std::getline(ss_password, passwords, ',');
         if (searchCanal(channels) == -1)
         {
-            cout << "Error! " << _clients_data[id].nickname << " failed to join a channel (channel does not exist)." << endl;
+            cout << "Error! " << _clients_data[id].nickname << " failed to join a channel (does not exist)." << endl;
             error = ERR_NOSUCHCHANNEL;
         }
         if (_canals[searchCanal(channels)].members.size() >= _canals[searchCanal(channels)].max) 
@@ -72,22 +72,17 @@ int Server::executeJoinCommand(string cmd, int id)
             cout << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (incorrect password)." << endl;
             error = ERR_BADCHANNELKEY;
         }
-
         
         if (error == 0)
         {
             _canals[searchCanal(channels)].members.push_back(_clients_data[id].nickname);
-            sendToEveryone(": " + _clients_data[id].nickname + " \x1Djoined canal " + channels + ".\x0f\r\n", id, true);
-
+            cout << _clients_data[id].nickname << " joined " << channels << "." << endl;
         
-            //RPL_TOPIC
-            std::string msg = "332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
+            std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels;
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+            sendToEveryone(_clients_data[id].nickname + " \x1Djoined " + channels + ".\x0f\r\n", id, true);
 
-            //RPL_NAMREPLY
-        
-        
-            cout << _clients_data[id].nickname << " joined channel " << channels << "." << endl;
+            // TOPIC + MEMBERS
         }
         else
             sendError(string("JOIN " + channels).c_str(), id, error);
