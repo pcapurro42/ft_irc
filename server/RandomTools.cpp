@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:27:03 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:36:33 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 bool    Server::validateInput(const int port_nb, const char *password) const
 {
     if (port_nb < 0 || port_nb > 65535)
-            return (false);
-        if (password[0] == '\0')
-            return (false);
-        
-    if (MAX_CLIENTS < 1 || MAX_CANALS < 1)
+        return (false);
+    if (password[0] == '\0')
         return (false);
     
     cout << "\rVerifying inputs... OK!" << endl;

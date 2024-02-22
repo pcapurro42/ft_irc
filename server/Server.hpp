@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:32:54 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:34:22 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@
 # define ERR_ALREADYREGISTRED 462
 
 # ifndef MAX_CLIENTS
-#  define MAX_CLIENTS 21
+#  define MAX_CLIENTS 0
 # endif
 
 # ifndef MAX_CANALS
-#  define MAX_CANALS 42
+#  define MAX_CANALS 0
 # endif
 
 typedef struct s_canal
