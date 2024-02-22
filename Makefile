@@ -10,6 +10,7 @@ SRCS = main.cpp \
 	Print.cpp \
 	server/RandomTools.cpp \
 	server/Server.cpp \
+	server/InputRectification.cpp \
 	server/AnalyzeTools.cpp \
 	server/Execution.cpp \
 	server/cmds/PingCMD.cpp \
@@ -42,10 +43,8 @@ all: ircserv
 
 ircserv: $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
-	@rm -rf $(OBJS) # à retirer
 
 re: fclean all
-	@rm -rf $(OBJS) # à retirer
 
 clean:
 	@rm -rf $(OBJS)

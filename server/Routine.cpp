@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 21:30:11 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:20:37 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,33 +54,31 @@ void    Server::receiveData(int id)
             removeClient(id, 0);
         else
         {
-            string cmd(buffer);
-            for (int k = 0; cmd[k] != '\0'; k++)
+            vector<string>  cmds = rectifyInput(buffer);
+            for (vector<string>::iterator k = cmds.begin(); k != cmds.end(); k++)
             {
-                if (cmd[k] != '\n' && (cmd[k] < 32 || cmd[k] > 126))
-                    cmd[k] = '\0';
+                string cmd_name = getArgument(*k, 0);
+                executeCommand(*k, cmd_name, id);
             }
 
-            if (std::count(cmd.begin(), cmd.end(), '\n') != 1)
-            {
-                _clients_data[id - 1].last_command = _clients_data[id - 1].last_command + cmd;
-                cout << getTime() << "Partial command received from " << _clients_data[id - 1].nickname << ". Conserving it." << endl;
-            }
-            else
-            {
-                for (int i = 0; cmd[i] != '\0'; i++)
-                {
-                    if (cmd[i] == '\n' || cmd[i] == '\0')
-                        cmd[i] = '\0';
-                }
-                if (_clients_data[id - 1].last_command.empty() == false)
-                {
-                    cmd = _clients_data[id - 1].last_command + cmd;
-                    _clients_data[id - 1].last_command.clear();
-                }
-                string cmd_name = getArgument(cmd, 0);
-                executeCommand(cmd, cmd_name, id); // exécution de la commande
-            }
+            // if (std::count(cmd.begin(), cmd.end(), '\n') != 1)
+            // {
+            //     _clients_data[id - 1].last_command = _clients_data[id - 1].last_command + cmd;
+            //     cout << getTime() << "Partial command received from " << _clients_data[id - 1].nickname << ". Conserving it." << endl;
+            // }
+            // else
+            // {
+            //     for (int i = 0; cmd[i] != '\0'; i++)
+            //     {
+            //         if (cmd[i] == '\n' || cmd[i] == '\0')
+            //             cmd[i] = '\0';
+            //     }
+            //     if (_clients_data[id - 1].last_command.empty() == false)
+            //     {
+            //         cmd = _clients_data[id - 1].last_command + cmd;
+            //         _clients_data[id - 1].last_command.clear();
+            //     }
+            // }
         }
     }
     else if (_sockets_array[id].revents == POLLERR || _sockets_array[id].revents == POLLNVAL) // ici le signal du socket signifie que le client se déconnecte aussi mais pour une erreur

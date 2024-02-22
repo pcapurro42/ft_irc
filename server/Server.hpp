@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 20:19:57 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 22:51:20 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ class Server
         void            addClient(void);        // appelle addSocket() + créé le profil dans _clients_data[]
         void            removeClient(int id, int value);
         void            receiveData(int id);    // récupère la string sur le socket client qui vient d'émettre
+
+        vector<string>  rectifyInput(const char *buffer) const;
 
         void            startLoopRoutine(void); // routine principale du serveur
         void            initializeServer(void);

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:04:29 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/15 19:49:00 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:16:42 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     while (6)
     {
         std::getline(std::cin, str);
-        send(c_socket, str.c_str(), str.length() + 2, 0);
+        send(c_socket, (str + "\n").c_str(), str.length() + 2, 0);
     }
     return (0);
 }
