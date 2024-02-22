@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:42 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 22:53:52 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:49:24 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int Server::executePassCommand(string cmd, int id)
     {
         _clients_data[id].authentified = true;
         cout << _clients_data[id].nickname << " successfully authentified." << endl;
+
+        string message = "Password received.\r\n";
+        send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
     }
     else
     {

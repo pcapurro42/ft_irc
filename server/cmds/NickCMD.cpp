@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 17:35:59 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:48:42 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ int Server::executeNickCommand(string cmd, int id)
         string oldnickname = _clients_data[id].nickname;
         _clients_data[id].nickname = nickname;
 
-        cout << _clients_data[id].nickname << " set his nickname to '" << nickname << "'." << endl;
         if (_clients_data[id].set_nickname == false)
             _clients_data[id].set_nickname = true;
+
+        cout << _clients_data[id].nickname << " set his nickname to '" << nickname << "'." << endl;
+        string message = "Nickname received.\r\n";
+        send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
 
         if (_clients_data[id].set_username == true && _clients_data[id].identified != true)
         {

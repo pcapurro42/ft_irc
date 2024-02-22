@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 17:35:49 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:48:25 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ int Server::executeUserCommand(string cmd, int id)
     _clients_data[id].username = username;
     _clients_data[id].realname = realname;
 
-    cout << _clients_data[id].nickname << " identified as '" << username << "' (username), '" << realname << "' (realname)." << endl;
     if (_clients_data[id].set_username == false)
         _clients_data[id].set_username = true;
+    
+    cout << _clients_data[id].nickname << " identified as '" << username << "' (username), '" << realname << "' (realname)." << endl;
+    string message = "Username and realname received.\r\n";
+    send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
 
     if (_clients_data[id].set_nickname == true && _clients_data[id].identified != true)
     {
@@ -61,7 +64,7 @@ int Server::executeUserCommand(string cmd, int id)
 
         string message = "Welcome to our IRC server!\r\n";
         send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
-            
+
         return (0);
     }
     return (0);
