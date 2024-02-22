@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:50:01 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:25:29 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:25:43 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ Server::Server(const int port, const char *password)
             _clients_data[i].connected = false;
             _clients_data[i].authentified = false;
             _clients_data[i].identified = false;
+            _clients_data[i].set_nickname = false;
+            _clients_data[i].set_username = false;
         }
         for (int i = 0; i != MAX_CANALS; i++) // mise à zéro de tous les channels
         {

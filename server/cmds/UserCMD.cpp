@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 15:05:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:30:08 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,17 @@ int Server::executeUserCommand(string cmd, int id)
     _clients_data[id].realname = realname;
 
     cout << _clients_data[id].nickname << " identified as '" << username << "' (username), '" << realname << "' (realname)." << endl;
+    if (_clients_data[id].set_username == false)
+        _clients_data[id].set_username = true;
 
-    if (_clients_data[id].nickname.empty() != true && _clients_data[id].identified != true)
+    cout << _clients_data[id].set_nickname << endl;
+    cout << _clients_data[id].set_username << endl;
+    cout << _clients_data[id].identified << endl;
+
+    if (_clients_data[id].set_nickname == true && _clients_data[id].identified != true)
     {
         _clients_data[id].identified = true;
+        _clients_data[id].set_username = true;
 
         sendToEveryone(_clients_data[id].nickname + " \x1Djoined the server.\x0f\r\n", id, true);
 

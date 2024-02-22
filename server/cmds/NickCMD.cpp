@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 14:49:58 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:29:42 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ int Server::executeNickCommand(string cmd, int id)
         _clients_data[id].nickname = nickname;
 
         cout << _clients_data[id].nickname << " set his nickname to '" << nickname << "'." << endl;
+        if (_clients_data[id].set_nickname == false)
+            _clients_data[id].set_nickname = true;
 
-        if (_clients_data[id].username.empty() != true && _clients_data[id].identified != true)
+        if (_clients_data[id].set_username == true && _clients_data[id].identified != true)
         {
             _clients_data[id].identified = true;
+            _clients_data[id].set_nickname = true;
 
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined the server.\x0f\r\n", id, true);
             
