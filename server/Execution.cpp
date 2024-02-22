@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:25:30 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:48:35 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void    Server::executeCommand(const char *command, string cmd_name, int id)
     int value = ERR_INVALIDCOMMAND;
     string cmd(command);
 
-    cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
+    // cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
 
     if (cmd_name == "PING")
         value = executePingCommand(cmd, id - 1);
