@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:32 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:43:58 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int Server::executeQuitCommand(string cmd, int id)
 
             string msg = _clients_data[id].nickname + " \x1Dleft the server saying '" + message + "'.\x0f\r\n";
             sendToEveryone(msg, id + 1, true);
-            removeClient(id + 1, 2);
+            removeClient(id + 1);
         }
         else
         {
             string msg = _clients_data[id].nickname + " \x1Dleft the server.\x0f\r\n";
             sendToEveryone(msg, id + 1, true);
-            removeClient(id + 1, 0);
+            removeClient(id + 1);
         }
     }
     return (0);

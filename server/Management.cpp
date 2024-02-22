@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 20:33:50 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:45:12 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,8 @@ void    Server::addClient(void)
     }
 }
 
-void    Server::removeClient(int id, int value)
+void    Server::removeClient(int id)
 {
-    if (value == 0)
-        cout << getTime() << _clients_data[id - 1].nickname << " left the server (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
-    else if (value == 1)
-        cout << getTime() << _clients_data[id - 1].nickname << " lost connection (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
-    else if (value == 2)
-        cout << getTime() << _clients_data[id - 1].nickname << " lost connection (time out) (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
-
     if (_clients_data[id - 1].identified == true)
     {
         for (int i = 0; i != MAX_CANALS; i++)
