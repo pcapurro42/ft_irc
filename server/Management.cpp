@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 15:06:03 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:14:49 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void    Server::addClient(void)
     if (_clients_slots == MAX_CLIENTS)
     {
         cout << "A client couldn't connect: server is full (" << _clients_slots << "/" << MAX_CLIENTS << ")." << endl;
-        send(client_socket, "471", 4, 0);
+        send(client_socket, "Request denied: server is full\r\n", 4, 0);
         close(client_socket);
     }
     else

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 14:48:35 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:11:27 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,82 +19,82 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
     if (value == ERR_INVALIDCOMMAND)
     {
         cout << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << endl;
-        message = "421 " + _clients_data[id - 1].nickname + " '" + command + "' :Invalid or unsupported command.\r\n";
+        message = "'" + string(command) + "' :Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_UNKNOWNCOMMAND)
     {
-        message = "421 " + _clients_data[id - 1].nickname + " '" + command + "' :Invalid or unsupported command.\r\n";
+        message = "'" + string(command) + "' :Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_TOOMANYPARAMS || value == ERR_NEEDMOREPARAMS || value == ERR_NONICKNAMEGIVEN || value == ERR_KEYSET)
     {
-        message = "461 " + _clients_data[id - 1].nickname + " '" + command + "' :Invalid number of parameters.\r\n";
+        message = "'" + string(command) + "' :Invalid number of parameters.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_ERRONEUSNICKNAME)
     {
-        message = "433 " + _clients_data[id - 1].nickname + " '" + command + "' :Invalid nickname.\r\n";
+        message = "'" + string(command) + "' :Invalid nickname.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOSUCHNICK)
     {
-        message = "401 " + _clients_data[id - 1].nickname + " '" + command + "' :Member not found.\r\n";
+        message = "'" + string(command) + "' :Member not found.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NICKCOLLISION)
     {
-        message = "436 " + _clients_data[id - 1].nickname + " '" + command + "' :Nickname already taken.\r\n";
+        message = "'" + string(command) + command + "' :Nickname already taken.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOSUCHCHANNEL)
     {
-        message = "403 " + _clients_data[id - 1].nickname + " '" + command + "' :Channel not found.\r\n";
+        message = "'" + string(command) + command + "' :Channel not found.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CHANNELISFULL)
     {
-        message = "471 " + _clients_data[id - 1].nickname + " '" + command + "' :Channel is full.\r\n";
+        message = "'" + string(command) + command + "' :Channel is full.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_INVITEONLYCHAN)
     {
-        message = "474 " + _clients_data[id - 1].nickname + " '" + command + "' :Invitation required.\r\n";
+        message = "'" + string(command) + "' :Invitation required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOTONCHANNEL)
     {
-        message = "442 " + _clients_data[id - 1].nickname + " '" + command + "' :Presence in channel required.\r\n";
+        message = "'" + string(command) + "' :Presence in channel required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CHANOPRIVSNEEDED)
     {
-        message = "482 " + _clients_data[id - 1].nickname + " '" + command + "' :Privileges required.\r\n";
+        message = "'" + string(command) + "' :Privileges required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_PASSWDMISMATCH)
     {
-        message = "161 " + _clients_data[id - 1].nickname + " '" + command + "' :Wrong password.\r\n";
+        message = "'" + string(command) + "' :Wrong password.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOTREGISTERED)
     {
-        message = "451 " + _clients_data[id - 1].nickname + " '" + command + "' :Authentication required.\r\n";
+        message = "'" + string(command) + "' :Authentication required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_ALREADYREGISTRED)
     {
-        message = "462 " + _clients_data[id - 1].nickname + " '" + command + "' :Authentication already done.\r\n";
+        message = "'" + string(command) + "' :Authentication already done.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_ALREADYINCHANNEL)
     {
-        message = "477 " + _clients_data[id - 1].nickname + " '" + command + "' :Channel already joined.\r\n";
+        message = "'" + string(command) + "' :Channel already joined.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOPRIVILEGES)
     {
-        message = "440 " + _clients_data[id - 1].nickname + " '" + command + "' :No privileges.\r\n";
+        message = "'" + string(command) + "' :No privileges.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
 }
