@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RandomTools.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 16:52:41 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:36:11 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,15 @@ string  Server::convertNumberToString(int value) const
     buffer[0] = (nb % 10) + 48;
     
     return (string(buffer));
+}
+
+std::string Server::get_time(void) const{
+    time_t rawtime;
+    struct tm *timeinfo;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    std::string str = asctime(timeinfo);
+    str.resize(str.size() - 1); //suppression du \n
+    return (str);
 }

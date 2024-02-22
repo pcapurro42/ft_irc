@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/20 01:08:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 01:05:34 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ class Server
         void            executeCommand(const char *command, string cmd_name, int id);
         void            sendToEveryone(string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
+
+        std::string     get_time(void) const;
 
     private:
         int             _port;      // port du serveur
