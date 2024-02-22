@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:07:40 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct s_canal
 
     bool            pass_only;  // est-ce qu'un mot de passe est requis pour se connecter
     string          password;   // mot de passe pour entrer dans le canal (argument de JOIN)
+
+    string          last_message; // variable qui contient les derniers messages des utilisateurs dans le canal
 
     vector<string>  members;    // list des personnes présentes dans le salon (qui reçoivent donc les messages)
     vector<string>  operators;  // liste des admins du canal

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 18:59:36 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:12:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void    Server::startLoopRoutine(void)
     _canals[0].pass_only = false;
     _canals[0].invite_only = false;
     _canals[0].operators.push_back(string("pcapurro"));
+    _canals[0].last_message = _canals[0].last_message + string(":revolver_ocelot PRIVMSG #canal1 :You're pretty good\r\n");
+    _canals[0].last_message = _canals[0].last_message + string(":solid_snake PRIVMSG #canal1 :I know, right\r\n");
     _canals[0].topic = string("42");
 
     while (6)

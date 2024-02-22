@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:17:41 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,14 @@ int Server::executeJoinCommand(string cmd, int id)
         {
             _canals[searchCanal(channels)].members.push_back(_clients_data[id].nickname);
             cout << getTime() << _clients_data[id].nickname << " joined " << channels << "." << endl;
-        
+            
             std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + "\r\n";
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+            
             std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[id].topic + "\r\n";
             send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
+            
+            send(_sockets_array[id + 1].fd, _canals[searchCanal(channels)].last_message.c_str(), _canals[searchCanal(channels)].last_message.size(), 0);
 
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined\x0f " + channels + ".\r\n", id, true);
         }
