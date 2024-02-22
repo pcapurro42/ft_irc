@@ -13,6 +13,7 @@ SRCS = main.cpp \
 	server/AnalyzeTools.cpp \
 	server/Execution.cpp \
 	server/cmds/PingCMD.cpp \
+	server/cmds/PongCMD.cpp \
 	server/cmds/InviteCMD.cpp \
 	server/cmds/JoinCMD.cpp \
 	server/cmds/WhoCMD.cpp \

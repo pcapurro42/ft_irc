@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 17:12:00 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
 
     if (value == ERR_INVALIDCOMMAND)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << endl;
+        cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << endl;
         message = "'" + string(command) + "' :Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
@@ -127,6 +127,8 @@ void    Server::executeCommand(const char *command, string cmd_name, int id)
 
     if (cmd_name == "PING")
         value = executePingCommand(cmd, id - 1);
+    else if (cmd_name == "PONG")
+        value = executePongCommand(cmd, id - 1);
     else if (cmd_name == "PASS")
         value = executePassCommand(cmd, id - 1);
     else if (cmd_name == "NICK")

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 17:11:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_client_data
     bool    identified;     // est-ce que l'utilisateur s'est présenté (en utilisant USER ET NICK) (troisième étape)
     bool    connected;      // est-ce que l'utilisateur s'est juste connecté au serveur (première étape)
 
+    bool    ping;
+
     bool    set_nickname;
     bool    set_username;
 
@@ -102,7 +104,8 @@ class Server
         string          getArgument(const string cmd, int nb_arg) const;    // voir le fichier de la fonction
         string          convertNumberToString(int value) const;             // itoa version cpp
 
-        void            verifyPing(void);   // fonction que j'écrirai plus tard
+        void            sendPing(void);
+        void            verifyTimeOut(void);   // fonction que j'écrirai plus tard
 
         int             addSocket(int socket);  // ajoute un socket client au tableau des sockets connectés (_sockets_array[])
         void            removeSocket(int id);
@@ -117,6 +120,7 @@ class Server
         int             searchClient(string clientname) const;  // renvoie l'index du client dans _clients_data[] ou -1 si il n'existe pas
 
         int             executePingCommand(string cmd, int id);
+        int             executePongCommand(string cmd, int id);
         int             executeNickCommand(string cmd, int id);
         int             executeUserCommand(string cmd, int id);
         int             executeQuitCommand(string cmd, int id);
@@ -134,7 +138,7 @@ class Server
         void            sendToEveryone(string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
 
-        std::string     get_time(void) const;
+        std::string     getTime(void) const;
 
     private:
         int             _port;      // port du serveur
