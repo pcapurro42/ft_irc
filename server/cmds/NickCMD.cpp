@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 15:38:18 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:23:54 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int Server::executeNickCommand(string cmd, int id)
         if (_clients_data[id].set_username == true && _clients_data[id].identified != true)
         {
             _clients_data[id].identified = true;
-            _clients_data[id].set_nickname = true;
 
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined the server.\x0f\r\n", id, true);
             

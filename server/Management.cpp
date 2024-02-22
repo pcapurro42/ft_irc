@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 15:14:49 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:24:52 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void    Server::removeClient(int id, int value)
     _clients_data[id - 1].authentified = false;
     _clients_data[id - 1].identified = false;
     _clients_data[id - 1].connected = false;
+    _clients_data[id - 1].set_nickname = false;
+    _clients_data[id - 1].set_username = false;
 
     removeSocket(id);
 
