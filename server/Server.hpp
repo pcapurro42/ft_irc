@@ -129,6 +129,8 @@ class Server
         int             executePrivmsgCommand(string cmd, int id);
         int             executeTopicCommand(string cmd, int id);
         int             executeModeCommand(string cmd, int id);
+        int             executeBotCommand(std::string cmd, int id);
+        void            botTOTD(int id, std::string msg);
 
         void            executeCommand(const char *command, string cmd_name, int id);
         void            sendToEveryone(string message, int id, bool self);

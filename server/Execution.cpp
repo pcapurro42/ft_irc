@@ -151,6 +151,8 @@ void    Server::executeCommand(const char *command, string cmd_name, int id)
         value = executeTopicCommand(cmd, id - 1);
     else if (cmd_name == "MODE")
         value = executeModeCommand(cmd, id - 1);
+    else if (cmd_name == "BOT")
+        value = executeBotCommand(cmd, id - 1);
 
     if (value != 0)
         sendError(command, id, value);

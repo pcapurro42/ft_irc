@@ -25,6 +25,7 @@ SRCS = main.cpp \
 	server/cmds/QuitCMD.cpp \
 	server/cmds/TopicCMD.cpp \
 	server/cmds/UserCMD.cpp \
+	server/cmds/BotCMD.cpp \
 	server/Initialization.cpp \
 	server/Routine.cpp \
 	server/Management.cpp \
