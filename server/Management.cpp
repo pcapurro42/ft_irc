@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:25:30 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:06:03 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void    Server::removeClient(int id, int value)
             if (j != _canals[i].invited.end())
                 _canals[i].invited.erase(j);
         }
-        sendToEveryone(string (": " + _clients_data[id - 1].nickname + " \x1Dleft the server\x0f\r\n"), id - 1, true);
+        sendToEveryone(string (_clients_data[id - 1].nickname + " \x1Dleft the server\x0f\r\n"), id - 1, true);
     }
 
     _clients_data[id - 1].nickname.clear();
