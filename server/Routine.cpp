@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 20:50:50 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 21:30:11 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void    Server::receiveData(int id)
             string cmd(buffer);
             for (int k = 0; cmd[k] != '\0'; k++)
             {
-                if (cmd[k] < 32 || cmd[k] > 126)
+                if (cmd[k] != '\n' && (cmd[k] < 32 || cmd[k] > 126))
                     cmd[k] = '\0';
             }
 
