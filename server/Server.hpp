@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 16:50:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:11:33 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ class Server
         int             executeQuitCommand(string cmd, int id);
         int             executePassCommand(string cmd, int id);
         int             executeJoinCommand(string cmd, int id);
+        int             executeWhoCommand(string cmd, int id);
         int             executePartCommand(string cmd, int id);
         int             executeKickCommand(string cmd, int id);
         int             executeInviteCommand(string cmd, int id);

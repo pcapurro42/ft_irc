@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 23:38:05 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:13:24 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void    Server::startLoopRoutine(void)
     _canals[0].pass_only = false;
     _canals[0].invite_only = false;
     _canals[0].operators.push_back(string("pcapurro"));
+    _canals[0].topic = string("42");
 
     while (6)
     {

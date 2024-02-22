@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 16:53:53 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:16:18 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,12 @@ int Server::executeJoinCommand(string cmd, int id)
             _canals[searchCanal(channels)].members.push_back(_clients_data[id].nickname);
             cout << _clients_data[id].nickname << " joined " << channels << "." << endl;
         
-            std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels;
+            std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + "\r\n";
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
-            sendToEveryone(_clients_data[id].nickname + " \x1Djoined " + channels + ".\x0f\r\n", id, true);
+            std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[id].topic + "\r\n";
+            send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
 
-            // TOPIC + MEMBERS
+            sendToEveryone(_clients_data[id].nickname + " \x1Djoined\x0f " + channels + ".\r\n", id, true);
         }
         else
             sendError(string("JOIN " + channels).c_str(), id, error);

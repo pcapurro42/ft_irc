@@ -15,6 +15,7 @@ SRCS = main.cpp \
 	server/cmds/PingCMD.cpp \
 	server/cmds/InviteCMD.cpp \
 	server/cmds/JoinCMD.cpp \
+	server/cmds/WhoCMD.cpp \
 	server/cmds/KickCMD.cpp \
 	server/cmds/ModeCMD.cpp \
 	server/cmds/NickCMD.cpp \
