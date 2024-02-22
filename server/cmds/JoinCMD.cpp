@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 16:28:15 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/22 16:39:20 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,41 +40,41 @@ int Server::executeJoinCommand(string cmd, int id)
     std::string passwords = getArgument(cmd, 2);
     std::stringstream ss_channel(channels);
     std::stringstream ss_password(passwords);
-    std::string error = "0";
+    int error = 0;
     while (std::getline(ss_channel, channels, ','))
     {
-        error = "0";
+        error = 0;
         std::getline(ss_password, passwords, ',');
         if (searchCanal(channels) == -1)
         {
             cout << "Error! " << _clients_data[id].nickname << " failed to join a channel (channel does not exist)." << endl;
-            error = "ERR_NOSUCHCHANNEL";
+            error = ERR_NOSUCHCHANNEL;
         }
         if (_canals[searchCanal(channels)].members.size() >= _canals[searchCanal(channels)].max) 
         {
             cout << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (channel is full)." << endl;
-            error = "ERR_CHANNELISFULL";
+            error = ERR_CHANNELISFULL;
         }
         std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].invited.begin(), _canals[searchCanal(channels)].invited.end(), _clients_data[id].nickname);
         if (_canals[searchCanal(channels)].invite_only == true && it == _canals[searchCanal(channels)].invited.end())
         {
             cout << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (invite only)." << endl;
-            error = "ERR_INVITEONLYCHAN";
+            error = ERR_INVITEONLYCHAN;
         }
         it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
         if (it != _canals[searchCanal(channels)].members.end())
         {
             cout << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (already in channel)." << endl;
-            error = "ERR_ALREADYINCHANNEL";
+            error = ERR_ALREADYINCHANNEL;
         }
         if (_canals[searchCanal(channels)].pass_only == true && _canals[searchCanal(channels)].password != passwords)
         {
             cout << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (incorrect password)." << endl;
-            error = "ERR_BADCHANNELKEY";
+            error = ERR_BADCHANNELKEY;
         }
 
         
-        if (error == "0")
+        if (error == 0)
         {
             _canals[searchCanal(channels)].members.push_back(_clients_data[id].nickname);
             sendToEveryone(": " + _clients_data[id].nickname + " \x1Djoined canal " + channels + ".\x0f\r\n", id, true);
@@ -90,7 +90,7 @@ int Server::executeJoinCommand(string cmd, int id)
             cout << _clients_data[id].nickname << " joined channel " << channels << "." << endl;
         }
         else
-            sendError(error.c_str(), id, std::atoi(error.c_str()));
+            sendError(string("JOIN " + channels).c_str(), id, error);
     }
     return (0);
 }
