@@ -63,4 +63,5 @@ int Server::executePartCommand(string cmd, int id)
             sendError(string("PART " + channels).c_str(), id, error);
     }
     return (0);
-}
+}git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
