@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/23 12:22:41 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/23 16:49:11 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int Server::executePartCommand(string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
-    if (space_nb > 1)
+    if (space_nb > 2)
     {
         cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
         return (ERR_TOOMANYPARAMS);
@@ -36,6 +36,7 @@ int Server::executePartCommand(string cmd, int id)
         return (ERR_NOTIDENTIFIED);
     }
     std::string channels = getArgument(cmd, 1);
+    std::string reason = getArgument(cmd, 2);
     std::stringstream ss_channel(channels);
     int error = 0;
     while (std::getline(ss_channel, channels, ','))
@@ -49,15 +50,20 @@ int Server::executePartCommand(string cmd, int id)
         std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
         if (error == 0 && it != _canals[searchCanal(channels)].members.end()){
             _canals[searchCanal(channels)].members.erase(it);
-            cout << getTime() << _clients_data[id].nickname << " has left " << channels << endl;
+            if (space_nb == 2)
+                cout << getTime() << _clients_data[id].nickname << " has left " << channels << " :" << reason << endl;
+            else
+                cout << getTime() << _clients_data[id].nickname << " has left " << channels << " :leaving" << endl;
             sendToEveryone(_clients_data[id].nickname + " \x1D has left \x0f " + channels + ".\r\n", id, true);
             if ((it = std::find(_canals[searchCanal(channels)].operators.begin(), _canals[searchCanal(channels)].operators.end(), _clients_data[id].nickname)) != _canals[searchCanal(channels)].operators.end())
                 _canals[searchCanal(channels)].operators.erase(it);
         }
-        else if (error == 0)
+        else
         {
-            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to part a channel (not in channel)." << endl;
-            error = ERR_NOTONCHANNEL;
+            if (error == 0){
+                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to part a channel (not in channel)." << endl;
+                error = ERR_NOTONCHANNEL;
+            }
         }
         if (error != 0)
             sendError(string("PART " + channels).c_str(), id, error);
