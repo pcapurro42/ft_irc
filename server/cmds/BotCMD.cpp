@@ -33,7 +33,7 @@ void Server::botTOTD(int id, std::string msg){
         sendDate(nickname, _sockets_array[id + 1].fd);
    }
    else{
-    string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Sorry friend ! I only answer to !time and !date !\r\n";
+    string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Sorry friend ! I only answer to \"!time\" and \"!date\".\r\n";
     send( _sockets_array[id + 1].fd, bot_msg.c_str(), bot_msg.length(), 0);
    }
 }
