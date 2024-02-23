@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:36:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ string  Server::convertNumberToString(int value) const
     return (string(buffer));
 }
 
-std::string Server::get_time(void) const{
+std::string Server::getTime(void) const{
     time_t rawtime;
     struct tm *timeinfo;
 
@@ -79,5 +79,5 @@ std::string Server::get_time(void) const{
     timeinfo = localtime(&rawtime);
     std::string str = asctime(timeinfo);
     str.resize(str.size() - 1); //suppression du \n
-    return (str);
+    return (string("<" + getArgument(str, 3) + "> "));
 }

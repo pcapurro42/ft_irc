@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 17:12:00 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:35:36 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
 
     if (value == ERR_INVALIDCOMMAND)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << endl;
+        cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << endl;
         message = "'" + string(command) + "' :Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
@@ -118,44 +118,45 @@ void    Server::sendToEveryone(string message, int id, bool self)
     }
 }
 
-void    Server::executeCommand(const char *command, string cmd_name, int id)
+void    Server::executeCommand(string command, string cmd_name, int id)
 {
     int value = ERR_INVALIDCOMMAND;
-    string cmd(command);
 
-    // cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
+    cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
 
     if (cmd_name == "PING")
-        value = executePingCommand(cmd, id - 1);
+        value = executePingCommand(command, id - 1);
+    else if (cmd_name == "PONG")
+        value = executePongCommand(command, id - 1);
     else if (cmd_name == "PASS")
-        value = executePassCommand(cmd, id - 1);
+        value = executePassCommand(command, id - 1);
     else if (cmd_name == "NICK")
-        value = executeNickCommand(cmd, id - 1);
+        value = executeNickCommand(command, id - 1);
     else if (cmd_name == "USER")
-        value = executeUserCommand(cmd, id - 1);
+        value = executeUserCommand(command, id - 1);
     else if (cmd_name == "QUIT")
-        value = executeQuitCommand(cmd, id - 1);
+        value = executeQuitCommand(command, id - 1);
     else if (cmd_name == "JOIN")
-        value = executeJoinCommand(cmd, id - 1);
+        value = executeJoinCommand(command, id - 1);
     else if (cmd_name == "WHO")
-        value = executeWhoCommand(cmd, id - 1);
+        value = executeWhoCommand(command, id - 1);
     else if (cmd_name == "PART")
-        value = executePartCommand(cmd, id - 1);
+        value = executePartCommand(command, id - 1);
     else if (cmd_name == "PRIVMSG")
-        value = executePrivmsgCommand(cmd, id - 1);
+        value = executePrivmsgCommand(command, id - 1);
     else if (cmd_name == "KICK")
-        value = executeKickCommand(cmd, id - 1);
+        value = executeKickCommand(command, id - 1);
     else if (cmd_name == "INVITE")
-        value = executeInviteCommand(cmd, id - 1);
+        value = executeInviteCommand(command, id - 1);
     else if (cmd_name == "TOPIC")
-        value = executeTopicCommand(cmd, id - 1);
+        value = executeTopicCommand(command, id - 1);
     else if (cmd_name == "MODE")
-        value = executeModeCommand(cmd, id - 1);
+        value = executeModeCommand(command, id - 1);
     else if (cmd_name == "BOT")
-        value = executeBotCommand(cmd, id - 1);
+        value = executeBotCommand(command, id - 1);
 
     if (value != 0)
-        sendError(command, id, value);
+        sendError(command.c_str(), id, value);
 }
 
 /*

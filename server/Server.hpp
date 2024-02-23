@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 17:11:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:43:25 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_canal
     bool            pass_only;  // est-ce qu'un mot de passe est requis pour se connecter
     string          password;   // mot de passe pour entrer dans le canal (argument de JOIN)
 
+    string          last_message; // variable qui contient les derniers messages des utilisateurs dans le canal
+
     vector<string>  members;    // list des personnes présentes dans le salon (qui reçoivent donc les messages)
     vector<string>  operators;  // liste des admins du canal
 
@@ -78,6 +80,9 @@ typedef struct s_client_data
     bool    authentified;   // est-ce que l'utilisateur a envoyé le mot de passe (deuxième étape)
     bool    identified;     // est-ce que l'utilisateur s'est présenté (en utilisant USER ET NICK) (troisième étape)
     bool    connected;      // est-ce que l'utilisateur s'est juste connecté au serveur (première étape)
+
+    bool    ping;
+    string  last_command;
 
     bool    set_nickname;
     bool    set_username;
@@ -102,13 +107,16 @@ class Server
         string          getArgument(const string cmd, int nb_arg) const;    // voir le fichier de la fonction
         string          convertNumberToString(int value) const;             // itoa version cpp
 
-        void            verifyPing(void);   // fonction que j'écrirai plus tard
+        void            sendPing(void);
+        void            verifyTimeOut(void);   // fonction que j'écrirai plus tard
 
         int             addSocket(int socket);  // ajoute un socket client au tableau des sockets connectés (_sockets_array[])
         void            removeSocket(int id);
         void            addClient(void);        // appelle addSocket() + créé le profil dans _clients_data[]
-        void            removeClient(int id, int value);
+        void            removeClient(int id);
         void            receiveData(int id);    // récupère la string sur le socket client qui vient d'émettre
+
+        vector<string>  rectifyInput(string buffer) const;
 
         void            startLoopRoutine(void); // routine principale du serveur
         void            initializeServer(void);
@@ -117,6 +125,7 @@ class Server
         int             searchClient(string clientname) const;  // renvoie l'index du client dans _clients_data[] ou -1 si il n'existe pas
 
         int             executePingCommand(string cmd, int id);
+        int             executePongCommand(string cmd, int id);
         int             executeNickCommand(string cmd, int id);
         int             executeUserCommand(string cmd, int id);
         int             executeQuitCommand(string cmd, int id);
@@ -132,11 +141,11 @@ class Server
         int             executeBotCommand(std::string cmd, int id);
         void            botTOTD(int id, std::string msg);
 
-        void            executeCommand(const char *command, string cmd_name, int id);
+        void            executeCommand(string command, string cmd_name, int id);
         void            sendToEveryone(string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
 
-        std::string     get_time(void) const;
+        std::string     getTime(void) const;
 
     private:
         int             _port;      // port du serveur

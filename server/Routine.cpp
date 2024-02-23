@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 17:13:24 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:55:53 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,35 @@
 
 extern bool end_;
 
-void    Server::verifyPing(void)
+void    Server::verifyTimeOut(void)
 {
-    ;
+    for (int i = 0; i != MAX_CLIENTS; i++)
+    {
+        if (_clients_data[i].connected == true)
+        {
+            if (_clients_data[i].ping == false)
+            {
+                cout << getTime() << _clients_data[i].nickname << " lost connection (time out) (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
+                removeClient(i + 1);
+
+                string msg = _clients_data[i].nickname + " \x1Dleft the server.\x0f\r\n";
+                sendToEveryone(msg, i + 1, true);
+            }
+            else
+                _clients_data[i].ping = false;
+        }
+    }
+}
+
+void    Server::sendPing(void)
+{
+    string message;
+    for (int i = 0; i != MAX_CLIENTS; i++)
+    {
+        message = "PING :" + _clients_data[i].nickname + "\r\n";
+        if (_clients_data[i].connected == true)
+            send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
+    }
 }
 
 void    Server::receiveData(int id)
@@ -24,31 +50,57 @@ void    Server::receiveData(int id)
     if (_sockets_array[id].revents == POLLIN)
     {
         char    buffer[512];
-        buffer[511] = '\0';
-        int value = recv(_sockets_array[id].fd, buffer, 511, 0); // recv prend en argument le socket qui sonne et récupère la string
+        for (int i = 0; i != 512; i++)
+            buffer[i] = '\0';
+
+        int value = recv(_sockets_array[id].fd, buffer, 511, 0);
         if (value == -1)
             cerr << "Error! Couldn't receive data from Client #" << _clients_nb + 1 << "." << endl;
-        else if (value == 0)    // ici le signal du socket signifie que le client se déconnecte
-            removeClient(id, 0);
+        else if (value == 0)
+        {
+            cout << getTime() << _clients_data[id - 1].nickname << " lost connection (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
+
+            string msg = _clients_data[id - 1].nickname + " \x1Dleft the server.\x0f\r\n";
+            sendToEveryone(msg, id, false);
+
+            removeClient(id);
+        }
         else
         {
-            int value = 0;
-            while (buffer[value] != '\r' && buffer[value] != '\n' && buffer[value] != '\0') // on se débarrasse des caractères parasites d'échappement souvent à la fin de la string reçue
-                value++;
-            buffer[value] = '\0';
-            
-            string cmd_name;
-            for (int i = 0; buffer[i] != '\0' && buffer[i] != ' '; i++) // ici on récupère le nom de la commande (le premier mot)
-                cmd_name = cmd_name + buffer[i];
-            
-            executeCommand(buffer, cmd_name, id); // exécution de la commande
+            vector<string>  cmds = rectifyInput(string(buffer));
+            for (vector<string>::iterator k = cmds.begin(); k != cmds.end(); k++)
+            {
+                string cmd = *k;
+                if (std::count(cmd.begin(), cmd.end(), '\n') == 0)
+                {
+                    cout << getTime() << "Partial command received from " << _clients_data[id - 1].nickname << ". Conserving it." << endl;
+                    _clients_data[id - 1].last_command = _clients_data[id - 1].last_command + cmd;
+                }
+                else
+                {
+                    if (cmds.size() == 1 && _clients_data[id - 1].last_command.empty() == false)
+                    {
+                        cmd = _clients_data[id - 1].last_command + cmd;
+                        _clients_data[id - 1].last_command.clear();
+                    }
+                    while (std::count(cmd.begin(), cmd.end(), '\n') != 0)
+                        cmd.erase(std::find(cmd.begin(), cmd.end(), '\n'));
+                    string cmd_name = getArgument(cmd, 0);
+                    executeCommand(cmd, cmd_name, id);
+                }
+            }
         }
     }
-    else if (_sockets_array[id].revents == POLLERR || _sockets_array[id].revents == POLLNVAL) // ici le signal du socket signifie que le client se déconnecte aussi mais pour une erreur
-        removeClient(id, 1);
+    else if (_sockets_array[id].revents == POLLERR || _sockets_array[id].revents == POLLNVAL)
+    {
+        cout << getTime() << _clients_data[id - 1].nickname << " lost connection (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
+
+        string msg = _clients_data[id - 1].nickname + " \x1Dleft the server.\x0f\r\n";
+        sendToEveryone(msg, id, false);
+
+        removeClient(id);
+    }
 }
-
-
 
 void    Server::startLoopRoutine(void)
 {
@@ -59,7 +111,15 @@ void    Server::startLoopRoutine(void)
     _canals[0].pass_only = false;
     _canals[0].invite_only = false;
     _canals[0].operators.push_back(string("pcapurro"));
+    _canals[0].last_message = _canals[0].last_message + string(":revolver_ocelot PRIVMSG #canal1 :You're pretty good\r\n");
+    _canals[0].last_message = _canals[0].last_message + string(":solid_snake PRIVMSG #canal1 :I know, right\r\n");
     _canals[0].topic = string("42");
+
+    _canals[1].name = "#canal2";
+    _canals[1].exist = true;
+    _canals[1].pass_only = false;
+    _canals[1].invite_only = false;
+    _canals[1].topic = string("21");
 
     while (6)
     {
@@ -87,7 +147,8 @@ void    Server::startLoopRoutine(void)
                 }
             }
         }
-        verifyPing();
+        // verifyTimeOut();
+        // sendPing();
     }
 }
 

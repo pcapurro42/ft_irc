@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PartCMD.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 22:44:51 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:22:41 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,65 +15,52 @@
 int Server::executePartCommand(string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
-
     if (space_nb > 1)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
+        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
         return (ERR_TOOMANYPARAMS);
     }
     else if (space_nb < 1)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
+        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
         return (ERR_NEEDMOREPARAMS);
     }
-
-    string canal = getArgument(cmd, 1);
-   
-    if (std::count(cmd.begin(), cmd.end(), '#') != 1 || canal.size() > 200)
+    if (_clients_data[id].authentified != true)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << endl;
-        return (ERR_UNKNOWNCOMMAND);
-    }
-    if (searchCanal(canal) == -1)
-    {
-        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << endl;
-        return (ERR_NOSUCHCHANNEL);
-    }
-
-    if (_clients_data[id].authentified == false)
-    {
-        cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
+        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
         return (ERR_NOTREGISTERED);
     }
-    if (_clients_data[id].identified == false)
+    if (_clients_data[id].identified != true)
     {
-        cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
-        return (ERR_NOPRIVILEGES);
+        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
+        return (ERR_NOTIDENTIFIED);
     }
-    
-    canal = getArgument(cmd, 1);
-    int i = 0;
-    while (i != MAX_CANALS)
+    std::string channels = getArgument(cmd, 1);
+    std::stringstream ss_channel(channels);
+    int error = 0;
+    while (std::getline(ss_channel, channels, ','))
     {
-        if (_canals[i].exist == true && _canals[i].name == canal)
-            break ;
-        i++;
-    }
-    vector<string>::iterator j = std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id].nickname);
-    if (j == _canals[i].members.end())
-    {
-        cout << "Error! " << _clients_data[id].nickname << " failed to leave " << _canals[i].name << " (already left)." << endl;
-        return (ERR_NOTONCHANNEL);
-    }
-    else
-    {
-        _canals[i].members.erase(j);
-        cout << _clients_data[id].nickname << " left " << _canals[i].name << "." << endl;
-        
-        string message = ":" + _clients_data[id].nickname + " PART " + _canals[i].name + "\r\n";
-        send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
-
-        sendToEveryone(": " + _clients_data[id].nickname + " \x1Dleft " + _canals[i].name + ".\x0f\r\n", id, false);
+        error = 0;
+        if (searchCanal(channels) == -1)
+        {
+            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to part a channel (does not exist)." << endl;
+            error = ERR_NOSUCHCHANNEL;
+        }
+        std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
+        if (error == 0 && it != _canals[searchCanal(channels)].members.end()){
+            _canals[searchCanal(channels)].members.erase(it);
+            cout << getTime() << _clients_data[id].nickname << " has left " << channels << endl;
+            sendToEveryone(_clients_data[id].nickname + " \x1D has left \x0f " + channels + ".\r\n", id, true);
+            if ((it = std::find(_canals[searchCanal(channels)].operators.begin(), _canals[searchCanal(channels)].operators.end(), _clients_data[id].nickname)) != _canals[searchCanal(channels)].operators.end())
+                _canals[searchCanal(channels)].operators.erase(it);
+        }
+        else if (error == 0)
+        {
+            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to part a channel (not in channel)." << endl;
+            error = ERR_NOTONCHANNEL;
+        }
+        if (error != 0)
+            sendError(string("PART " + channels).c_str(), id, error);
     }
     return (0);
 }
