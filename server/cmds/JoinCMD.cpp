@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/23 10:28:06 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/23 13:05:10 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int Server::executeJoinCommand(string cmd, int id)
             std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + "\r\n";
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
             
-            std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[id].topic + "\r\n";
+            std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
             
             send(_sockets_array[id + 1].fd, _canals[searchCanal(channels)].last_message.c_str(), _canals[searchCanal(channels)].last_message.size(), 0);
