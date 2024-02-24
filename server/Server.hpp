@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 23:43:25 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/24 11:48:11 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define ERR_NOTIDENTIFIED 452
 # define ERR_NOPRIVILEGES 440
 # define ERR_ALREADYREGISTRED 462
-
+# define ERR_TOOMANYCHANNELS 405
 # ifndef MAX_CLIENTS
 #  define MAX_CLIENTS 0
 # endif
@@ -142,6 +142,8 @@ class Server
         void            executeCommand(string command, string cmd_name, int id);
         void            sendToEveryone(string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
+
+        void            createCanal(const std::string& channels, const std::string& nickname);
 
         std::string     getTime(void) const;
 
