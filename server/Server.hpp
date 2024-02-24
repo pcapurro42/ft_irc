@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 14:46:56 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 20:40:32 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define ERR_ALREADYREGISTRED 462
 # define ERR_TOOMANYCHANNELS 405
 # define ERR_INVALIDCHANNELNAME 470
+# define ERR_TOOMANYMODEFLAGS 472
+# define ERR_CANNOTSENDTOCHAN 404
 
 # ifndef MAX_CLIENTS
 #  define MAX_CLIENTS 0
