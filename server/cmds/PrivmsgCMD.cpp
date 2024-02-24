@@ -17,12 +17,7 @@ int Server::executePrivmsgCommand(string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
 
-    if (space_nb > 2)
-    {
-        cout << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
-        return (ERR_TOOMANYPARAMS);
-    }
-    else if (space_nb < 2)
+    if (space_nb < 2)
     {
         cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
         return (ERR_NEEDMOREPARAMS);
@@ -52,7 +47,10 @@ int Server::executePrivmsgCommand(string cmd, int id)
     }
     
     target = getArgument(cmd, 1);
-    string message = getArgument(cmd, 2);
+    cmd = cmd.substr(cmd.find(":" ) + 1);
+    string message = cmd.substr(cmd.find(":" ) + 1);;
+    if (message.find("DCC SEND") == 0 || message.find(""))
+        message = "\x01" + message + "\x01";
     string sender_user = _clients_data[id].nickname;
 
     if (target == "Gipiti_bot"){
