@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 11:48:11 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 11:53:47 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define ERR_NOPRIVILEGES 440
 # define ERR_ALREADYREGISTRED 462
 # define ERR_TOOMANYCHANNELS 405
+
 # ifndef MAX_CLIENTS
 #  define MAX_CLIENTS 0
 # endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Execution.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 20:35:36 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/24 11:54:31 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
     else if (value == ERR_NOPRIVILEGES)
     {
         message = "'" + string(command) + "' :No privileges.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
+    else if (value == ERR_TOOMANYCHANNELS)
+    {
+        message = "'" + string(command) + "' :Too many channels.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
 }
