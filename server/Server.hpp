@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 20:40:32 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 21:29:53 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ class Server
         void            createCanal(const std::string& channels, const std::string& nickname);
 
         std::string     getTime(void) const;
+        std::string     getMessage(std::string cmd);
 
     private:
         int             _port;      // port du serveur

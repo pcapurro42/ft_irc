@@ -6,21 +6,30 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 20:45:08 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 21:30:37 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
+std::string Server::getMessage(std::string cmd)
+{
+    std::string message = "";
+    int i = 2;
+    while(i < 202 && getArgument(cmd, i) != "") // max 200 mots
+    {
+        message = message + getArgument(cmd, i);
+        if (getArgument(cmd, i + 1) != "")
+            message = message + " ";
+        i++;
+    }
+    return (message);
+}
+
 int Server::executePrivmsgCommand(string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
-    if (space_nb > 2)
-    {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
-        return (ERR_TOOMANYPARAMS);
-    }
-    else if (space_nb < 2)
+    if (space_nb < 2)
     {
         cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
         return (ERR_NEEDMOREPARAMS);
@@ -36,7 +45,6 @@ int Server::executePrivmsgCommand(string cmd, int id)
         return (ERR_NOTIDENTIFIED);
     }
     std::string recipient = getArgument(cmd, 1);
-    std::string message = getArgument(cmd, 2);
     std::stringstream ss_recipient(recipient);
     while (std::getline(ss_recipient, recipient, ','))
     {
@@ -53,6 +61,7 @@ int Server::executePrivmsgCommand(string cmd, int id)
                 cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (not in channel)." << endl;
                 return (ERR_NOSUCHNICK);
             }
+            std::string message = getMessage(cmd);
             std::string msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
             for (it = _canals[searchCanal(recipient)].members.begin(); it != _canals[searchCanal(recipient)].members.end(); it++)
                 if (*it != _clients_data[id].nickname)
@@ -66,6 +75,7 @@ int Server::executePrivmsgCommand(string cmd, int id)
                 cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (does not exist)." << endl;
                 return (ERR_NOSUCHNICK);
             }
+            std::string message = getMessage(cmd);
             std::string msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
             send(_sockets_array[searchClient(recipient) + 1].fd, msg.c_str(), msg.size(), 0);
             cout << getTime() << _clients_data[id].nickname << " sent a message to " << recipient << " : " << message << endl;
