@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/23 16:49:11 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 09:33:59 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,16 @@ int Server::executePartCommand(string cmd, int id)
         std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
         if (error == 0 && it != _canals[searchCanal(channels)].members.end()){
             _canals[searchCanal(channels)].members.erase(it);
-            if (space_nb == 2)
+            if (space_nb == 2){
                 cout << getTime() << _clients_data[id].nickname << " has left " << channels << " :" << reason << endl;
-            else
+                std::string msg = ":" + _clients_data[id].nickname + " PART " + channels + " :" + reason + "\r\n";
+                send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+            }
+            else{
                 cout << getTime() << _clients_data[id].nickname << " has left " << channels << " :leaving" << endl;
+                std::string msg = ":" + _clients_data[id].nickname + " PART " + channels + " :leaving" + "\r\n";
+                send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+            }
             sendToEveryone(_clients_data[id].nickname + " \x1D has left \x0f " + channels + ".\r\n", id, true);
             if ((it = std::find(_canals[searchCanal(channels)].operators.begin(), _canals[searchCanal(channels)].operators.end(), _clients_data[id].nickname)) != _canals[searchCanal(channels)].operators.end())
                 _canals[searchCanal(channels)].operators.erase(it);
