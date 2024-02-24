@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 11:54:31 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 14:48:20 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,11 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
     else if (value == ERR_TOOMANYCHANNELS)
     {
         message = "'" + string(command) + "' :Too many channels.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
+    else if (value == ERR_INVALIDCHANNELNAME)
+    {
+        message = "'" + string(command) + "' :Invalid channel name.(valid: #<name>)\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
 }

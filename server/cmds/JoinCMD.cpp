@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 14:41:42 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 14:48:45 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int Server::executeJoinCommand(string cmd, int id)
         std::getline(ss_password, passwords, ',');
         if (channels[0] != '#')
         {
-            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (invalid channel name, need #<name>)." << endl;
-            error = ERR_NOSUCHCHANNEL;
+            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (invalid channel name)." << endl;
+            error = ERR_INVALIDCHANNELNAME;
         }
         if (error == 0 && searchCanal(channels) == -1 && passwords == "" && space_nb == 1)
         {
