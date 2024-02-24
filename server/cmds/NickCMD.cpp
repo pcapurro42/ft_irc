@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NickCMD.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:24:27 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int Server::executeNickCommand(string cmd, int id)
     else
     {
         string nickname = getArgument(cmd, 1);
+        if (nickname[0] == '#')
+        {
+            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid character)." << endl;
+            return (ERR_ERRONEUSNICKNAME);
+        }
         string oldnickname = _clients_data[id].nickname;
         _clients_data[id].nickname = nickname;
 
