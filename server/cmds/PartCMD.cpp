@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 09:33:59 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 12:09:05 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int Server::executePartCommand(string cmd, int id)
             }
         }
         if (error != 0)
-            sendError(string("PART " + channels).c_str(), id, error);
+            sendError(string("PART " + channels).c_str(), id + 1, error);
     }
     return (0);
 }

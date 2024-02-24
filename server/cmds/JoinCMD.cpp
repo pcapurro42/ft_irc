@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 11:41:14 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 12:05:40 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int Server::executeJoinCommand(string cmd, int id)
                 cout << getTime() << _clients_data[id].nickname << " joined " << channels << " (creation)." << endl;
                 std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + " (creation)\r\n";
                 send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+                continue;
             }
         }
         if (error == 0 && searchCanal(channels) == -1 && passwords != "")
@@ -129,7 +130,7 @@ int Server::executeJoinCommand(string cmd, int id)
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined\x0f " + channels + ".\r\n", id, true);
         }
         else
-            sendError(string("JOIN " + channels).c_str(), id, error);
+            sendError(string("JOIN " + channels).c_str(), id + 1, error);
     }
     return (0);
 }
