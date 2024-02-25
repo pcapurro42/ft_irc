@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:39:06 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:43:30 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,9 @@ class Server
 
         int             searchCanal(std::string canal_name) const;
         int             searchClient(std::string clientname) const;
+
+        bool            isAuthentified(std::string clientname) const;
+        bool            isIdentified(std::string clientname) const;
 
         int             executePingCommand(std::string cmd, int id);
         int             executePongCommand(std::string cmd, int id);
