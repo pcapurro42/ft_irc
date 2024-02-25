@@ -6,13 +6,39 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:38:45 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 22:58:51 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
 extern bool end_;
+
+void    Server::removeEmptyChannels(void)
+{
+    for (int i = 0; i != MAX_CANALS; i++)
+    {
+        if (_canals[i].members.size() == 0 && _canals[i].exist == true)
+        {
+            std::cout << getTime() << _canals[i].name << " has been removed." << std::endl;
+
+            _canals[i].exist = false;
+
+            _canals[i].name.clear();
+            _canals[i].topic.clear();
+            _canals[i].invited.clear();
+            _canals[i].members.clear();
+            _canals[i].operators.clear();
+            _canals[i].topic.clear();
+            _canals[i].password.clear();
+
+            _canals[i].max = MAX_CLIENTS;
+            _canals[i].invite_only = false;
+            _canals[i].op_topic = false;
+            _canals[i].pass_only = false;
+        }
+    }
+}
 
 void    Server::verifyTimeOut(void)
 {
@@ -138,6 +164,7 @@ void    Server::LoopRoutine(void)
         }
         else
         {
+            removeEmptyChannels();
             verifyTimeOut();
             sendPing();
         }

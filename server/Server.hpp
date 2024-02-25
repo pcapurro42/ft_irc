@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:40:50 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 22:53:02 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ class Server
     private:
         void            initializeServer(void);
 
+        void            removeEmptyChannels(void);
         void            sendPing(void);
         void            verifyTimeOut(void);
 
