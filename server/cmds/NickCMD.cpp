@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 20:17:56 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:23:47 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int Server::executeNickCommand(std::string cmd, int id)
         {
             _clients_data[id].identified = true;
 
-            sendToEveryone(_clients_data[id].nickname + " \x1Djoined the server\x0f.\r\n", id, true);
+            sendToEveryone(_clients_data[id].nickname + " \x1Djoined the server\x0f.\r\n", id, false);
             
             std::string message = "Welcome to our IRC server!\r\n";
             send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
