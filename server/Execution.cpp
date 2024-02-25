@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 22:47:21 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:04:57 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,15 @@ void    Server::sendToEveryone(std::string message, int id, bool self)
 {
     for (int i = 0; i != MAX_CLIENTS; i++)
     {
-        if (self == true)
-            send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
-        else
+        if (_clients_data[i].connected == true)
         {
-            if (i != id)
+            if (self == true)
                 send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
+            else
+            {
+                if (i != id)
+                    send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
+            }
         }
     }
 }

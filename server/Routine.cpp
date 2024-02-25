@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 22:58:51 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:07:42 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,4 +169,5 @@ void    Server::LoopRoutine(void)
             sendPing();
         }
     }
+    sendToEveryone("Server is shutting down...\r\n", 0, true);
 }
