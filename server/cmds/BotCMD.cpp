@@ -42,7 +42,7 @@ int Server::executeBotCommand(std::string cmd, int id){
         std::cout << "Error! " << nickname << ": bot is turned off." << std::endl;
         return (ERR_INACTIVEBOT);
     } 
-    else if (cmd != "BOT"){
+    else if (cmd != "BOT" && cmd != "bot"){
         std::cout << "Error! " << nickname << " typed a command with too many parameters." << std::endl;
         return (ERR_TOOMANYPARAMS);
     }

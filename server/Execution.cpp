@@ -174,7 +174,7 @@ void    Server::executeCommand(std::string command, std::string cmd_name, int id
         value = executeTopicCommand(command, id - 1);
     else if (cmd_name == "MODE")
         value = executeModeCommand(command, id - 1);
-    else if (cmd_name == "BOT")
+    else if (cmd_name == "BOT" || cmd_name == "bot")
         value = executeBotCommand(command, id - 1);
 
     if (value != 0)
