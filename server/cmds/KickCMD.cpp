@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 20:12:09 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:48:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,6 @@ int Server::executeKickCommand(std::string cmd, int id)
         return (value);
     else
     {
-        if (_clients_data[id].identified != true || _clients_data[id].authentified != true)
-        {
-            if (_clients_data[id].authentified == false)
-            {
-                std::cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << std::endl;
-                return (ERR_NOTREGISTERED);
-            }
-            if (_clients_data[id].identified == false)
-            {
-                std::cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << std::endl;
-                return (ERR_NOPRIVILEGES);
-            }
-        }
         std::string canal = getArgument(cmd, 1);
         std::string member = getArgument(cmd, 2);
         std::string reason = getArgument(cmd, 3);

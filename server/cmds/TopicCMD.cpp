@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:43 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:44:54 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:49:32 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@ int Server::executeTopicCommand(std::string cmd, int id)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
-    }
-    if (_clients_data[id].authentified != true)
-    {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << std::endl;
-        return (ERR_NOTREGISTERED);
-    }
-    if (_clients_data[id].identified != true)
-    {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << std::endl;
-        return (ERR_NOTIDENTIFIED);
     }
     std::string channels = getArgument(cmd, 1);
     std::string topic = getArgument(cmd, 2);

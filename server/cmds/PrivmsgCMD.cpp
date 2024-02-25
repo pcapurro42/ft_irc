@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:43:43 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:49:20 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,6 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
-    }
-    if (_clients_data[id].authentified != true)
-    {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << std::endl;
-        return (ERR_NOTREGISTERED);
-    }
-    if (_clients_data[id].identified != true)
-    {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << std::endl;
-        return (ERR_NOTIDENTIFIED);
     }
     std::string recipient = getArgument(cmd, 1);
     std::stringstream ss_recipient(recipient);

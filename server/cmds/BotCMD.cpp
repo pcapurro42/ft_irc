@@ -46,16 +46,6 @@ int Server::executeBotCommand(std::string cmd, int id){
         std::cout << "Error! " << nickname << " typed a command with too many parameters." << std::endl;
         return (ERR_TOOMANYPARAMS);
     }
-    else if (_clients_data[id].authentified == false)
-    {
-        std::cout << "Error! " << nickname << " failed to request (not authentified)." << std::endl;
-        return (ERR_NOTREGISTERED);
-    }
-    else if (_clients_data[id].identified == false)
-    {
-        std::cout << "Error! " << nickname << " failed to request (not identified)." << std::endl;
-        return (ERR_NOPRIVILEGES);
-    }
 
     std::string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Hi again " \
                         + nickname + "!" + "\r\n";
