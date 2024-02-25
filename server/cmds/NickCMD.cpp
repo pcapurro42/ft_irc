@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:42:42 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:03:36 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int Server::executeNickCommand(std::string cmd, int id)
     else
     {
         std::string nickname = getArgument(cmd, 1);
-        if (nickname[0] == '#')
+        if (nickname[0] == '#' || nickname == "Gipiti_bot")
         {
             std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid character)." << std::endl;
             return (ERR_ERRONEUSNICKNAME);
