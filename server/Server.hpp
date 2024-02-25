@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 22:53:02 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:39:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@
 # define ERR_TOOMANYMODEFLAGS 472
 # define ERR_CANNOTSENDTOCHAN 404
 # define ERR_INACTIVEBOT 406
+
 # ifndef MAX_CLIENTS
-#  define MAX_CLIENTS 0
+#  define MAX_CLIENTS 42
 # endif
 
 # ifndef MAX_CANALS
-#  define MAX_CANALS 0
+#  define MAX_CANALS 21
 # endif
 
 # ifndef BOT
