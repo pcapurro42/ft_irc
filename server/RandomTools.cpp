@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:10:50 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:42:20 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ bool    Server::validateInput(const int port_nb, const char *password) const
     if (password[0] == '\0')
         return (false);
     
-    cout << "\rVerifying inputs... OK!" << endl;
+    std::cout << "\rVerifying inputs... OK!" << std::endl;
     return (true);
 }
 
-string  Server::getArgument(const string cmd, int nb_arg) const
+std::string  Server::getArgument(const std::string cmd, int nb_arg) const
 {
     int i = 0;
     int count = 0;
-    string argument("");
+    std::string argument("");
     
     if (nb_arg > std::count(cmd.begin(), cmd.end(), ' '))
-        return (string(""));
+        return (std::string(""));
     else
     {
         while (cmd[i] != '\0')
@@ -45,7 +45,7 @@ string  Server::getArgument(const string cmd, int nb_arg) const
     return (argument);
 }
 
-string  Server::convertNumberToString(int value) const
+std::string  Server::convertNumberToString(int value) const
 {
     int nb = value;
     int i = 0;
@@ -68,7 +68,7 @@ string  Server::convertNumberToString(int value) const
     }
     buffer[0] = (nb % 10) + 48;
     
-    return (string(buffer));
+    return (std::string(buffer));
 }
 
 std::string Server::getTime(void) const{
@@ -79,5 +79,5 @@ std::string Server::getTime(void) const{
     timeinfo = localtime(&rawtime);
     std::string str = asctime(timeinfo);
     str.resize(str.size() - 1);
-    return (string("<" + getArgument(str, 3) + "> "));
+    return (std::string("<" + getArgument(str, 3) + "> "));
 }

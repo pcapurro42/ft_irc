@@ -6,59 +6,59 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 18:49:45 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:42:42 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
-int Server::executeNickCommand(string cmd, int id)
+int Server::executeNickCommand(std::string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
     if (space_nb > 1)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
         return (ERR_TOOMANYPARAMS);
     }
     else if (space_nb < 1)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
     }
 
-    string clientname = getArgument(cmd, 1);
+    std::string clientname = getArgument(cmd, 1);
     if (clientname.size() > 42)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid length)." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid length)." << std::endl;
         return (ERR_ERRONEUSNICKNAME);
     }
     if (searchClient(clientname) != -1)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (already taken)." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (already taken)." << std::endl;
         return (ERR_NICKCOLLISION);
     }
 
     if (_clients_data[id].authentified != true)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << std::endl;
         return (ERR_NOTREGISTERED);
     }
     else
     {
-        string nickname = getArgument(cmd, 1);
+        std::string nickname = getArgument(cmd, 1);
         if (nickname[0] == '#')
         {
-            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid character)." << endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid character)." << std::endl;
             return (ERR_ERRONEUSNICKNAME);
         }
-        string oldnickname = _clients_data[id].nickname;
+        std::string oldnickname = _clients_data[id].nickname;
         _clients_data[id].nickname = nickname;
 
         if (_clients_data[id].set_nickname == false)
             _clients_data[id].set_nickname = true;
 
-        cout << getTime() << _clients_data[id].nickname << " set his nickname to '" << nickname << "'." << endl;
-        string message = "Nickname received.\r\n";
+        std::cout << getTime() << _clients_data[id].nickname << " set his nickname to '" << nickname << "'." << std::endl;
+        std::string message = "Nickname received.\r\n";
         send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
 
         if (_clients_data[id].set_username == true && _clients_data[id].identified != true)
@@ -67,7 +67,7 @@ int Server::executeNickCommand(string cmd, int id)
 
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined the server\x0f.\r\n", id, true);
             
-            string message = "Welcome to our IRC server!\r\n";
+            std::string message = "Welcome to our IRC server!\r\n";
             send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
         
             message = "Welcome!\nType '!time' to ask for time.\nType '!date' to ask for data.\nHere are the availaible commands: PASS, USER, NICK, KICK, INVITE, JOIN, PING, QUIT, TOPIC AND BOT.\n";
@@ -81,7 +81,7 @@ int Server::executeNickCommand(string cmd, int id)
         {
             for (int i = 0; i != MAX_CANALS; i++)
             {
-                vector<string>::iterator j;
+                std::vector<std::string>::iterator j;
 
                 j = std::find(_canals[i].members.begin(), _canals[i].members.end(), oldnickname);
                 if (j != _canals[i].members.end())

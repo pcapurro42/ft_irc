@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:50:01 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:10:02 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:00 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Server::Server(const int port, const char *password)
         _fail = false;
 
         _port = port;
-        _password = string(password);
+        _password = std::string(password);
 
         _clients_nb = 0;
         _clients_slots = 0;
@@ -36,7 +36,6 @@ Server::Server(const int port, const char *password)
             _canals[i].exist = false;
             _canals[i].max = MAX_CLIENTS;
         }
-
         initializeServer();
     }
 }
@@ -49,6 +48,20 @@ Server::Server(const Server &original)
 Server  &Server::operator=(const Server &original)
 {
     printMessage("Cloning server", true);
+    
+    this->_fail = original._fail;
+    this->_password = original._password;
+    this->_port = original._port;
+
+    if (this->_fail == true)
+        return (*this);
+    else
+    {
+        this->_server_socket = original._server_socket;
+        this->_sockets_array[0].fd = original._server_socket;
+        this->_sockets_array[0].revents = 0;
+        this->_sockets_array[0].fd = POLLIN;
+    }
     return (*this);
 }
 

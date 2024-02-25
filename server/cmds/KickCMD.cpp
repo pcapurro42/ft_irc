@@ -6,13 +6,13 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 18:23:25 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
-int Server::verifyKickCMD(string cmd, int id) const
+int Server::verifyKickCMD(std::string cmd, int id) const
 {
     if (std::count(cmd.begin(), cmd.end(), '#') == 0)
         return (ERR_UNKNOWNCOMMAND);
@@ -20,38 +20,38 @@ int Server::verifyKickCMD(string cmd, int id) const
     
     if (space_nb > 3)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
         return (ERR_TOOMANYPARAMS);
     }
     else if (space_nb < 3)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
     }
 
-    string canal = getArgument(cmd, 1);
-    string user = getArgument(cmd, 2);
-    string reason = getArgument(cmd, 3);
+    std::string canal = getArgument(cmd, 1);
+    std::string user = getArgument(cmd, 2);
+    std::string reason = getArgument(cmd, 3);
 
     if (searchCanal(canal) == -1)
     {
-        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << std::endl;
         return (ERR_NOSUCHCHANNEL);
     }
     if (searchClient(user) == -1)
     {
-        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << std::endl;
         return (ERR_NOSUCHNICK);
     }
     if (reason.size() > 400)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
         return (ERR_UNKNOWNCOMMAND);
     }
     return (0);
 }
 
-int Server::executeKickCommand(string cmd, int id)
+int Server::executeKickCommand(std::string cmd, int id)
 {
     int value = verifyKickCMD(cmd, id);
     if (value != 0)
@@ -62,18 +62,18 @@ int Server::executeKickCommand(string cmd, int id)
         {
             if (_clients_data[id].authentified == false)
             {
-                cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
+                std::cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << std::endl;
                 return (ERR_NOTREGISTERED);
             }
             if (_clients_data[id].identified == false)
             {
-                cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
+                std::cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << std::endl;
                 return (ERR_NOPRIVILEGES);
             }
         }
-        string canal = getArgument(cmd, 1);
-        string member = getArgument(cmd, 2);
-        string reason = getArgument(cmd, 3);
+        std::string canal = getArgument(cmd, 1);
+        std::string member = getArgument(cmd, 2);
+        std::string reason = getArgument(cmd, 3);
 
         if (reason[0] == ':')
             reason = reason.c_str() + 1;
@@ -87,23 +87,23 @@ int Server::executeKickCommand(string cmd, int id)
         }
         if (std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id].nickname) == _canals[i].members.end())
         {
-            cout << "Error! " << _clients_data[id].nickname << " failed to kick someone from " << canal << " (not member)." << endl;
+            std::cout << "Error! " << _clients_data[id].nickname << " failed to kick someone from " << canal << " (not member)." << std::endl;
             return (ERR_NOTONCHANNEL);
         }
         else if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), _clients_data[id].nickname) != _canals[i].operators.end())
         {
             _canals[i].members.erase(std::find(_canals[i].members.begin(), _canals[i].members.end(), member));
-            cout << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name <<  " (reason :'" << reason << "')." << endl;
+            std::cout << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name <<  " (reason :'" << reason << "')." << std::endl;
 
             int target_id = searchClient(member) + 1;
-            string message = ": " + _clients_data[id].nickname + " KICK " + _canals[i].name + " " + member + "\r\n";
+            std::string message = ": " + _clients_data[id].nickname + " KICK " + _canals[i].name + " " + member + "\r\n";
             send(_sockets_array[target_id].fd, message.c_str(), message.size(), 0);
 
             sendToEveryone(": " + _clients_data[id].nickname + " \x1Dleft " + _canals[i].name + ".\x0f\r\n", id, true);
         }
         else
         {
-            cout << "Error! " << _clients_data[id].nickname << " failed to kick " << member << "(not operator)." << endl;
+            std::cout << "Error! " << _clients_data[id].nickname << " failed to kick " << member << "(not operator)." << std::endl;
             return (ERR_NOPRIVILEGES);
         }
     }

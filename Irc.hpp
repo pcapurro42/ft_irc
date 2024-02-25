@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:31:21 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 13:32:14 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:52 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@
 
 # include <algorithm>
 # include <vector>
-
-using std::string;
-using std::cout;
-using std::cerr;
-using std::endl;
-using std::vector;
 
 int     main(const int argc, const char **argv);
 void    shutdown(int signal);

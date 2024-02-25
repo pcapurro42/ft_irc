@@ -6,15 +6,18 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 18:20:29 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:43:13 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
-void Server::createCanal(const std::string &channels, const std::string &nickname) {
+void Server::createCanal(const std::string channels, const std::string nickname)
+{
     t_canal canal;
+    
     canal.name = channels;
+    canal.exist = true;
     canal.members.push_back(nickname);
     canal.operators.push_back(nickname);
     canal.topic = "";
@@ -22,37 +25,39 @@ void Server::createCanal(const std::string &channels, const std::string &nicknam
     canal.invite_only = false;
     canal.pass_only = false;
     canal.password = "";
-    canal.max = 10;
-    canal.exist = true;
-    for (int i = 0; i < MAX_CANALS; i++) {
-        if (_canals[i].name == "") {
+    canal.max = 21;
+    
+    for (int i = 0; i < MAX_CANALS; i++)
+    {
+        if (_canals[i].name == "")
+        {
             _canals[i] = canal;
             break;
         }
     }
 }
 
-int Server::executeJoinCommand(string cmd, int id)
+int Server::executeJoinCommand(std::string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
     if (space_nb > 2)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
         return (ERR_TOOMANYPARAMS);
     }
     else if (space_nb < 1)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
     }
     if (_clients_data[id].authentified != true)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << std::endl;
         return (ERR_NOTREGISTERED);
     }
     if (_clients_data[id].identified != true)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << std::endl;
         return (ERR_NOTIDENTIFIED);
     }
 
@@ -67,21 +72,21 @@ int Server::executeJoinCommand(string cmd, int id)
         std::getline(ss_password, passwords, ',');
         if (channels[0] != '#')
         {
-            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (invalid channel name)." << endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (invalid channel name)." << std::endl;
             error = ERR_INVALIDCHANNELNAME;
         }
         if (error == 0 && searchCanal(channels) == -1 && passwords == "" && space_nb == 1)
         {
             if (_canals[MAX_CANALS - 1].exist == true)
             {
-                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (too many channels)." << endl;
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (too many channels)." << std::endl;
                 error = ERR_TOOMANYCHANNELS;
             }
             else
             {
                 createCanal(channels, _clients_data[id].nickname);
-                cout << getTime() << _clients_data[id].nickname << " created " << channels << "." << endl;
-                cout << getTime() << _clients_data[id].nickname << " joined " << channels << "." << endl;
+                std::cout << getTime() << _clients_data[id].nickname << " created " << channels << "." << std::endl;
+                std::cout << getTime() << _clients_data[id].nickname << " joined " << channels << "." << std::endl;
                 
                 std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + " (creation)\r\n";
                 send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
@@ -95,19 +100,19 @@ int Server::executeJoinCommand(string cmd, int id)
         }
         if (error == 0 && searchCanal(channels) == -1 && passwords != "")
         {
-            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (does not exist)." << endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (does not exist)." << std::endl;
             error = ERR_NOSUCHCHANNEL;
         }
-        if (error == 0 && _canals[searchCanal(channels)].members.size() >= _canals[searchCanal(channels)].max) 
+        if (error == 0 && _canals[searchCanal(channels)].members.size() >= static_cast<size_t>(_canals[searchCanal(channels)].max)) 
         {
-            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (channel is full)." << endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (channel is full)." << std::endl;
             error = ERR_CHANNELISFULL;
         }
         if (error == 0){
             std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].invited.begin(), _canals[searchCanal(channels)].invited.end(), _clients_data[id].nickname);
             if (_canals[searchCanal(channels)].invite_only == true && it == _canals[searchCanal(channels)].invited.end())
             {
-                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (invite only)." << endl;
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (invite only)." << std::endl;
                 error = ERR_INVITEONLYCHAN;
             }
         }
@@ -115,20 +120,20 @@ int Server::executeJoinCommand(string cmd, int id)
             std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
             if (it != _canals[searchCanal(channels)].members.end())
             {
-                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (already in channel)." << endl;
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (already in channel)." << std::endl;
                 error = ERR_ALREADYINCHANNEL;
             }
         }
         if (error == 0 && _canals[searchCanal(channels)].pass_only == true && _canals[searchCanal(channels)].password != passwords)
         {
-            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (incorrect password)." << endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join " + channels + " (incorrect password)." << std::endl;
             error = ERR_BADCHANNELKEY;
         }
         
         if (error == 0)
         {
             _canals[searchCanal(channels)].members.push_back(_clients_data[id].nickname);
-            cout << getTime() << _clients_data[id].nickname << " joined " << channels << "." << endl;
+            std::cout << getTime() << _clients_data[id].nickname << " joined " << channels << "." << std::endl;
             
             std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + "\r\n";
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
@@ -139,7 +144,7 @@ int Server::executeJoinCommand(string cmd, int id)
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined\x0f " + channels + ".\r\n", id, true);
         }
         else
-            sendError(string("JOIN " + channels).c_str(), id + 1, error);
+            sendError(std::string("JOIN " + channels).c_str(), id + 1, error);
     }
     return (0);
 }

@@ -6,22 +6,22 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:56 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 18:23:30 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
-int Server::verifyModeCMD(string cmd, int id) const
+int Server::verifyModeCMD(std::string cmd, int id) const
 {
     if (std::count(cmd.begin(), cmd.end(), '#') == 0 || std::count(cmd.begin(), cmd.end(), '+') == 0)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
         return (ERR_UNKNOWNCOMMAND);
     }
     else if (std::count(cmd.begin(), cmd.end(), ' ') < 2)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
     }
     return (0);
@@ -32,12 +32,12 @@ void    Server::executeModeICommand(int canal_id, int id)
     if (_canals[canal_id].invite_only == false)
     {
         _canals[canal_id].invite_only = true;
-        cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to invite only." << endl;
+        std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to invite only." << std::endl;
     }
     else
     {
         _canals[canal_id].invite_only = false;
-        cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << endl;
+        std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << std::endl;
     }
 }
 
@@ -46,62 +46,62 @@ void    Server::executeModeTCommand(int canal_id, int id)
     if (_canals[canal_id].op_topic == true)
     {
         _canals[canal_id].op_topic = false;
-        cout << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to everyone." << endl;
+        std::cout << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to everyone." << std::endl;
     }
     else
     {
         _canals[canal_id].op_topic = true;
-        cout << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to operators only." << endl;
+        std::cout << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to operators only." << std::endl;
     }
 }
 
-void    Server::executeModeKCommand(string password, int canal_id, int id)
+void    Server::executeModeKCommand(std::string password, int canal_id, int id)
 {
     if (_canals[canal_id].pass_only == false)
     {
         _canals[canal_id].pass_only = true;
         _canals[canal_id].password = password;
-        cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to password only." << endl;
+        std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to password only." << std::endl;
     }
     else
     {
         _canals[canal_id].pass_only = false;
         _canals[canal_id].password = "";
-        cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << endl;
+        std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << std::endl;
     }
 }
 
-void    Server::executeModeOCommand(string member, int canal_id, int id)
+void    Server::executeModeOCommand(std::string member, int canal_id, int id)
 {
     if (searchClient(member) == -1)
-        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << endl;
+        std::cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << std::endl;
     else
     {
         if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
         {
             _canals[canal_id].operators.push_back(member);
-            cout << _clients_data[id].nickname << " added " << member << " as an operator of " << _canals[canal_id].name << "." << endl;
+            std::cout << _clients_data[id].nickname << " added " << member << " as an operator of " << _canals[canal_id].name << "." << std::endl;
         }
         else
         {
             _canals[canal_id].operators.erase(std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member));
-            cout << _clients_data[id].nickname << " removed " << member << " as an operator of " << _canals[canal_id].name << "." << endl;
+            std::cout << _clients_data[id].nickname << " removed " << member << " as an operator of " << _canals[canal_id].name << "." << std::endl;
         }
     }
 }
 
 void    Server::executeModeLCommand(int value, int canal_id, int id)
 {
-    if (value > MAX_CLIENTS || value <= 0 || value < _canals[canal_id].members.size())
-        cout << "Error! " << _clients_data[id].nickname << " failed to change the limit value of " << _canals[canal_id].name << " (invalid value)." << endl;
+    if (value > MAX_CLIENTS || value <= 0 || value < static_cast<int>(_canals[canal_id].members.size()))
+        std::cout << "Error! " << _clients_data[id].nickname << " failed to change the limit value of " << _canals[canal_id].name << " (invalid value)." << std::endl;
     else
     {
         _canals[canal_id].max = value;
-        cout << _clients_data[id].nickname << " changed the limit value of " << _canals[canal_id].name << "." << endl;
+        std::cout << _clients_data[id].nickname << " changed the limit value of " << _canals[canal_id].name << "." << std::endl;
     }
 }
 
-int Server::executeModeCommand(string cmd, int id)
+int Server::executeModeCommand(std::string cmd, int id)
 {
     int value = verifyModeCMD(cmd, id);
     if (value != 0)
@@ -112,37 +112,37 @@ int Server::executeModeCommand(string cmd, int id)
         {
             if (_clients_data[id].authentified == false)
             {
-                cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
+                std::cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << std::endl;
                 return (ERR_NOTREGISTERED);
             }
             if (_clients_data[id].identified == false)
             {
-                cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
+                std::cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << std::endl;
                 return (ERR_NOPRIVILEGES);
             }
         }
-        string canal = getArgument(cmd, 1);
+        std::string canal = getArgument(cmd, 1);
         int i = searchCanal(canal);
         if (i == -1)
         {
-            cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << endl;
+            std::cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << std::endl;
             return (ERR_NOSUCHCHANNEL);
         }
         else if (std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id].nickname) == _canals[i].members.end())
         {
-            cout << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << endl;
+            std::cout << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << std::endl;
             return (ERR_NOPRIVILEGES);
         }
         else if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), _clients_data[id].nickname) == _canals[i].operators.end())
         {
-            cout << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << endl;
+            std::cout << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << std::endl;
             return (ERR_NOPRIVILEGES);
         }
 
-        string new_cmd;
+        std::string new_cmd;
         for (int k = 2; getArgument(cmd, k) != ""; k++)
             new_cmd = new_cmd + getArgument(cmd, k) + " ";
-        string real_cmd;
+        std::string real_cmd;
         for (int k = 0; new_cmd[k] != '\0'; k++)
         {
             if (new_cmd[k] == '+')
@@ -165,7 +165,7 @@ int Server::executeModeCommand(string cmd, int id)
                 if (real_cmd[k + 1] != 't' && real_cmd[k + 1] != 'l' && real_cmd[k + 1] != 'k' \
                 && real_cmd[k + 1] != 'o' && real_cmd[k + 1] != 'i' && real_cmd[k + 1] != ' ' && real_cmd[k + 1] != '\0')
                 {
-                    cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid paramater)." << endl;
+                    std::cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid paramater)." << std::endl;
                     return (ERR_UNKNOWNCOMMAND);
                 }
                     
@@ -194,11 +194,11 @@ int Server::executeModeCommand(string cmd, int id)
         if (icount > 1 || tcount > 1 \
         || kcount > 1 || ocount > 1 || lcount > 1)
         {
-            cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of paramaters)." << endl;
+            std::cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of paramaters)." << std::endl;
             return (ERR_UNKNOWNCOMMAND);
         }
 
-        string arg = "42";
+        std::string arg = "42";
         for (int k = 0; arg != ""; k++)
         {
             arg = getArgument(real_cmd, k);
@@ -207,7 +207,7 @@ int Server::executeModeCommand(string cmd, int id)
                 k++;
                 if (getArgument(real_cmd, k)[0] != '+' && getArgument(real_cmd, k) != "")
                 {
-                    cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << endl;
+                    std::cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << std::endl;
                     return (ERR_UNKNOWNCOMMAND);
                 }
                 k--;
@@ -217,7 +217,7 @@ int Server::executeModeCommand(string cmd, int id)
                 k++;
                 if (getArgument(real_cmd, k)[0] != '+' && getArgument(real_cmd, k) != "")
                 {
-                    cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << endl;
+                    std::cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << std::endl;
                     return (ERR_UNKNOWNCOMMAND);
                 }
                 k--;
@@ -227,7 +227,7 @@ int Server::executeModeCommand(string cmd, int id)
                 k = k + 2;
                 if (getArgument(real_cmd, k)[0] != '+' && getArgument(real_cmd, k) != "")
                 {
-                    cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << endl;
+                    std::cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << std::endl;
                     return (ERR_UNKNOWNCOMMAND);
                 }
                 k = k - 2;
@@ -237,7 +237,7 @@ int Server::executeModeCommand(string cmd, int id)
                 k = k + 2;
                 if (getArgument(real_cmd, k)[0] != '+' && getArgument(real_cmd, k) != "")
                 {
-                    cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << endl;
+                    std::cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << std::endl;
                     return (ERR_UNKNOWNCOMMAND);
                 }
                 k = k - 2;
@@ -247,7 +247,7 @@ int Server::executeModeCommand(string cmd, int id)
                 k = k + 2;
                 if (getArgument(real_cmd, k)[0] != '+')
                 {
-                    cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << endl;
+                    std::cout << "Error! " << _clients_data[id].nickname << " failed to use MODE in " << _canals[i].name << " (invalid number of arguments for a paramater)." << std::endl;
                     return (ERR_UNKNOWNCOMMAND);
                 }
                 k = k - 2;
@@ -265,13 +265,13 @@ int Server::executeModeCommand(string cmd, int id)
             else if (arg == "+k")
             {
                 k = k + 1;
-                string password = getArgument(real_cmd, k);
+                std::string password = getArgument(real_cmd, k);
                 executeModeKCommand(password, i, id);
             }
             else if (arg == "+o")
             {
                 k = k + 1;
-                string member = getArgument(real_cmd, k);
+                std::string member = getArgument(real_cmd, k);
                 executeModeOCommand(member, i, id);
             }
             else if (arg == "+l")

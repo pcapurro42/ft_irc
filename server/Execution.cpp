@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 18:26:53 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,120 +14,120 @@
 
 void    Server::sendError(const char *command, int id, int value)
 {
-    string  message;
+    std::string  message;
 
     if (value == ERR_INVALIDCOMMAND)
     {
-        cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << endl;
-        message = "'" + string(command) + "' :Invalid or unsupported command.\r\n";
+        std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << std::endl;
+        message = "'" + std::string(command) + "' :Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_UNKNOWNCOMMAND)
     {
-        message = "'" + string(command) + "' :Invalid or unsupported command.\r\n";
+        message = "'" + std::string(command) + "' :Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_TOOMANYPARAMS || value == ERR_NEEDMOREPARAMS || value == ERR_NONICKNAMEGIVEN || value == ERR_KEYSET)
     {
-        message = "'" + string(command) + "' :Invalid number of parameters.\r\n";
+        message = "'" + std::string(command) + "' :Invalid number of parameters.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_ERRONEUSNICKNAME)
     {
-        message = "'" + string(command) + "' :Invalid nickname.\r\n";
+        message = "'" + std::string(command) + "' :Invalid nickname.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOSUCHNICK)
     {
-        message = "'" + string(command) + "' :Member not found.\r\n";
+        message = "'" + std::string(command) + "' :Member not found.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NICKCOLLISION)
     {
-        message = "'" + string(command) + command + "' :Nickname already taken.\r\n";
+        message = "'" + std::string(command) + command + "' :Nickname already taken.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOSUCHCHANNEL)
     {
-        message = "'" + string(command) + command + "' :Channel not found.\r\n";
+        message = "'" + std::string(command) + command + "' :Channel not found.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CHANNELISFULL)
     {
-        message = "'" + string(command) + command + "' :Channel is full.\r\n";
+        message = "'" + std::string(command) + command + "' :Channel is full.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_INVITEONLYCHAN)
     {
-        message = "'" + string(command) + "' :Invitation required.\r\n";
+        message = "'" + std::string(command) + "' :Invitation required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOTONCHANNEL)
     {
-        message = "'" + string(command) + "' :Presence in channel required.\r\n";
+        message = "'" + std::string(command) + "' :Presence in channel required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CHANOPRIVSNEEDED)
     {
-        message = "'" + string(command) + "' :Privileges required.\r\n";
+        message = "'" + std::string(command) + "' :Privileges required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_PASSWDMISMATCH)
     {
-        message = "'" + string(command) + "' :Wrong password.\r\n";
+        message = "'" + std::string(command) + "' :Wrong password.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOTREGISTERED)
     {
-        message = "'" + string(command) + "' :Authentication required.\r\n";
+        message = "'" + std::string(command) + "' :Authentication required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOTIDENTIFIED)
     {
-        message = "'" + string(command) + "' :Identification required.\r\n";
+        message = "'" + std::string(command) + "' :Identification required.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_ALREADYREGISTRED)
     {
-        message = "'" + string(command) + "' :Authentication already done.\r\n";
+        message = "'" + std::string(command) + "' :Authentication already done.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_ALREADYINCHANNEL)
     {
-        message = "'" + string(command) + "' :Channel already joined.\r\n";
+        message = "'" + std::string(command) + "' :Channel already joined.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOPRIVILEGES)
     {
-        message = "'" + string(command) + "' :No privileges.\r\n";
+        message = "'" + std::string(command) + "' :No privileges.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_TOOMANYCHANNELS)
     {
-        message = "'" + string(command) + "' :Too many channels.\r\n";
+        message = "'" + std::string(command) + "' :Too many channels.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_INVALIDCHANNELNAME)
     {
-        message = "'" + string(command) + "' :Invalid channel name.(valid: #<name>)\r\n";
+        message = "'" + std::string(command) + "' :Invalid channel name.(valid: #<name>)\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_TOOMANYMODEFLAGS)
     {
-        message = "'" + string(command) + "' :Too many mode flags.(use flags one by one)\r\n";
+        message = "'" + std::string(command) + "' :Too many mode flags.(use flags one by one)\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CANNOTSENDTOCHAN){
-        message = "'" + string(command) + "' :Cannot send to channel.\r\n";
+        message = "'" + std::string(command) + "' :Cannot send to channel.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_INACTIVEBOT){
-        message = "'" + string(command) + "' :Bot is turned off.\r\n";
+        message = "'" + std::string(command) + "' :Bot is turned off.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
 }
 
-void    Server::sendToEveryone(string message, int id, bool self)
+void    Server::sendToEveryone(std::string message, int id, bool self)
 {
     for (int i = 0; i != MAX_CLIENTS; i++)
     {
@@ -141,12 +141,12 @@ void    Server::sendToEveryone(string message, int id, bool self)
     }
 }
 
-void    Server::executeCommand(string command, string cmd_name, int id)
+void    Server::executeCommand(std::string command, std::string cmd_name, int id)
 {
     int value = ERR_INVALIDCOMMAND;
 
     if (cmd_name != "PONG")
-        cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
+        std::cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << std::endl;
 
     if (cmd_name == "PING")
         value = executePingCommand(command, id - 1);

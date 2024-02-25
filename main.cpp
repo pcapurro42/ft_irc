@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:16:07 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:57:30 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void    shutdown(int signal)
 {
     end_ = true;
     if (signal == SIGINT)
-        cout << endl << "\033[A^C Ctrl-C used. Shutting down..." << endl;
+        std::cout << std::endl << "\033[A^C Ctrl-C used. Shutting down..." << std::endl;
     else if (signal == SIGTERM)
-        cout << "Terminate order. Shutting down..." << endl;
+        std::cout << "Terminate order. Shutting down..." << std::endl;
     else if (signal == SIGTSTP)
-        cout << endl << "\033[A^Z Ctrl-Z used. Shutting down..." << endl;
+        std::cout << std::endl << "\033[A^Z Ctrl-Z used. Shutting down..." << std::endl;
 }
 
 int main(const int argc, const char **argv)

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 18:42:54 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:45:49 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int Server::addSocket(int socket)
             _sockets_array[id].events = POLLIN;
             _sockets_array[id].revents = 0;
             if (id != 0)
-                cout << getTime() << "Client #" << _clients_nb + 1 << " joined the server " << "(" << _clients_slots + 1 << "/" << MAX_CLIENTS << ")." << endl;
+                std::cout << getTime() << "Client #" << _clients_nb + 1 << " joined the server " << "(" << _clients_slots + 1 << "/" << MAX_CLIENTS << ")." << std::endl;
             break ;
         }
     }
@@ -44,7 +44,7 @@ void    Server::addClient(void)
     fcntl(client_socket, F_SETFL, fcntl(client_socket, F_GETFL, 0) | O_NONBLOCK);
     if (_clients_slots == MAX_CLIENTS)
     {
-        cout << getTime() << "A client couldn't connect: server is full (" << _clients_slots << "/" << MAX_CLIENTS << ")." << endl;
+        std::cout << getTime() << "A client couldn't connect: server is full (" << _clients_slots << "/" << MAX_CLIENTS << ")." << std::endl;
         send(client_socket, "Request denied: server is full\r\n", 4, 0);
         close(client_socket);
     }
@@ -73,7 +73,7 @@ void    Server::removeClient(int id)
     {
         for (int i = 0; i != MAX_CANALS; i++)
         {
-            vector<string>::iterator j;
+            std::vector<std::string>::iterator j;
             
             j = std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id - 1].nickname);
             if (j != _canals[i].members.end())

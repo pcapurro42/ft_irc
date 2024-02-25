@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:26:55 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:11:24 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void    Server::initializeServer(void)
             if (listen(_server_socket, SOMAXCONN) == -1)
                 setFail(), printError(5);
             else
-                cout << endl << "Server OK!" << endl;
+                std::cout << std::endl << "Server OK!" << std::endl;
         }
     }
 }

@@ -6,13 +6,13 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 17:57:09 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:57:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:00 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-int Server::searchClient(string clientname) const
+int Server::searchClient(std::string clientname) const
 {
     if (clientname == "Gipiti_bot" && BOT == 1)
         return (0);
@@ -24,7 +24,7 @@ int Server::searchClient(string clientname) const
     return (-1);
 }
 
-int Server::searchCanal(string canal_name) const
+int Server::searchCanal(std::string canal_name) const
 {
     for (int i = 0; i != MAX_CANALS; i++)
     {

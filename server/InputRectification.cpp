@@ -6,16 +6,16 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 22:49:09 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 23:27:48 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:45 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-vector<string>  Server::rectifyInput(string buffer) const
+std::vector<std::string>  Server::rectifyInput(std::string buffer) const
 {
-    vector<string>  cmds;
-    string          cmd;
+    std::vector<std::string>  cmds;
+    std::string          cmd;
 
     if (std::count(buffer.begin(), buffer.end(), '\n') == 0)
     {

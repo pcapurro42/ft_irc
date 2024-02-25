@@ -6,34 +6,34 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:42 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
-int Server::executePassCommand(string cmd, int id)
+int Server::executePassCommand(std::string cmd, int id)
 {
-    string password = getArgument(cmd, 1);
+    std::string password = getArgument(cmd, 1);
     if (password[0] == ':')
         password = password.c_str() + 1;
 
     if (_clients_data[id].authentified == true)
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to authentify (already authentified)." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to authentify (already authentified)." << std::endl;
         return (ERR_ALREADYREGISTRED);
     }
     if (password == _password)
     {
         _clients_data[id].authentified = true;
-        cout << getTime() << _clients_data[id].nickname << " successfully authentified." << endl;
+        std::cout << getTime() << _clients_data[id].nickname << " successfully authentified." << std::endl;
 
-        string message = "Password received.\r\n";
+        std::string message = "Password received.\r\n";
         send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
     }
     else
     {
-        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to authentify (incorrect password)." << endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to authentify (incorrect password)." << std::endl;
         return (ERR_PASSWDMISMATCH);
     }
     return (0);

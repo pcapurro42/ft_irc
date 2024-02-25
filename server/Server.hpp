@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 18:08:57 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:40:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@
 
 typedef struct s_canal
 {
-    string          name;
+    std::string          name;
 
     bool            op_topic;
-    string          topic;
+    std::string          topic;
 
-    vector<string>  invited;
+    std::vector<std::string>  invited;
     bool            invite_only;
 
     bool            pass_only;
-    string          password;
+    std::string          password;
 
-    vector<string>  members;
-    vector<string>  operators;
+    std::vector<std::string>  members;
+    std::vector<std::string>  operators;
 
     int             max;
     bool            exist;
@@ -77,9 +77,9 @@ typedef struct s_canal
 
 typedef struct s_client_data
 {
-    string  nickname;
-    string  username;
-    string  realname;
+    std::string  nickname;
+    std::string  username;
+    std::string  realname;
 
     int     number;
 
@@ -89,7 +89,7 @@ typedef struct s_client_data
 
     bool    ping;
     int     ping_nb;
-    string  last_command;
+    std::string  last_command;
 
     bool    set_nickname;
     bool    set_username;
@@ -128,58 +128,59 @@ class Server
         std::string     getTime(void) const;
         std::string     getMessage(std::string cmd) const;
 
-        void            executeCommand(string command, string cmd_name, int id);
-        void            sendToEveryone(string message, int id, bool self);
+        void            executeCommand(std::string command, std::string cmd_name, int id);
+        void            sendToEveryone(std::string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
 
-        vector<string>  rectifyInput(string buffer) const;
-        string          getArgument(const string cmd, int nb_arg) const;
-        string          convertNumberToString(int value) const;
+        std::vector<std::string>  rectifyInput(std::string buffer) const;
+        
+        std::string     getArgument(const std::string cmd, int nb_arg) const;
+        std::string     convertNumberToString(int value) const;
 
-        int             searchCanal(string canal_name) const;
-        int             searchClient(string clientname) const;
+        int             searchCanal(std::string canal_name) const;
+        int             searchClient(std::string clientname) const;
 
-        int             executePingCommand(string cmd, int id);
-        int             executePongCommand(string cmd, int id);
+        int             executePingCommand(std::string cmd, int id);
+        int             executePongCommand(std::string cmd, int id);
         
-        int             executeNickCommand(string cmd, int id);
-        int             executeUserCommand(string cmd, int id);
+        int             executeNickCommand(std::string cmd, int id);
+        int             executeUserCommand(std::string cmd, int id);
         
-        int             executeQuitCommand(string cmd, int id);
+        int             executeQuitCommand(std::string cmd, int id);
         
-        int             executePassCommand(string cmd, int id);
+        int             executePassCommand(std::string cmd, int id);
         
-        int             executeJoinCommand(string cmd, int id);
+        int             executeJoinCommand(std::string cmd, int id);
         
-        int             executeWhoCommand(string cmd, int id);
+        int             executeWhoCommand(std::string cmd, int id);
         
-        int             executePartCommand(string cmd, int id);
+        int             executePartCommand(std::string cmd, int id);
         
-        int             verifyKickCMD(string cmd, int id) const;
-        int             executeKickCommand(string cmd, int id);
+        int             verifyKickCMD(std::string cmd, int id) const;
+        int             executeKickCommand(std::string cmd, int id);
         
-        int             verifyInviteCMD(string cmd, int id) const;
-        int             executeInviteCommand(string cmd, int id);
+        int             verifyInviteCMD(std::string cmd, int id) const;
+        int             executeInviteCommand(std::string cmd, int id);
         
-        int             executePrivmsgCommand(string cmd, int id);
+        int             executePrivmsgCommand(std::string cmd, int id);
         
-        int             executeTopicCommand(string cmd, int id);
+        int             executeTopicCommand(std::string cmd, int id);
         
-        int             verifyModeCMD(string cmd, int id) const;
+        int             verifyModeCMD(std::string cmd, int id) const;
         void            executeModeICommand(int canal_id, int id);
         void            executeModeTCommand(int canal_id, int id);
-        void            executeModeKCommand(string password, int canal_id, int id);
-        void            executeModeOCommand(string member, int canal_id, int id);
+        void            executeModeKCommand(std::string password, int canal_id, int id);
+        void            executeModeOCommand(std::string member, int canal_id, int id);
         void            executeModeLCommand(int value, int canal_id, int id);
-        int             executeModeCommand(string cmd, int id);
+        int             executeModeCommand(std::string cmd, int id);
         
         int             executeBotCommand(std::string cmd, int id);
         void            botTOTD(int id, std::string msg);
 
-        void            createCanal(const std::string& channels, const std::string& nickname);
+        void            createCanal(const std::string channels, const std::string nickname);
 
         int             _port;
-        string          _password;
+        std::string          _password;
 
         int             _clients_slots;
         int             _clients_nb;

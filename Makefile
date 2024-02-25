@@ -33,7 +33,7 @@ SRCS = main.cpp \
 
 CXX = c++ -D MAX_CLIENTS=21 -D MAX_CANALS=42 -D BOT=1
 
-CXXFLAGS = -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 OBJS = $(SRCS:.cpp=.o)
 
