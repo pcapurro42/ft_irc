@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:34:14 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:47:36 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void    Server::sendPing(void)
     string message;
     for (int i = 0; i != MAX_CLIENTS; i++)
     {
-        if (_clients_data[i].connected == true && _clients_data[i].ping == false)
+        if (_clients_data[i].connected == true)
         {
             message = "PING :" + _clients_data[i].nickname + "\r\n";
             if (_clients_data[i].connected == true)
