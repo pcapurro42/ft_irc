@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Execution.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 20:41:15 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/25 16:07:15 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,8 @@ void    Server::executeCommand(string command, string cmd_name, int id)
 {
     int value = ERR_INVALIDCOMMAND;
 
-    cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
+    if (cmd_name != "PONG")
+        cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
 
     if (cmd_name == "PING")
         value = executePingCommand(command, id - 1);

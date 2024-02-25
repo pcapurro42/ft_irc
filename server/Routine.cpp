@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 15:12:27 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:06:52 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void    Server::sendPing(void)
             if (_clients_data[i].connected == true)
                 send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
             _clients_data[i].ping_nb++;
-            cout << getTime() << "ping sent to " << _clients_data[i].nickname << endl;
+            // cout << getTime() << "PING sent to " << _clients_data[i].nickname << endl;
         }
     }
 }
@@ -128,7 +128,7 @@ void    Server::startLoopRoutine(void)
 
     while (6)
     {
-        int value = poll(_sockets_array, _clients_slots + 1, 500);
+        int value = poll(_sockets_array, _clients_slots + 1, 3000);
         if (value == -1)
         {
             if (end_ != true)
