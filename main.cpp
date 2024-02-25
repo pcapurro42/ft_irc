@@ -30,8 +30,12 @@ void    shutdown(int signal)
 
 int main(const int argc, const char **argv)
 {
+    
     if (argc != 3)
         return (printError(1));
+    else if (MAX_CANALS < 1 || MAX_CANALS > 1000 || MAX_CLIENTS < 1 || MAX_CLIENTS > 1000){
+        return (printError(6));
+    }
     else
     {
         printTitle();
