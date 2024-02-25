@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:03:11 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:22:46 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ int Server::verifyInviteCMD(string cmd, int id) const
 {
     if (std::count(cmd.begin(), cmd.end(), '#') == 0)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " typed an invalid or unsupported command." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << endl;
         return (ERR_UNKNOWNCOMMAND);
     }
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
 
     if (space_nb > 2)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " typed a command with too many paramaters." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << endl;
         return (ERR_TOOMANYPARAMS);
     }
     else if (space_nb < 2)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " typed a command with not enough paramaters." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
         return (ERR_NEEDMOREPARAMS);
     }
 
@@ -37,12 +37,12 @@ int Server::verifyInviteCMD(string cmd, int id) const
 
     if (searchClient(nickname) == -1)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " searched for a non-existent user." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << endl;
         return (ERR_NOSUCHNICK);
     }
     if (searchCanal(canalname) == -1)
     {
-        cout << "Error! " << _clients_data[id - 1].nickname << " searched for a non-existent channel." << endl;
+        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << endl;
         return (ERR_NOSUCHCHANNEL);
     }
     return (0);
@@ -55,20 +55,20 @@ int Server::executeInviteCommand(string cmd, int id)
         return (value);
     else
     {
-        if (_clients_data[id - 1].identified != true || _clients_data[id - 1].authentified != true)
+        if (_clients_data[id].identified != true || _clients_data[id].authentified != true)
         {
-            if (_clients_data[id - 1].authentified == false)
+            if (_clients_data[id].authentified == false)
             {
-                cout << "Error! " << _clients_data[id - 1].nickname << " failed to request (not authentified)." << endl;
+                cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
                 return (ERR_NOTREGISTERED);
             }
-            if (_clients_data[id - 1].identified == false)
+            if (_clients_data[id].identified == false)
             {
-                cout << "Error! " << _clients_data[id - 1].nickname << " failed to request (not identified)." << endl;
+                cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
                 return (ERR_NOPRIVILEGES);
             }
         }
-        string sender = _clients_data[id - 1].nickname;
+        string sender = _clients_data[id].nickname;
         string target = getArgument(cmd, 1);
         string canal = getArgument(cmd, 2);
 
