@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:56 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:11:47 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void    Server::executeModeICommand(int canal_id, int id)
     {
         _canals[canal_id].invite_only = true;
         std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to invite only." << std::endl;
+        std::string message = _clients_data[id].nickname + " \x1D\\changed\x0f " + _canals[canal_id].name + "\x1D's access to invite only\x0f.\r\n";
+        sendToEveryone(message, id + 1, true);
     }
     else
     {

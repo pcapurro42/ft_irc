@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:43:13 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:12:29 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ int Server::executeJoinCommand(std::string cmd, int id)
                 
                 std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + " (creation)\r\n";
                 send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
-                msg = _clients_data[id].nickname + " created " + channels + ".\r\n";
+                msg = _clients_data[id].nickname + " \x1D\\created\x0f " + channels + ".\r\n";
                 sendToEveryone(msg, id + 1, true);
-                msg = _clients_data[id].nickname + " joined " + channels + ".\r\n";
+                msg = _clients_data[id].nickname + " \x1D\\joined\x0f " + channels + ".\r\n";
                 sendToEveryone(msg, id + 1, true);
                 
                 continue;
@@ -141,7 +141,7 @@ int Server::executeJoinCommand(std::string cmd, int id)
             std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
 
-            sendToEveryone(_clients_data[id].nickname + " \x1Djoined\x0f " + channels + ".\r\n", id, true);
+            sendToEveryone(_clients_data[id].nickname + " \x1Djoined " + channels + "\x0f.\r\n", id, true);
         }
         else
             sendError(std::string("JOIN " + channels).c_str(), id + 1, error);
