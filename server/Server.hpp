@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 15:01:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:02:49 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,19 +131,40 @@ class Server
 
         int             executePingCommand(string cmd, int id);
         int             executePongCommand(string cmd, int id);
+        
         int             executeNickCommand(string cmd, int id);
         int             executeUserCommand(string cmd, int id);
+        
         int             executeQuitCommand(string cmd, int id);
+        
         int             executePassCommand(string cmd, int id);
+        
         int             executeJoinCommand(string cmd, int id);
+        
         int             executeWhoCommand(string cmd, int id);
+        
         int             executePartCommand(string cmd, int id);
+        
+        int             verifyKickCMD(string cmd, int id) const;
         int             executeKickCommand(string cmd, int id);
+        
+        int             verifyInviteCMD(string cmd, int id) const;
         int             executeInviteCommand(string cmd, int id);
+        
         int             executePrivmsgCommand(string cmd, int id);
+        
         int             executeTopicCommand(string cmd, int id);
+        
+        int             verifyModeCMD(string cmd, int id) const;
+        void            executeModeICommand(int canal_id, int id);
+        void            executeModeTCommand(int canal_id, int id);
+        void            executeModeKCommand(string password, int canal_id, int id);
+        void            executeModeOCommand(string member, int canal_id, int id);
+        void            executeModeLCommand(int value, int canal_id, int id);
         int             executeModeCommand(string cmd, int id);
+        
         int             executeBotCommand(std::string cmd, int id);
+        
         void            botTOTD(int id, std::string msg);
 
         void            executeCommand(string command, string cmd_name, int id);

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 16:07:15 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:53:10 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,6 @@ void    Server::executeCommand(string command, string cmd_name, int id)
         value = executeQuitCommand(command, id - 1);
     else if (cmd_name == "JOIN")
         value = executeJoinCommand(command, id - 1);
-    else if (cmd_name == "WHO")
-        value = executeWhoCommand(command, id - 1);
     else if (cmd_name == "PART")
         value = executePartCommand(command, id - 1);
     else if (cmd_name == "PRIVMSG")
