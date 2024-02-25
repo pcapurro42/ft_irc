@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:06:16 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:09:42 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,38 +56,38 @@
 
 typedef struct s_canal
 {
-    string          name;       // nom du canal
+    string          name;
 
-    bool            op_topic;   // est-ce qu'il faut être admin pour changer le topic
-    string          topic;      // sujet du canal
+    bool            op_topic;
+    string          topic;
 
-    vector<string>  invited;    // liste des invités (!= des membres présents)
-    bool            invite_only;// est-ce qu'une invitation (être dans la liste de invited) est requise
+    vector<string>  invited;
+    bool            invite_only;
 
-    bool            pass_only;  // est-ce qu'un mot de passe est requis pour se connecter
-    string          password;   // mot de passe pour entrer dans le canal (argument de JOIN)
+    bool            pass_only;
+    string          password;
 
-    string          last_message; // variable qui contient les derniers messages des utilisateurs dans le canal
+    string          last_message;
 
-    vector<string>  members;    // list des personnes présentes dans le salon (qui reçoivent donc les messages)
-    vector<string>  operators;  // liste des admins du canal
+    vector<string>  members;
+    vector<string>  operators;
 
-    int             max;        // nb de places maximum
-    bool            exist;      // est-ce que le canal a été créé
+    int             max;
+    bool            exist;
 
 }   t_canal;
 
 typedef struct s_client_data
 {
-    string  nickname;       // seul argument de NICK
-    string  username;       // premier argument de USER
-    string  realname;       // quatrième argument de USER
+    string  nickname;
+    string  username;
+    string  realname;
 
-    int     number;         // numéro d'identification unique attribué à chaque utilisateur
+    int     number;
 
-    bool    authentified;   // est-ce que l'utilisateur a envoyé le mot de passe (deuxième étape)
-    bool    identified;     // est-ce que l'utilisateur s'est présenté (en utilisant USER ET NICK) (troisième étape)
-    bool    connected;      // est-ce que l'utilisateur s'est juste connecté au serveur (première étape)
+    bool    authentified;
+    bool    identified;
+    bool    connected;
 
     bool    ping;
     int     ping_nb;
@@ -107,31 +107,31 @@ class Server
         Server(const Server &original);
         Server  &operator=(const Server &original);
 
-        bool            fail(void) const;   // est-ce que la construction du serveur a échoué
-        bool            end(void) const;    // fonction qui prévient qu'il faut arrêter le serveur (pour quitter la boucle)
-        void            setFail();          // fonction qui prévient que la construction a échoué
+        bool            fail(void) const;
+        bool            end(void) const;
+        void            setFail();
 
-        bool            validateInput(const int port_nb, const char *password) const; // parser d'input du programme de base
+        bool            validateInput(const int port_nb, const char *password) const;
 
-        string          getArgument(const string cmd, int nb_arg) const;    // voir le fichier de la fonction
-        string          convertNumberToString(int value) const;             // itoa version cpp
+        string          getArgument(const string cmd, int nb_arg) const;
+        string          convertNumberToString(int value) const;
 
         void            sendPing(void);
-        void            verifyTimeOut(void);   // fonction que j'écrirai plus tard
+        void            verifyTimeOut(void);
 
-        int             addSocket(int socket);  // ajoute un socket client au tableau des sockets connectés (_sockets_array[])
+        int             addSocket(int socket);
         void            removeSocket(int id);
-        void            addClient(void);        // appelle addSocket() + créé le profil dans _clients_data[]
+        void            addClient(void);
         void            removeClient(int id);
-        void            receiveData(int id);    // récupère la string sur le socket client qui vient d'émettre
+        void            receiveData(int id);
 
         vector<string>  rectifyInput(string buffer) const;
 
-        void            startLoopRoutine(void); // routine principale du serveur
+        void            startLoopRoutine(void);
         void            initializeServer(void);
 
-        int             searchCanal(string canal_name) const;   // renvoi l'index du canal dans _canals[] ou -1 si il n'existe pas
-        int             searchClient(string clientname) const;  // renvoie l'index du client dans _clients_data[] ou -1 si il n'existe pas
+        int             searchCanal(string canal_name) const;
+        int             searchClient(string clientname) const;
 
         int             executePingCommand(string cmd, int id);
         int             executePongCommand(string cmd, int id);
@@ -181,19 +181,19 @@ class Server
         std::string     getMessage(std::string cmd);
 
     private:
-        int             _port;      // port du serveur
-        string          _password;  // mot de passe du serveur
+        int             _port;
+        string          _password;
 
-        int             _clients_slots; // nombre de clients connectés (s'incrémente/se décrémente à la connexion/déconnexion)
-        int             _clients_nb; // nombre de connexions depuis l'existence du serveur (ne se décrémente pas à la déconnexion)
+        int             _clients_slots;
+        int             _clients_nb;
 
-        t_client_data   _clients_data[MAX_CLIENTS]; // tableau contenant toutes les informations de tous les clients (string vide si la case n'est pas allouée pour un client)
-        t_canal         _canals[MAX_CANALS]; // tableau contenant toutes les informations de tous les channels
+        t_client_data   _clients_data[MAX_CLIENTS];
+        t_canal         _canals[MAX_CANALS];
 
-        struct pollfd   _sockets_array[MAX_CLIENTS + 1];    // tableau contenant tous les sockets de tous les clients connectés (= point d'accès par lequel renvoyer une réponse) + le socket du serveur
-        int             _server_socket; // socket du serveur (= case 0 du tableau sockets_array[])
+        struct pollfd   _sockets_array[MAX_CLIENTS + 1];
+        int             _server_socket;
 
-        int             _fail;  // variable pour savoir si la construction du serveur a échoué
+        int             _fail;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:26:55 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 15:01:58 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:11:24 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,3 @@ void    Server::initializeServer(void)
         }
     }
 }
-
-/*
-
-Ce qu'il se passe dans la fonction:
-1. Création du socket (l. 18)
-2. Association de l'ip (127.0.0.1) et du port (_port) avec le socket (bind, l.29)
-3. Mise du socket en mode écoute (l.33) pour être prêt à réceptionner toutes les connexions entrantes
-
-*/

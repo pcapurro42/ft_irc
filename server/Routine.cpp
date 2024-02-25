@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 16:06:52 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:10:38 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ void    Server::receiveData(int id)
 
 void    Server::startLoopRoutine(void)
 {
-    addSocket(_server_socket); // ajout du socket du serveur (le socket qui ne va servir QU'À réceptionner les nv arrivants)
+    addSocket(_server_socket);
 
-    _canals[0].name = "#canal1"; // création d'un canal dès la construction pour y faire des tests (à retirer à la fin du projet évidemment)
+    _canals[0].name = "#canal1";
     _canals[0].exist = true;
     _canals[0].pass_only = false;
     _canals[0].invite_only = false;
@@ -156,20 +156,3 @@ void    Server::startLoopRoutine(void)
         // sendPing();
     }
 }
-
-/*
-
-EXPLICATION de la boucle
-
-poll() -> prend en argument tous les sockets et bloque en mode 'surveillance' jusqu'à qu'un de ces sockets "sonne" (= qu'un client envoie une string)
-Si déblocage de poll() :
-1. value == -1 : erreur de poll(), arrêt du serveur
-
-2. value == [nombre de sockets clients qui sonnent]
-Dans ce cas là, on parcourt (l.75) tous les sockets des clients
-    -> Si c'est la case zéro, c'est le socket du serveur qui sonne (= une première connexion entrante = un client à ajouter)
-    = addClient() = récéption des infos du nouveau client et inscription dans le tableau de sockets
-    -> Si c'est une autre case, c'est un socket déjà enregistré qui sonne (= un client qui envoie une commande à traiter)
-    = receiveData() = réception de la string et exécution
-
-*/

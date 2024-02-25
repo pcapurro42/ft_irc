@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:10:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ std::string Server::getTime(void) const{
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     std::string str = asctime(timeinfo);
-    str.resize(str.size() - 1); //suppression du \n
+    str.resize(str.size() - 1);
     return (string("<" + getArgument(str, 3) + "> "));
 }
