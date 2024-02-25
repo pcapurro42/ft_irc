@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 23:43:25 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 15:01:22 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@
 # define ERR_NOTIDENTIFIED 452
 # define ERR_NOPRIVILEGES 440
 # define ERR_ALREADYREGISTRED 462
+# define ERR_TOOMANYCHANNELS 405
+# define ERR_INVALIDCHANNELNAME 470
+# define ERR_TOOMANYMODEFLAGS 472
+# define ERR_CANNOTSENDTOCHAN 404
 
 # ifndef MAX_CLIENTS
 #  define MAX_CLIENTS 0
@@ -82,6 +86,7 @@ typedef struct s_client_data
     bool    connected;      // est-ce que l'utilisateur s'est juste connecté au serveur (première étape)
 
     bool    ping;
+    int     ping_nb;
     string  last_command;
 
     bool    set_nickname;
@@ -145,7 +150,10 @@ class Server
         void            sendToEveryone(string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
 
+        void            createCanal(const std::string& channels, const std::string& nickname);
+
         std::string     getTime(void) const;
+        std::string     getMessage(std::string cmd);
 
     private:
         int             _port;      // port du serveur

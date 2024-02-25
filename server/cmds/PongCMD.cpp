@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:23:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:07:02 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int Server::executePongCommand(string cmd, int id)
     else
     {
         _clients_data[id].ping = true;
-        cout << getTime() << "PONG received from " << _clients_data[id].nickname << "." << endl;
+        // cout << getTime() << "PONG received from " << _clients_data[id].nickname << "." << endl;
     }
     return (0);
 }

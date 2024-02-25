@@ -26,15 +26,13 @@ void Server::botTOTD(int id, std::string msg){
     string nickname = _clients_data[id].nickname;
     std::cout << msg << std::endl;
 
-   if (msg == ":!time"){
+   if (msg == "!time")
         sendTime(nickname, _sockets_array[id + 1].fd);
-   }
-   else if(msg == ":!date"){
+   else if(msg == "!date")
         sendDate(nickname, _sockets_array[id + 1].fd);
-   }
    else{
-    string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Sorry friend ! I only answer to \"!time\" and \"!date\".\r\n";
-    send( _sockets_array[id + 1].fd, bot_msg.c_str(), bot_msg.length(), 0);
+        string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Sorry friend ! I only answer to \"!time\" and \"!date\".\r\n";
+        send( _sockets_array[id + 1].fd, bot_msg.c_str(), bot_msg.length(), 0);
    }
 }
 
@@ -55,18 +53,6 @@ int Server::executeBotCommand(std::string cmd, int id){
         cout << "Error! " << nickname << " failed to request (not identified)." << endl;
         return (ERR_NOPRIVILEGES);
     }
-
-
-    // std::time_t t = std::time(NULL);
-    
-    // // Convertir le temps en une structure tm
-    // std::tm* now = std::localtime(&t);
-    
-    // // Afficher la date
-    // std::cout << "Date du jour : ";
-    // std::cout << (now->tm_year + 1900) << '-' 
-    //           << (now->tm_mon + 1) << '-'
-    //           <<  now->tm_mday << std::endl;
 
     string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Hello dear " \
                         + nickname + "!" + " Im Gipiti, the time bot !\r\n";

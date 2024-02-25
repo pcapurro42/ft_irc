@@ -6,11 +6,32 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/23 13:05:10 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/24 14:48:45 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
+
+void Server::createCanal(const std::string &channels, const std::string &nickname) {
+    t_canal canal;
+    canal.name = channels;
+    canal.members.push_back(nickname);
+    canal.operators.push_back(nickname);
+    canal.topic = "";
+    canal.op_topic = false;
+    canal.invite_only = false;
+    canal.pass_only = false;
+    canal.password = "";
+    canal.last_message = "";
+    canal.max = 10;
+    canal.exist = true;
+    for (int i = 0; i < MAX_CANALS; i++) {
+        if (_canals[i].name == "") {
+            _canals[i] = canal;
+            break;
+        }
+    }
+}
 
 int Server::executeJoinCommand(string cmd, int id)
 {
@@ -45,7 +66,28 @@ int Server::executeJoinCommand(string cmd, int id)
     {
         error = 0;
         std::getline(ss_password, passwords, ',');
-        if (searchCanal(channels) == -1)
+        if (channels[0] != '#')
+        {
+            cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (invalid channel name)." << endl;
+            error = ERR_INVALIDCHANNELNAME;
+        }
+        if (error == 0 && searchCanal(channels) == -1 && passwords == "" && space_nb == 1)
+        {
+            if (_canals[MAX_CANALS - 1].exist == true)
+            {
+                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (too many channels)." << endl;
+                error = ERR_TOOMANYCHANNELS;
+            }
+            else
+            {
+                createCanal(channels, _clients_data[id].nickname);
+                cout << getTime() << _clients_data[id].nickname << " joined " << channels << " (creation)." << endl;
+                std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + " (creation)\r\n";
+                send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+                continue;
+            }
+        }
+        if (error == 0 && searchCanal(channels) == -1 && passwords != "")
         {
             cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (does not exist)." << endl;
             error = ERR_NOSUCHCHANNEL;
@@ -93,7 +135,7 @@ int Server::executeJoinCommand(string cmd, int id)
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined\x0f " + channels + ".\r\n", id, true);
         }
         else
-            sendError(string("JOIN " + channels).c_str(), id, error);
+            sendError(string("JOIN " + channels).c_str(), id + 1, error);
     }
     return (0);
 }

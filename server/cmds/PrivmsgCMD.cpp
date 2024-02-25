@@ -3,92 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   PrivmsgCMD.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 22:45:46 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/24 21:54:41 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
+std::string Server::getMessage(std::string cmd)
+{
+    std::string message = "";
+    int i = 2;
+    while(i < 202 && getArgument(cmd, i) != "") // max 200 mots
+    {
+        message = message + getArgument(cmd, i);
+        if (getArgument(cmd, i + 1) != "")
+            message = message + " ";
+        i++;
+    }
+    message = message.substr(1);
+    return (message);
+}
 
 int Server::executePrivmsgCommand(string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
-
     if (space_nb < 2)
     {
-        cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
+        cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << endl;
         return (ERR_NEEDMOREPARAMS);
     }
-
-    string target = getArgument(cmd, 1);
-
-    if (target[0] == '#' && searchCanal(target) == -1)
+    if (_clients_data[id].authentified != true)
     {
-        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << endl;
-        return (ERR_NOSUCHCHANNEL);
-    }
-    if (target[0] != '#' && searchClient(target) == -1 && target != "Gipiti_bot")
-    {
-        cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << endl;
-        return (ERR_NOSUCHNICK);
-    }
-    if (_clients_data[id].authentified == false)
-    {
-        cout << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
+        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not authentified)." << endl;
         return (ERR_NOTREGISTERED);
     }
-    if (_clients_data[id].identified == false)
+    if (_clients_data[id].identified != true)
     {
-        cout << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
-        return (ERR_NOPRIVILEGES);
+        cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not identified)." << endl;
+        return (ERR_NOTIDENTIFIED);
     }
-    
-    target = getArgument(cmd, 1);
-    cmd = cmd.substr(cmd.find(":" ) + 1);
-    string message = cmd.substr(cmd.find(":" ) + 1);;
-    if (message.find("DCC SEND") == 0 || message.find(""))
-        message = "\x01" + message + "\x01";
-    string sender_user = _clients_data[id].nickname;
-
-    if (target == "Gipiti_bot"){
-        botTOTD(id, message);
-        return (0);
-    }
-    if (message[0] == ':')
-        message = message.c_str() + 1;
-    if (target[0] == '#')
+    std::string recipient = getArgument(cmd, 1);
+    std::stringstream ss_recipient(recipient);
+    int error = 0;
+    while (std::getline(ss_recipient, recipient, ','))
     {
-        int i = searchCanal(target);
-
-        if (std::find(_canals[i].members.begin(), _canals[i].members.end(), sender_user) == _canals[i].members.end())
+        if (recipient[0] == '#')
         {
-            cout << "Error! " << sender_user << " failed to send a message to " << target << " (didn't join it)." << endl;
-            return (ERR_NOTONCHANNEL);
+            if (searchCanal(recipient) == -1)
+            {
+                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (does not exist)." << endl;
+                error = ERR_CANNOTSENDTOCHAN;
+            }
+            std::vector<std::string>::iterator it = std::find(_canals[searchCanal(recipient)].members.begin(), _canals[searchCanal(recipient)].members.end(), _clients_data[id].nickname);
+            if (error == 0 && it == _canals[searchCanal(recipient)].members.end())
+            {
+                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (not in channel)." << endl;
+                error = ERR_NOSUCHNICK;;
+            }
+            if (error == 0){
+                std::string message = getMessage(cmd);
+                std::string msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
+                for (it = _canals[searchCanal(recipient)].members.begin(); it != _canals[searchCanal(recipient)].members.end(); it++)
+                    if (*it != _clients_data[id].nickname)
+                        send(_sockets_array[searchClient(*it) + 1].fd, msg.c_str(), msg.size(), 0);
+                cout << getTime() << _clients_data[id].nickname << " sent a message to " << recipient << " : " << message << endl;
+            }
+            if (error != 0)
+                sendError(string("PRIVMSG " + recipient).c_str(), id + 1, error);
         }
-        
-        string msg = ":" + sender_user + " PRIVMSG " + target + " " + message + "\r\n";
-        std::vector<string>::iterator j = _canals[i].members.begin();
-        while (j != _canals[i].members.end())
+        else
         {
-            send(_sockets_array[searchClient(*j) + 1].fd, msg.c_str(), msg.size(), 0);
-            j++;
+            if (searchClient(recipient) == -1 && recipient != "Gipiti_bot")
+            {
+                cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (does not exist)." << endl;
+                sendError(string("PRIVMSG " + recipient).c_str(), id + 1, ERR_NOSUCHNICK);
+            }
+            else{
+                std::string message = getMessage(cmd);
+                if (recipient == "Gipiti_bot"){
+                    botTOTD(id, message);
+                    return (0);
+                }
+               cout <<  std::count(message.begin(), message.end(), ' ') << endl;
+                if (message.find("DCC SEND") == 0 && std::count(message.begin(), message.end(), ' ') == 5)
+                    message = "\x01" + message + "\x01";
+                std::string msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
+                send(_sockets_array[searchClient(recipient) + 1].fd, msg.c_str(), msg.size(), 0);
+                cout << getTime() << _clients_data[id].nickname << " sent a message to " << recipient << " : " << message << endl;
+            }
         }
-
-        cout << sender_user << " sent a message to " << target << "." << endl;
-    }
-    else
-    {
-        int target_id = searchClient(target) + 1;
-
-        string target_user = _clients_data[searchClient(target)].nickname;
-        
-        string msg = ":" + sender_user + " PRIVMSG " + target_user + " :" + message + "\r\n";
-
-        send(_sockets_array[target_id].fd, msg.c_str(), msg.size(), 0);
-        cout << sender_user << " sent a private message to " << target_user << "." << endl;
     }
     return (0);
 }

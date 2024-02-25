@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 20:35:36 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:07:15 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,25 @@ void    Server::sendError(const char *command, int id, int value) // se charge d
         message = "'" + string(command) + "' :No privileges.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
+    else if (value == ERR_TOOMANYCHANNELS)
+    {
+        message = "'" + string(command) + "' :Too many channels.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
+    else if (value == ERR_INVALIDCHANNELNAME)
+    {
+        message = "'" + string(command) + "' :Invalid channel name.(valid: #<name>)\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
+    else if (value == ERR_TOOMANYMODEFLAGS)
+    {
+        message = "'" + string(command) + "' :Too many mode flags.(use flags one by one)\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
+    else if (value == ERR_CANNOTSENDTOCHAN){
+        message = "'" + string(command) + "' :Cannot send to channel.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
 }
 
 void    Server::sendToEveryone(string message, int id, bool self)
@@ -122,7 +141,8 @@ void    Server::executeCommand(string command, string cmd_name, int id)
 {
     int value = ERR_INVALIDCOMMAND;
 
-    cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
+    if (cmd_name != "PONG")
+        cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << endl;
 
     if (cmd_name == "PING")
         value = executePingCommand(command, id - 1);

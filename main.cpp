@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:16:07 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/19 23:51:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:26:32 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ void    shutdown(int signal)
 
 int main(const int argc, const char **argv)
 {
+    
     if (argc != 3)
         return (printError(1));
+    else if (MAX_CANALS < 1 || MAX_CANALS > 1000 || MAX_CLIENTS < 1 || MAX_CLIENTS > 1000){
+        return (printError(6));
+    }
     else
     {
         printTitle();
@@ -46,6 +50,7 @@ int main(const int argc, const char **argv)
             signal(SIGINT, shutdown);
             signal(SIGTERM, shutdown);
             signal(SIGTSTP, shutdown);
+            signal(SIGPIPE, SIG_IGN); // fix server qui s'arrete (situation trouve: join un canal inexistant depuis le premier user de hexchat, pas de probleme avec n-ieme user)
 
             server.startLoopRoutine(); // démarrage de la boucle de routine
         }

@@ -55,6 +55,11 @@ int printError(int value)
         cerr << "\rLaunching server... Error!" << endl;
         cerr << "Could not put the socket in listening mod." << endl;
     }
+    else if (value == 6)
+    {
+        cerr << "\rLaunching server... Error!" << endl;
+        cerr << "MAX_CLIENT/CANAL macros out of bounds.(1-1000)" << endl;
+    }
     return (value);
 }
 
