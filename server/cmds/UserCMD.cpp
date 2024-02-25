@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:02:29 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,22 @@ int Server::executeUserCommand(string cmd, int id)
 
         string message = "Welcome to our IRC server!\r\n";
         send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
+
+        message = "Welcome!\r\n";
+        std::string msg = ":Gipiti_bot PRIVMSG " + _clients_data[id].nickname + " :" + message;
+        send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+        
+        message = "Type '!time' to ask for time.\r\n";
+        msg = ":Gipiti_bot PRIVMSG " + _clients_data[id].nickname + " :" + message;
+        send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+
+        message = "Type '!date' to ask for data.\r\n";
+        msg = ":Gipiti_bot PRIVMSG " + _clients_data[id].nickname + " :" + message;
+        send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+
+        message = "Here are the availaible commands: PASS, USER, NICK, KICK, INVITE, JOIN, PING, QUIT, TOPIC AND BOT.\r\n";
+        msg = ":Gipiti_bot PRIVMSG " + _clients_data[id].nickname + " :" + message;
+        send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
 
         return (0);
     }

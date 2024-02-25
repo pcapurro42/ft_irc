@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NickCMD.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 15:24:27 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/25 18:49:45 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ int Server::executeNickCommand(string cmd, int id)
             
             string message = "Welcome to our IRC server!\r\n";
             send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
+        
+            message = "Welcome!\nType '!time' to ask for time.\nType '!date' to ask for data.\nHere are the availaible commands: PASS, USER, NICK, KICK, INVITE, JOIN, PING, QUIT, TOPIC AND BOT.\n";
+            std::string msg = ":Gipiti_bot PRIVMSG :" + _clients_data[id].nickname + " " + message + "\r\n";
+            send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
             
             return (0);
         }
