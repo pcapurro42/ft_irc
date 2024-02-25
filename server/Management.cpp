@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:45:49 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:35:32 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,13 @@ void    Server::removeClient(int id)
             
             j = std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id - 1].nickname);
             if (j != _canals[i].members.end())
+            {
                 _canals[i].members.erase(j);
+                std::string msg = ":" + _clients_data[id - 1].nickname + " PART " + _canals[i].name + "\r\n";
+                std::vector<std::string>::iterator k = _canals[i].members.begin();
+                while (k != _canals[i].members.end())
+                    send(_sockets_array[searchClient(*k) + 1].fd, msg.c_str(), msg.size(), 0), k++;
+            }
 
             j = std::find(_canals[i].operators.begin(), _canals[i].operators.end(), _clients_data[id - 1].nickname);
             if (j != _canals[i].operators.end())
