@@ -23,6 +23,7 @@ std::string Server::getMessage(std::string cmd)
             message = message + " ";
         i++;
     }
+    message = message.substr(1);
     return (message);
 }
 
