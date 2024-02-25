@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:29:49 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:08:57 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ typedef struct s_canal
 
     bool            pass_only;
     string          password;
-
-    string          last_message;
 
     vector<string>  members;
     vector<string>  operators;

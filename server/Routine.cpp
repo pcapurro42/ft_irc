@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:54:17 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:08:49 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,22 +110,6 @@ void    Server::receiveData(int id)
 void    Server::LoopRoutine(void)
 {
     addSocket(_server_socket);
-
-    _canals[0].name = "#canal1";
-    _canals[0].exist = true;
-    _canals[0].pass_only = false;
-    _canals[0].invite_only = false;
-    _canals[0].operators.push_back(string("pcapurro"));
-    _canals[0].last_message = _canals[0].last_message + string(":revolver_ocelot PRIVMSG #canal1 :You're pretty good\r\n");
-    _canals[0].last_message = _canals[0].last_message + string(":solid_snake PRIVMSG #canal1 :I know, right\r\n");
-    _canals[0].topic = string("42");
-
-    _canals[1].name = "#canal2";
-    _canals[1].exist = true;
-    _canals[1].pass_only = false;
-    _canals[1].invite_only = false;
-    _canals[1].topic = string("21");
-
     while (6)
     {
         int value = poll(_sockets_array, _clients_slots + 1, 3000);

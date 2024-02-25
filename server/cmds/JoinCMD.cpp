@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JoinCMD.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 14:48:45 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/25 18:20:29 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void Server::createCanal(const std::string &channels, const std::string &nicknam
     canal.invite_only = false;
     canal.pass_only = false;
     canal.password = "";
-    canal.last_message = "";
     canal.max = 10;
     canal.exist = true;
     for (int i = 0; i < MAX_CANALS; i++) {
@@ -81,9 +80,16 @@ int Server::executeJoinCommand(string cmd, int id)
             else
             {
                 createCanal(channels, _clients_data[id].nickname);
-                cout << getTime() << _clients_data[id].nickname << " joined " << channels << " (creation)." << endl;
+                cout << getTime() << _clients_data[id].nickname << " created " << channels << "." << endl;
+                cout << getTime() << _clients_data[id].nickname << " joined " << channels << "." << endl;
+                
                 std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + " (creation)\r\n";
                 send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+                msg = _clients_data[id].nickname + " created " + channels + ".\r\n";
+                sendToEveryone(msg, id + 1, true);
+                msg = _clients_data[id].nickname + " joined " + channels + ".\r\n";
+                sendToEveryone(msg, id + 1, true);
+                
                 continue;
             }
         }
@@ -129,8 +135,6 @@ int Server::executeJoinCommand(string cmd, int id)
             
             std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
-            
-            send(_sockets_array[id + 1].fd, _canals[searchCanal(channels)].last_message.c_str(), _canals[searchCanal(channels)].last_message.size(), 0);
 
             sendToEveryone(_clients_data[id].nickname + " \x1Djoined\x0f " + channels + ".\r\n", id, true);
         }
