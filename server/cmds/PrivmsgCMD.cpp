@@ -76,7 +76,7 @@ int Server::executePrivmsgCommand(string cmd, int id)
         }
         else
         {
-            if (searchClient(recipient) == -1 && (BOT == 1 && recipient != "Gipiti_bot"))
+            if (searchClient(recipient) == -1)
             {
                 cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (does not exist)." << endl;
                 sendError(string("PRIVMSG " + recipient).c_str(), id + 1, ERR_NOSUCHNICK);

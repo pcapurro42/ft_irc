@@ -14,6 +14,8 @@
 
 int Server::searchClient(string clientname) const
 {
+    if (clientname == "Gipiti_bot" && BOT == 1)
+        return (0);
     for (int i = 0; i != MAX_CLIENTS; i++)
     {
         if (_clients_data[i].nickname == clientname)
