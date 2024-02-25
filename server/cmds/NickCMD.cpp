@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 20:03:36 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:17:56 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ int Server::executeNickCommand(std::string cmd, int id)
         {
             std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid character)." << std::endl;
             return (ERR_ERRONEUSNICKNAME);
+        
+        }
+        for (int i = 0; nickname[i] != '\0'; i++)
+        {
+            if (std::isalpha(nickname[i]) == 0 && std::isdigit(nickname[i]) == 0)
+            {
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid character)." <<    std::endl;
+                return (ERR_ERRONEUSNICKNAME);
+            }
         }
         std::string oldnickname = _clients_data[id].nickname;
         _clients_data[id].nickname = nickname;

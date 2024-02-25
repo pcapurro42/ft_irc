@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:42:42 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:21:38 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,24 @@ int Server::executeUserCommand(std::string cmd, int id)
 
     if (realname[0] == ':')
         realname = realname.c_str() + 1;
+
+    for (int i = 0; username[i] != '\0'; i++)
+    {
+        if (std::isalpha(username[i]) == 0 && std::isdigit(username[i]) == 0)
+        {
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a username (invalid character)." << std::endl;
+            return (ERR_ERRONEUSNICKNAME);
+        }
+    }
+    for (int i = 0; realname[i] != '\0'; i++)
+    {
+        if (std::isalpha(realname[i]) == 0 && std::isdigit(realname[i]) == 0)
+        {
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a realname (invalid character)." << std::endl;
+            return (ERR_ERRONEUSNICKNAME);
+        }
+    }
+
     _clients_data[id].username = username;
     _clients_data[id].realname = realname;
 
