@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/22 23:55:53 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 15:12:27 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    Server::verifyTimeOut(void)
     {
         if (_clients_data[i].connected == true)
         {
-            if (_clients_data[i].ping == false)
+            if (_clients_data[i].ping == false && _clients_data[i].ping_nb == 3)
             {
                 cout << getTime() << _clients_data[i].nickname << " lost connection (time out) (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << endl;
                 removeClient(i + 1);
@@ -39,9 +39,14 @@ void    Server::sendPing(void)
     string message;
     for (int i = 0; i != MAX_CLIENTS; i++)
     {
-        message = "PING :" + _clients_data[i].nickname + "\r\n";
-        if (_clients_data[i].connected == true)
-            send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
+        if (_clients_data[i].connected == true && _clients_data[i].ping == false)
+        {
+            message = "PING :" + _clients_data[i].nickname + "\r\n";
+            if (_clients_data[i].connected == true)
+                send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
+            _clients_data[i].ping_nb++;
+            cout << getTime() << "ping sent to " << _clients_data[i].nickname << endl;
+        }
     }
 }
 
@@ -123,7 +128,7 @@ void    Server::startLoopRoutine(void)
 
     while (6)
     {
-        int value = poll(_sockets_array, _clients_slots + 1, 100);
+        int value = poll(_sockets_array, _clients_slots + 1, 500);
         if (value == -1)
         {
             if (end_ != true)
