@@ -11,7 +11,7 @@ SRCS = main.cpp \
 	server/RandomTools.cpp \
 	server/Server.cpp \
 	server/InputRectification.cpp \
-	server/AnalyzeTools.cpp \
+	server/SearchTools.cpp \
 	server/Execution.cpp \
 	server/cmds/PingCMD.cpp \
 	server/cmds/PongCMD.cpp \
