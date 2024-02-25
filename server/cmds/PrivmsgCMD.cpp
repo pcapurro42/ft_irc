@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   PrivmsgCMD.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/24 21:54:41 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/25 17:30:48 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
 
-std::string Server::getMessage(std::string cmd)
+std::string Server::getMessage(std::string cmd) const
 {
     std::string message = "";
     int i = 2;

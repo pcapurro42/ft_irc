@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 23:41:19 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:14:43 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:33:44 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int printError(int value)
     else if (value == 6)
     {
         cerr << "\rLaunching server... Error!" << endl;
-        cerr << "Illegal macros (1-1000)." << endl;
+        cerr << "Illegal macro value." << endl;
     }
     return (value);
 }

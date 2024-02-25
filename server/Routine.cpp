@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:10:38 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:34:14 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void    Server::receiveData(int id)
     }
 }
 
-void    Server::startLoopRoutine(void)
+void    Server::LoopRoutine(void)
 {
     addSocket(_server_socket);
 

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:09:42 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:29:49 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,15 @@ class Server
         Server  &operator=(const Server &original);
 
         bool            fail(void) const;
+        bool            validateInput(const int port_nb, const char *password) const;
+
         bool            end(void) const;
         void            setFail();
 
-        bool            validateInput(const int port_nb, const char *password) const;
+        void            LoopRoutine(void);
 
-        string          getArgument(const string cmd, int nb_arg) const;
-        string          convertNumberToString(int value) const;
+    private:
+        void            initializeServer(void);
 
         void            sendPing(void);
         void            verifyTimeOut(void);
@@ -125,10 +127,16 @@ class Server
         void            removeClient(int id);
         void            receiveData(int id);
 
-        vector<string>  rectifyInput(string buffer) const;
+        std::string     getTime(void) const;
+        std::string     getMessage(std::string cmd) const;
 
-        void            startLoopRoutine(void);
-        void            initializeServer(void);
+        void            executeCommand(string command, string cmd_name, int id);
+        void            sendToEveryone(string message, int id, bool self);
+        void            sendError(const char *command, int id, int value);
+
+        vector<string>  rectifyInput(string buffer) const;
+        string          getArgument(const string cmd, int nb_arg) const;
+        string          convertNumberToString(int value) const;
 
         int             searchCanal(string canal_name) const;
         int             searchClient(string clientname) const;
@@ -168,19 +176,10 @@ class Server
         int             executeModeCommand(string cmd, int id);
         
         int             executeBotCommand(std::string cmd, int id);
-        
         void            botTOTD(int id, std::string msg);
-
-        void            executeCommand(string command, string cmd_name, int id);
-        void            sendToEveryone(string message, int id, bool self);
-        void            sendError(const char *command, int id, int value);
 
         void            createCanal(const std::string& channels, const std::string& nickname);
 
-        std::string     getTime(void) const;
-        std::string     getMessage(std::string cmd);
-
-    private:
         int             _port;
         string          _password;
 
