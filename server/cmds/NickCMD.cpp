@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 20:23:47 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:08:54 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int Server::executeNickCommand(std::string cmd, int id)
     }
 
     std::string clientname = getArgument(cmd, 1);
-    if (clientname.size() > 42)
+    if (clientname.size() < 3 || clientname.size() > 42)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid length)." << std::endl;
         return (ERR_ERRONEUSNICKNAME);
