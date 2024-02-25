@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 21:13:52 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 22:49:18 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int Server::executePingCommand(std::string cmd, int id)
 {
-    if (std::count(cmd.begin(), cmd.end(), ' ') != 1)
+    if (std::count(cmd.begin(), cmd.end(), ' ') != 0)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
         return (ERR_UNKNOWNCOMMAND);
