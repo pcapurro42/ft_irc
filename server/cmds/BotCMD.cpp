@@ -57,8 +57,8 @@ int Server::executeBotCommand(std::string cmd, int id){
         return (ERR_NOPRIVILEGES);
     }
 
-    std::string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Hello dear " \
-                        + nickname + "!" + " Im Gipiti, the time bot !\r\n";
+    std::string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Hi again " \
+                        + nickname + "!" + "\r\n";
     send(_sockets_array[id + 1].fd, bot_msg.c_str(), bot_msg.length(), 0);
     bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Feel free to reach me with /BOT everytime you want to check the clock !\r\n" ;
     send(_sockets_array[id + 1].fd, bot_msg.c_str(), bot_msg.length(), 0);
