@@ -9,7 +9,6 @@ void sendTime(std::string nickname, int sock){
     std::strftime(buffer, 80, "%H:%M:%S", localTime);
     string bot_msg = ":Gipiti_bot PRIVMSG " + nickname + " :Time is : " + buffer + " !\r\n";
     send(sock, bot_msg.c_str(), bot_msg.length(), 0);
-
 }
 
 void sendDate(std::string nickname, int sock){
@@ -39,16 +38,20 @@ void Server::botTOTD(int id, std::string msg){
 int Server::executeBotCommand(std::string cmd, int id){
     
     string nickname = _clients_data[id].nickname;
-    if (cmd != "BOT"){
-        cout << "Error !" << nickname << " typed a command with too many parameters." << endl;
+    if (BOT == 0){
+        cout << "Error! " << nickname << ": bot is turned off." << endl;
+        return (ERR_INACTIVEBOT);
+    } 
+    else if (cmd != "BOT"){
+        cout << "Error! " << nickname << " typed a command with too many parameters." << endl;
         return (ERR_TOOMANYPARAMS);
     }
-    if (_clients_data[id].authentified == false)
+    else if (_clients_data[id].authentified == false)
     {
         cout << "Error! " << nickname << " failed to request (not authentified)." << endl;
         return (ERR_NOTREGISTERED);
     }
-    if (_clients_data[id].identified == false)
+    else if (_clients_data[id].identified == false)
     {
         cout << "Error! " << nickname << " failed to request (not identified)." << endl;
         return (ERR_NOPRIVILEGES);

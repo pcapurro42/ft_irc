@@ -121,6 +121,10 @@ void    Server::sendError(const char *command, int id, int value)
         message = "'" + string(command) + "' :Cannot send to channel.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
+    else if (value == ERR_INACTIVEBOT){
+        message = "'" + string(command) + "' :Bot is turned off.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
 }
 
 void    Server::sendToEveryone(string message, int id, bool self)
