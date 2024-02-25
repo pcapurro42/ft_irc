@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:47:36 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:54:17 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,10 @@ void    Server::LoopRoutine(void)
                 }
             }
         }
-        // verifyTimeOut();
-        // sendPing();
+        else
+        {
+            verifyTimeOut();
+            sendPing();
+        }
     }
 }
