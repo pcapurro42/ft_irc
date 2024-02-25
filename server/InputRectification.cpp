@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 22:49:09 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:38:45 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:21:44 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ std::vector<std::string>  Server::rectifyInput(std::string buffer) const
         {
             if (buffer[i] == '\n')
             {
-                cmd = cmd + buffer[i];
+                int j = cmd.size() - 1;
+                while (cmd[j] == ' ' && j != 0)
+                    cmd[j] = '\0', j--;
+                cmd = cmd + '\n';
                 cmds.push_back(cmd);
                 cmd.clear();
             }
