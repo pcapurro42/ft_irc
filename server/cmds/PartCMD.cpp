@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 23:29:10 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:54:01 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,16 @@ int Server::executePartCommand(std::string cmd, int id)
             }
             else{
                 std::cout << getTime() << _clients_data[id].nickname << " has left " << channels << " :leaving" << std::endl;
-                std::string msg = ":" + _clients_data[id].nickname + " PART " + channels + " :leaving" + "\r\n";
+                std::string msg = ":" + _clients_data[id].nickname + " PART " + channels + "\r\n";
                 send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
             }
+            
+            std::string msg = ":" + _clients_data[id].nickname + " PART " + channels + "\r\n";
+            std::vector<std::string>::iterator k = _canals[searchCanal(channels)].members.begin();
+            while (k != _canals[searchCanal(channels)].members.end())
+                send(_sockets_array[searchClient(*k) + 1].fd, msg.c_str(), msg.size(), 0), k++;
             sendToEveryone(_clients_data[id].nickname + " \x1Dhas left \x0f" + channels + ".\r\n", id, true);
+            
             if ((it = std::find(_canals[searchCanal(channels)].operators.begin(), _canals[searchCanal(channels)].operators.end(), _clients_data[id].nickname)) != _canals[searchCanal(channels)].operators.end())
                 _canals[searchCanal(channels)].operators.erase(it);
         }
