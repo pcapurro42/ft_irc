@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 23:50:41 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:56:19 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,8 @@ void    Server::LoopRoutine(void)
         else
         {
             removeEmptyChannels();
-            // verifyTimeOut();
-            // sendPing();
+            verifyTimeOut();
+            sendPing();
         }
     }
     sendToEveryone("Server is shutting down...\r\n", 0, true);
