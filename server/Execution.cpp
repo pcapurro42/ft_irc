@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 22:42:29 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 22:47:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ void    Server::sendError(const char *command, int id, int value)
     }
     else if (value == ERR_NICKCOLLISION)
     {
-        message = "'" + std::string(command) + command + "' :Nickname already taken.\r\n";
+        message = "'" + std::string(command) + "' :Nickname already taken.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_NOSUCHCHANNEL)
     {
-        message = "'" + std::string(command) + command + "' :Channel not found.\r\n";
+        message = "'" + std::string(command) + "' :Channel not found.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CHANNELISFULL)
     {
-        message = "'" + std::string(command) + command + "' :Channel is full.\r\n";
+        message = "'" + std::string(command) + "' :Channel is full.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_INVITEONLYCHAN)
