@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:49:20 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:52:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
             if (error == 0 && it == _canals[searchCanal(recipient)].members.end())
             {
                 std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (not in channel)." << std::endl;
-                error = ERR_NOSUCHNICK;;
+                error = ERR_NOSUCHCHANNEL;
             }
             if (error == 0){
                 std::string message = getMessage(cmd);
