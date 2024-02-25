@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 17:02:49 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:06:16 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@
 
 # ifndef MAX_CANALS
 #  define MAX_CANALS 0
+# endif
+
+# ifndef BOT
+#  define BOT 0
 # endif
 
 typedef struct s_canal
