@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 19:12:06 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:21:23 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int Server::verifyKickCMD(std::string cmd, int id) const
         return (ERR_UNKNOWNCOMMAND);
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
     
-    if (space_nb > 3)
+    if (space_nb > 4)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
         return (ERR_TOOMANYPARAMS);
@@ -60,9 +60,11 @@ int Server::executeKickCommand(std::string cmd, int id)
     {
         std::string canal = getArgument(cmd, 1);
         std::string member = getArgument(cmd, 2);
-        std::string reason = getArgument(cmd, 3);
+        std::string reason = getArgument(cmd, 4);
 
-        if (reason[0] == ':')
+        if (reason.empty() == true)
+            reason = "no reason";
+        else if (reason[0] == ':')
             reason = reason.c_str() + 1;
 
         int i = 0;
@@ -87,7 +89,10 @@ int Server::executeKickCommand(std::string cmd, int id)
             _canals[i].members.erase(std::find(_canals[i].members.begin(), _canals[i].members.end(), member));
             if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), member) != _canals[i].operators.end())
                 _canals[i].operators.erase(std::find(_canals[i].operators.begin(), _canals[i].operators.end(), member));
-            std::cout << getTime() << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name <<  " (reason :'" << reason << "')." << std::endl;
+            if (reason != "no reason")
+                std::cout << getTime() << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name <<  " (reason: '" << reason << "')." << std::endl;
+            else
+                std::cout << getTime() << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name << " for no reason." << std::endl;
 
             int target_id = searchClient(member) + 1;
             std::string message = ":" + _clients_data[id].nickname + " KICK " + canal + " " + member + " :" + reason + "\r\n";
