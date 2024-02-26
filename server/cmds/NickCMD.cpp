@@ -72,12 +72,11 @@ int Server::executeNickCommand(std::string cmd, int id)
         std::string message = "Welcome to our IRC server!\r\n";
         send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
     
-        message = "Welcome!\nType '!time' to ask for time.\nType '!date' to ask for data.\nHere are the availaible commands: PASS, USER, NICK, KICK, INVITE, JOIN, PING, QUIT, TOPIC AND BOT.\n";
-        std::string msg = ":Gipiti_bot PRIVMSG :" + _clients_data[id].nickname + " " + message + "\r\n";
-        send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+        message = "Here are the availaible commands: PASS, USER, NICK, KICK, INVITE, JOIN, PING, QUIT, TOPIC AND BOT.\n";
+        send(_sockets_array[id + 1].fd, message.c_str(), message.size(), 0);
         
         message = "Welcome dear " + _clients_data[id].nickname + "! I'm Gipiti, the time bot !\r\n";
-        msg = ":Gipiti_bot PRIVMSG " + _clients_data[id].nickname + " :" + message;
+        std::string msg = ":Gipiti_bot PRIVMSG " + _clients_data[id].nickname + " :" + message;
         send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
         
         message = "Type '!time' to ask for time.\r\n";
