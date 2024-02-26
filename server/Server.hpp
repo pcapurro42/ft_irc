@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:56:23 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:54:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,42 +58,42 @@
 
 typedef struct s_canal
 {
-    std::string          name;
+    std::string                 name;
 
-    bool            op_topic;
-    std::string          topic;
+    bool                        op_topic;
+    std::string                 topic;
 
-    std::vector<std::string>  invited;
-    bool            invite_only;
+    std::vector<std::string>    invited;
+    bool                        invite_only;
 
-    bool            pass_only;
-    std::string          password;
+    bool                        pass_only;
+    std::string                 password;
 
-    std::vector<std::string>  members;
-    std::vector<std::string>  operators;
+    std::vector<std::string>    members;
+    std::vector<std::string>    operators;
 
-    int             max;
-    bool            exist;
+    int                         max;
+    bool                        exist;
 
 }   t_canal;
 
 typedef struct s_client_data
 {
-    std::string  nickname;
-    std::string  username;
-    std::string  realname;
+    std::string     nickname;
+    std::string     username;
+    std::string     realname;
 
-    int     number;
+    int             number;
 
-    bool    authentified;
-    bool    identified;
-    bool    connected;
+    bool            authentified;
+    bool            identified;
+    bool            connected;
 
-    bool    ping;
-    std::string  last_command;
+    bool            ping;
+    std::string     last_command;
 
-    bool    set_nickname;
-    bool    set_username;
+    bool            set_nickname;
+    bool            set_username;
 
 }   t_client_data;
 
@@ -130,6 +130,7 @@ class Server
         std::string     getTime(void) const;
         std::string     getMessage(std::string cmd) const;
 
+        int             validateCommandCall(std::string cmd_name, int id) const;
         void            executeCommand(std::string command, std::string cmd_name, int id);
         void            sendToEveryone(std::string message, int id, bool self);
         void            sendToEveryChannelMembers(std::string message, std::string channel);
@@ -149,30 +150,19 @@ class Server
 
         int             executePingCommand(std::string cmd, int id);
         int             executePongCommand(std::string cmd, int id);
-        
         int             executeNickCommand(std::string cmd, int id);
         int             executeUserCommand(std::string cmd, int id);
-        
         int             executeQuitCommand(std::string cmd, int id);
-        
         int             executePassCommand(std::string cmd, int id);
-        
         int             executeJoinCommand(std::string cmd, int id);
-        
         int             executeWhoCommand(std::string cmd, int id);
-        
         int             executePartCommand(std::string cmd, int id);
-        
         int             verifyKickCMD(std::string cmd, int id) const;
         int             executeKickCommand(std::string cmd, int id);
-        
         int             verifyInviteCMD(std::string cmd, int id) const;
         int             executeInviteCommand(std::string cmd, int id);
-        
         int             executePrivmsgCommand(std::string cmd, int id);
-        
         int             executeTopicCommand(std::string cmd, int id);
-        
         int             verifyModeCMD(std::string cmd, int id) const;
         std::string     processModeCMD(std::string cmd) const;
         void            executeModeICommand(int canal_id, int id, char sign);
@@ -180,6 +170,7 @@ class Server
         void            executeModeKCommand(std::string password, int canal_id, int id, char sign);
         void            executeModeOCommand(std::string member, int canal_id, int id, char sign);
         void            executeModeLCommand(int value, int canal_id, int id, char sign);
+        
         int             executeModeCommand(std::string cmd, int id);
         
         int             executeBotCommand(std::string cmd, int id);
@@ -188,7 +179,7 @@ class Server
         void            createCanal(const std::string channels, const std::string nickname);
 
         int             _port;
-        std::string          _password;
+        std::string     _password;
 
         int             _clients_slots;
         int             _clients_nb;

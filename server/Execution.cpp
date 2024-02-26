@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:41:37 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:52:11 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,32 +161,55 @@ void    Server::sendToEveryChannelMembers(std::string message, std::string chann
         send(_sockets_array[searchClient(*k) + 1].fd, message.c_str(), message.size(), 0);
 }
 
+int     Server::validateCommandCall(std::string cmd_name, int id) const
+{
+    if (cmd_name != "NICK" && cmd_name != "USER" && cmd_name != "JOIN" && cmd_name != "PART"
+        && cmd_name != "PRIVMSG" && cmd_name != "KICK" && cmd_name != "KICK" && cmd_name != "INVITE"
+        && cmd_name != "INVITE" && cmd_name != "TOPIC" && cmd_name != "MODE" && cmd_name != "BOT"
+        && cmd_name != "PASS" && cmd_name != "PING" && cmd_name != "PONG" && cmd_name != "QUIT")
+            return (ERR_UNKNOWNCOMMAND);
+    else
+    {
+        if (isAuthentified(_clients_data[id - 1].nickname) == false)
+        {
+            if (cmd_name != "PASS" && cmd_name != "QUIT"
+                && cmd_name != "PING" && cmd_name != "PONG")
+                    return (ERR_NOTREGISTERED);
+        }
+        if (isIdentified(_clients_data[id - 1].nickname) == false)
+        {
+            if (cmd_name != "PASS" && cmd_name != "QUIT"
+                && cmd_name != "PING" && cmd_name != "PONG"
+                && cmd_name != "USER" && cmd_name != "NICK")
+                    return (ERR_NOTIDENTIFIED);
+        }
+    }
+    return (0);
+}
+
 void    Server::executeCommand(std::string command, std::string cmd_name, int id)
 {
-    int value = ERR_INVALIDCOMMAND;
-
     if (cmd_name != "PONG" && cmd_name != "pong")
         std::cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << std::endl;
 
-    if (cmd_name == "PING" || cmd_name == "ping")
-        value = executePingCommand(command, id - 1);
-    else if (cmd_name == "PONG" || cmd_name == "pong")
-        value = executePongCommand(command, id - 1);
-    else if (cmd_name == "PASS" || cmd_name == "pass")
-        value = executePassCommand(command, id - 1);
-    else if (cmd_name == "QUIT" || cmd_name == "quit")
-        value = executeQuitCommand(command, id - 1);
-    
-    if (isAuthentified(_clients_data[id - 1].nickname) == true)
+    int value = validateCommandCall(cmd_name, id);
+    if (value == 0)
     {
-        if (cmd_name == "NICK" || cmd_name == "nick")
+        if (cmd_name == "PING" || cmd_name == "ping")
+            value = executePingCommand(command, id - 1);
+        else if (cmd_name == "PONG" || cmd_name == "pong")
+            value = executePongCommand(command, id - 1);
+        else if (cmd_name == "PASS" || cmd_name == "pass")
+            value = executePassCommand(command, id - 1);
+        else if (cmd_name == "QUIT" || cmd_name == "quit")
+            value = executeQuitCommand(command, id - 1);
+
+        else if (cmd_name == "NICK" || cmd_name == "nick")
             value = executeNickCommand(command, id - 1);
         else if (cmd_name == "USER" || cmd_name == "user")
             value = executeUserCommand(command, id - 1);
-    }
-    if (isAuthentified(_clients_data[id - 1].nickname) == true && isIdentified(_clients_data[id - 1].nickname) == true)
-    {
-        if (cmd_name == "JOIN" || cmd_name == "join")
+        
+        else if (cmd_name == "JOIN" || cmd_name == "join")
             value = executeJoinCommand(command, id - 1);
         else if (cmd_name == "PART" || cmd_name == "part")
             value = executePartCommand(command, id - 1);
@@ -203,7 +226,6 @@ void    Server::executeCommand(std::string command, std::string cmd_name, int id
         else if (cmd_name == "BOT" || cmd_name == "bot")
             value = executeBotCommand(command, id - 1);
     }
-
-    if (value != 0)
+    else
         sendError(command.c_str(), id, value);
 }
