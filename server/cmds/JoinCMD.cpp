@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 16:31:43 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:25:58 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,7 @@ int Server::executeJoinCommand(std::string cmd, int id)
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
             
             msg = ":" + _clients_data[id].nickname + " JOIN " + channels + "\r\n";
-            std::vector<std::string>::iterator k = _canals[searchCanal(channels)].members.begin();
-            while (k != _canals[searchCanal(channels)].members.end())
-            {
-                if (*k != _clients_data[id].nickname)
-                    send(_sockets_array[searchClient(*k) + 1].fd, msg.c_str(), msg.size(), 0);
-                k++;
-            }
+            sendToEveryChannelMembers(msg, channels);
 
             std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);

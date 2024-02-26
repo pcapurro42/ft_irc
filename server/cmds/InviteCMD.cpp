@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 15:42:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:41:58 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,24 @@ int Server::executeInviteCommand(std::string cmd, int id)
         else if (_canals[canal_id].invite_only == false)
         {
             std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (channel is public or requires a password)." << std::endl;
-            return (ERR_UNKNOWNCOMMAND);
+            return (ERR_NOPRIVILEGES);
         }
         else if (std::find(_canals[canal_id].members.begin(), _canals[canal_id].members.end(), target) != _canals[canal_id].members.end())
         {
             std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (already member)." << std::endl;
-            return (ERR_UNKNOWNCOMMAND);
+            return (ERR_ALREADYINCHANNEL);
         }
         else if (std::find(_canals[canal_id].invited.begin(), _canals[canal_id].invited.end(), target) != _canals[canal_id].invited.end())
         {
             std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (already invited)." << std::endl;
-            return (ERR_UNKNOWNCOMMAND);
+            return (ERR_ALREADYINVITED);
         }
         _canals[canal_id].invited.push_back(target);
-        std::cout << getTime() << "Error! " << sender << " invited " << target << " to join " << canal << "." << std::endl;
+        std::cout << getTime() << sender << " invited " << target << " to join " << canal << "." << std::endl;
 
-        std::string message = ": " + sender + " " + target + " " + canal + "\r\n";
+        std::string message = ":" + sender + " INVITE " + target + " " + canal + "\r\n";
         send(_sockets_array[searchClient(target) + 1].fd, message.c_str(), message.size(), 0);
+        sendToEveryChannelMembers(message, canal);
     }
     return (0);
 }

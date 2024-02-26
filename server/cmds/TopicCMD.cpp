@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TopicCMD.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:43 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 04:04:22 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/26 17:28:16 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
                     _canals[searchCanal(channels)].topic = topic;
                     std::cout << getTime() << _clients_data[id].nickname << " changed the topic of " << channels << " to " << topic << "." << std::endl;
                     std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :" + topic + "\r\n";
-                    sendToEveryone(msg, id, 1);
+                    sendToEveryChannelMembers(msg, channels);
                 }
             }
             else

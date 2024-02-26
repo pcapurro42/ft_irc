@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:47:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:41:37 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ void    Server::sendError(const char *command, int id, int value)
         message = "'" + std::string(command) + "' :Channel already joined.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
+    else if (value == ERR_ALREADYINCHANNEL)
+    {
+        message = "'" + std::string(command) + "' :User already invited.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
     else if (value == ERR_NOPRIVILEGES)
     {
         message = "'" + std::string(command) + "' :No privileges.\r\n";
@@ -146,6 +151,14 @@ void    Server::sendToEveryone(std::string message, int id, bool self)
             }
         }
     }
+}
+
+void    Server::sendToEveryChannelMembers(std::string message, std::string channel)
+{
+    int i = searchCanal(channel);
+    std::vector<std::string>::iterator k;
+    for (k = _canals[i].members.begin(); k != _canals[i].members.end(); k++)
+        send(_sockets_array[searchClient(*k) + 1].fd, message.c_str(), message.size(), 0);
 }
 
 void    Server::executeCommand(std::string command, std::string cmd_name, int id)

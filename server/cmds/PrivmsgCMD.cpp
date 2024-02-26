@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 15:42:57 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:27:45 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
             if (error == 0){
                 std::string message = getMessage(cmd);
                 std::string msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
-                for (it = _canals[searchCanal(recipient)].members.begin(); it != _canals[searchCanal(recipient)].members.end(); it++)
-                    if (*it != _clients_data[id].nickname)
-                        send(_sockets_array[searchClient(*it) + 1].fd, msg.c_str(), msg.size(), 0);
+                
+                sendToEveryChannelMembers(msg, recipient);
                 std::cout << getTime() << _clients_data[id].nickname << " sent a message to " << recipient << " : " << message << std::endl;
             }
             if (error != 0)

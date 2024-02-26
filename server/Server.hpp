@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 16:51:34 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:40:58 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define ERR_CHANOPRIVSNEEDED 482
 # define ERR_KEYSET 467
 # define ERR_ALREADYINCHANNEL 477
+# define ERR_ALREADYINVITED 478
 # define ERR_PASSWDMISMATCH 161
 # define ERR_NOTREGISTERED 451
 # define ERR_NOTIDENTIFIED 452
@@ -131,6 +132,7 @@ class Server
 
         void            executeCommand(std::string command, std::string cmd_name, int id);
         void            sendToEveryone(std::string message, int id, bool self);
+        void            sendToEveryChannelMembers(std::string message, std::string channel);
         void            sendError(const char *command, int id, int value);
 
         std::vector<std::string>    rectifyInput(std::string buffer) const;
