@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:56 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 16:06:58 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:00:07 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,18 @@ int Server::executeModeCommand(std::string cmd, int id)
             }
             else if (*option == "+l" || *option == "-l")
             {
-                std::vector<std::string>::iterator opt;
-                opt = option;
-                while (((*opt)[0] == '+' || (*opt)[0] == '-') && opt != cmds.end())
-                    opt++;
-                int max = std::atoi((*opt).c_str());
-                cmds.erase(opt);
-                executeModeLCommand(max, i, id);
+                if (sign == '+')
+                {
+                    std::vector<std::string>::iterator opt;
+                    opt = option;
+                    while (((*opt)[0] == '+' || (*opt)[0] == '-') && opt != cmds.end())
+                        opt++;
+                    int max = std::atoi((*opt).c_str());
+                    cmds.erase(opt);
+                    executeModeLCommand(max, i, id, sign);
+                }
+                else
+                    executeModeLCommand(21, i, id, sign);
                 cmds.erase(option);
             }
         }

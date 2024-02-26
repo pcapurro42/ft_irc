@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:40:58 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:56:23 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ class Server
         void            executeModeTCommand(int canal_id, int id, char sign);
         void            executeModeKCommand(std::string password, int canal_id, int id, char sign);
         void            executeModeOCommand(std::string member, int canal_id, int id, char sign);
-        void            executeModeLCommand(int value, int canal_id, int id);
+        void            executeModeLCommand(int value, int canal_id, int id, char sign);
         int             executeModeCommand(std::string cmd, int id);
         
         int             executeBotCommand(std::string cmd, int id);
