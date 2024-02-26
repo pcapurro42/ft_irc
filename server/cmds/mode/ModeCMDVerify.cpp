@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:58:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 16:31:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:33:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int Server::verifyModeCMD(std::string cmd, int id) const
         verify_cmds.erase(std::find(verify_cmds.begin(), verify_cmds.end(), "-t"));
     while (std::find(verify_cmds.begin(), verify_cmds.end(), "+i") != verify_cmds.end())
         verify_cmds.erase(std::find(verify_cmds.begin(), verify_cmds.end(), "+i"));
+    while (std::find(verify_cmds.begin(), verify_cmds.end(), "-i") != verify_cmds.end())
+        verify_cmds.erase(std::find(verify_cmds.begin(), verify_cmds.end(), "-i"));
     while (std::find(verify_cmds.begin(), verify_cmds.end(), "-k") != verify_cmds.end())
         verify_cmds.erase(std::find(verify_cmds.begin(), verify_cmds.end(), "-k"));
         
