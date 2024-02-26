@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:41:58 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:27:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,14 @@ int Server::executeInviteCommand(std::string cmd, int id)
             std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (not member of it)." << std::endl;
             return (ERR_NOTONCHANNEL);
         }
-        else if (_canals[canal_id].invite_only == false)
+        else if (_canals[canal_id].pass_only == true)
         {
-            std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (channel is public or requires a password)." << std::endl;
+            std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (channel requires a password)." << std::endl;
+            return (ERR_NOPRIVILEGES);
+        }
+        else if (_canals[canal_id].invite_only == false && _canals[canal_id].pass_only == false)
+        {
+            std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (channel is public)." << std::endl;
             return (ERR_NOPRIVILEGES);
         }
         else if (std::find(_canals[canal_id].members.begin(), _canals[canal_id].members.end(), target) != _canals[canal_id].members.end())
