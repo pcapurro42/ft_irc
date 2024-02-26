@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:33:39 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:53:17 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ int Server::executeKickCommand(std::string cmd, int id)
         if (std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id].nickname) == _canals[i].members.end())
         {
             std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to kick someone from " << canal << " (not member)." << std::endl;
+            return (ERR_NOTONCHANNEL);
+        }
+        else if (std::find(_canals[i].members.begin(), _canals[i].members.end(), member) == _canals[i].members.end())
+        {
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to kick someone from " << canal << " (target not member)." << std::endl;
             return (ERR_NOTONCHANNEL);
         }
         else if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), _clients_data[id].nickname) != _canals[i].operators.end())
