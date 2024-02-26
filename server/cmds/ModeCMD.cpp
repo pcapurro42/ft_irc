@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:56 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 03:13:56 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 03:26:45 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,18 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
         if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
             std::cout << _clients_data[id].nickname << " failed to remove operator role of " << member << " (not operator)." << std::endl;
         else
+        {
             _canals[canal_id].operators.erase(std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member));
+            std::cout << _clients_data[id].nickname << " removed operator role from " << member << "." << std::endl;
+        }
     }
     if (sign == '+')
     {
         if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
+        {
             _canals[canal_id].operators.push_back(member);
+            std::cout << _clients_data[id].nickname << " gave operator role to " << member << "." << std::endl;
+        }
         else
             std::cout << _clients_data[id].nickname << " failed to add " << member << " as an operator (already operator)." << std::endl;
 
@@ -163,6 +169,9 @@ int Server::executeModeCommand(std::string cmd, int id)
         {
             option = cmds.begin();
             char sign = (*option)[0];
+
+            std::cout << *option << " ; ";
+
             if (*option == "+t" || *option == "-t")
                 executeModeTCommand(i, id, sign), cmds.erase(option);
             else if (*option == "+i" || *option == "-i")
@@ -201,11 +210,8 @@ int Server::executeModeCommand(std::string cmd, int id)
                 cmds.erase(option);
             }
         }
-
-        // /MODE #canal1 +tkl pass 10 +o shalashaska
-        // '+k +l +t +o pass 10 +o shalashaska
-        // '+k+l+t+opass10+oshalashaska
-        // '+t' ; '+o' '+l' ; '+k' ; 'pass' ; '10' ; '+o' ; 'shalashaska'
     }
     return (0);
 }
+
+// /MODE #canal1 +tkl pass 10 +o shalashaska
