@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:48:06 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:42:26 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int Server::verifyKickCMD(std::string cmd, int id) const
     
     if (space_nb > 3)
     {
-        std::cout << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
         return (ERR_TOOMANYPARAMS);
     }
     else if (space_nb < 3)
     {
-        std::cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
     }
 
@@ -35,17 +35,17 @@ int Server::verifyKickCMD(std::string cmd, int id) const
 
     if (searchCanal(canal) == -1)
     {
-        std::cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << std::endl;
         return (ERR_NOSUCHCHANNEL);
     }
     if (searchClient(user) == -1)
     {
-        std::cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " searched for a non-existent user." << std::endl;
         return (ERR_NOSUCHNICK);
     }
     if (reason.size() > 400)
     {
-        std::cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
         return (ERR_UNKNOWNCOMMAND);
     }
     return (0);
@@ -74,13 +74,13 @@ int Server::executeKickCommand(std::string cmd, int id)
         }
         if (std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id].nickname) == _canals[i].members.end())
         {
-            std::cout << "Error! " << _clients_data[id].nickname << " failed to kick someone from " << canal << " (not member)." << std::endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to kick someone from " << canal << " (not member)." << std::endl;
             return (ERR_NOTONCHANNEL);
         }
         else if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), _clients_data[id].nickname) != _canals[i].operators.end())
         {
             _canals[i].members.erase(std::find(_canals[i].members.begin(), _canals[i].members.end(), member));
-            std::cout << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name <<  " (reason :'" << reason << "')." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name <<  " (reason :'" << reason << "')." << std::endl;
 
             int target_id = searchClient(member) + 1;
             std::string message = ": " + _clients_data[id].nickname + " KICK " + _canals[i].name + " " + member + "\r\n";
@@ -90,7 +90,7 @@ int Server::executeKickCommand(std::string cmd, int id)
         }
         else
         {
-            std::cout << "Error! " << _clients_data[id].nickname << " failed to kick " << member << "(not operator)." << std::endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to kick " << member << "(not operator)." << std::endl;
             return (ERR_NOPRIVILEGES);
         }
     }

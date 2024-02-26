@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:56 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 03:26:45 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:42:31 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int Server::verifyModeCMD(std::string cmd, int id) const
 {
     if (std::count(cmd.begin(), cmd.end(), '#') == 0 || (std::count(cmd.begin(), cmd.end(), '+') == 0 && std::count(cmd.begin(), cmd.end(), '-') == 0) || std::count(cmd.begin(), cmd.end(), '*') != 0)
     {
-        std::cout << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
         return (ERR_UNKNOWNCOMMAND);
     }
     else if (std::count(cmd.begin(), cmd.end(), ' ') < 2)
     {
-        std::cout << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
     }
     return (0);
@@ -32,14 +32,14 @@ void    Server::executeModeICommand(int canal_id, int id, char sign)
     if (sign == '+' && _canals[canal_id].invite_only == false)
     {
         _canals[canal_id].invite_only = true;
-        std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to invite only." << std::endl;
+        std::cout << getTime() << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to invite only." << std::endl;
         std::string message = _clients_data[id].nickname + " \x1D\\changed\x0f " + _canals[canal_id].name + "\x1D's access to invite only\x0f.\r\n";
         sendToEveryone(message, id + 1, true);
     }
     if (sign == '-' && _canals[canal_id].invite_only == true)
     {
         _canals[canal_id].invite_only = false;
-        std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << std::endl;
+        std::cout << getTime() << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << std::endl;
     }
 }
 
@@ -48,32 +48,32 @@ void    Server::executeModeTCommand(int canal_id, int id, char sign)
     if (sign == '+' && _canals[canal_id].op_topic == false)
     {
         _canals[canal_id].op_topic = true;
-        std::cout << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to operators only." << std::endl;
+        std::cout << getTime() << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to operators only." << std::endl;
     }
     if (sign == '-' && _canals[canal_id].op_topic == true)
     {
         _canals[canal_id].op_topic = false;
-        std::cout << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to everyone." << std::endl;
+        std::cout << getTime() << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to everyone." << std::endl;
     }
 }
 
 void    Server::executeModeKCommand(std::string password, int canal_id, int id, char sign)
 {
     if (password == "")
-        std::cout << "Error! " << _clients_data[id].nickname << " set an invalid password." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " set an invalid password." << std::endl;
     else
     {
         if (sign == '+' && _canals[canal_id].pass_only == false)
         {
             _canals[canal_id].pass_only = true;
             _canals[canal_id].password = password;
-            std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to password only." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to password only." << std::endl;
         }
         if (sign == '-' && _canals[canal_id].pass_only == true)
         {
             _canals[canal_id].pass_only = false;
             _canals[canal_id].password = "";
-            std::cout << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " changed " << _canals[canal_id].name << "'s access to public." << std::endl;
         }
     }
 }
@@ -83,11 +83,11 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
     if (sign == '-')
     {
         if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
-            std::cout << _clients_data[id].nickname << " failed to remove operator role of " << member << " (not operator)." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " failed to remove operator role of " << member << " (not operator)." << std::endl;
         else
         {
             _canals[canal_id].operators.erase(std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member));
-            std::cout << _clients_data[id].nickname << " removed operator role from " << member << "." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " removed operator role from " << member << "." << std::endl;
         }
     }
     if (sign == '+')
@@ -95,10 +95,10 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
         if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
         {
             _canals[canal_id].operators.push_back(member);
-            std::cout << _clients_data[id].nickname << " gave operator role to " << member << "." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " gave operator role to " << member << "." << std::endl;
         }
         else
-            std::cout << _clients_data[id].nickname << " failed to add " << member << " as an operator (already operator)." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " failed to add " << member << " as an operator (already operator)." << std::endl;
 
     }
 }
@@ -106,11 +106,11 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
 void    Server::executeModeLCommand(int value, int canal_id, int id)
 {
     if (value > MAX_CLIENTS || value <= 0 || value < static_cast<int>(_canals[canal_id].members.size()))
-        std::cout << "Error! " << _clients_data[id].nickname << " failed to change the limit value of " << _canals[canal_id].name << " (invalid value)." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to change the limit value of " << _canals[canal_id].name << " (invalid value)." << std::endl;
     else
     {
         _canals[canal_id].max = value;
-        std::cout << _clients_data[id].nickname << " changed the limit value of " << _canals[canal_id].name << "." << std::endl;
+        std::cout << getTime() << _clients_data[id].nickname << " changed the limit value of " << _canals[canal_id].name << "." << std::endl;
     }
 }
 
@@ -125,17 +125,17 @@ int Server::executeModeCommand(std::string cmd, int id)
         int i = searchCanal(canal);
         if (i == -1)
         {
-            std::cout << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << std::endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << std::endl;
             return (ERR_NOSUCHCHANNEL);
         }
         else if (std::find(_canals[i].members.begin(), _canals[i].members.end(), _clients_data[id].nickname) == _canals[i].members.end())
         {
-            std::cout << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << std::endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << std::endl;
             return (ERR_NOPRIVILEGES);
         }
         else if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), _clients_data[id].nickname) == _canals[i].operators.end())
         {
-            std::cout << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << std::endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to mode in " << _canals[i].name << " (not member)." << std::endl;
             return (ERR_NOPRIVILEGES);
         }
 
@@ -170,7 +170,7 @@ int Server::executeModeCommand(std::string cmd, int id)
             option = cmds.begin();
             char sign = (*option)[0];
 
-            std::cout << *option << " ; ";
+            std::cout << getTime() << *option << " ; ";
 
             if (*option == "+t" || *option == "-t")
                 executeModeTCommand(i, id, sign), cmds.erase(option);

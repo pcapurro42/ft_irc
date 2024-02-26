@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:52:06 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:42:57 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
                     botTOTD(id, message);
                     return (0);
                 }
-               std::cout <<  std::count(message.begin(), message.end(), ' ') << std::endl;
+                std::cout << getTime() <<  std::count(message.begin(), message.end(), ' ') << std::endl;
                 if (message.find("DCC SEND") == 0 && std::count(message.begin(), message.end(), ' ') == 5)
                     message = "\x01" + message + "\x01";
                 std::string msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";

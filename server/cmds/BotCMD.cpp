@@ -23,7 +23,7 @@ void sendDate(std::string nickname, int sock){
 
 void Server::botTOTD(int id, std::string msg){
     std::string nickname = _clients_data[id].nickname;
-    std::cout << msg << std::endl;
+    std::cout << getTime() << msg << std::endl;
 
    if (msg == "!time")
         sendTime(nickname, _sockets_array[id + 1].fd);
@@ -39,11 +39,11 @@ int Server::executeBotCommand(std::string cmd, int id){
     
     std::string nickname = _clients_data[id].nickname;
     if (BOT == 0){
-        std::cout << "Error! " << nickname << ": bot is turned off." << std::endl;
+        std::cout << getTime() << "Error! " << nickname << ": bot is turned off." << std::endl;
         return (ERR_INACTIVEBOT);
     } 
     else if (cmd != "BOT" && cmd != "bot"){
-        std::cout << "Error! " << nickname << " typed a command with too many parameters." << std::endl;
+        std::cout << getTime() << "Error! " << nickname << " typed a command with too many parameters." << std::endl;
         return (ERR_TOOMANYPARAMS);
     }
 
