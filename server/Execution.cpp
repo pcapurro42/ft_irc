@@ -125,6 +125,10 @@ void    Server::sendError(const char *command, int id, int value)
         message = "'" + std::string(command) + "' :Bot is turned off.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
+    else if (value ==  ERR_BADCHANNELKEY){
+        message = getTime() + "Error! " + _clients_data[id].nickname + " failed to join (incorrect password)." + "\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.length(), 0);
+    }
 }
 
 void    Server::sendToEveryone(std::string message, int id, bool self)
