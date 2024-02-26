@@ -13,12 +13,21 @@ SRCS = main.cpp \
 	server/InputRectification.cpp \
 	server/SearchTools.cpp \
 	server/Execution.cpp \
+	server/Initialization.cpp \
+	server/Routine.cpp \
+	server/Management.cpp \
+	server/cmds/mode/ModeCMD.cpp \
+	server/cmds/mode/ModeCMDVerify.cpp \
+	server/cmds/mode/ModeCMDI.cpp \
+	server/cmds/mode/ModeCMDK.cpp \
+	server/cmds/mode/ModeCMDL.cpp \
+	server/cmds/mode/ModeCMDO.cpp \
+	server/cmds/mode/ModeCMDT.cpp \
 	server/cmds/PingCMD.cpp \
 	server/cmds/PongCMD.cpp \
 	server/cmds/InviteCMD.cpp \
 	server/cmds/JoinCMD.cpp \
 	server/cmds/KickCMD.cpp \
-	server/cmds/ModeCMD.cpp \
 	server/cmds/NickCMD.cpp \
 	server/cmds/PartCMD.cpp \
 	server/cmds/PassCMD.cpp \
@@ -27,9 +36,6 @@ SRCS = main.cpp \
 	server/cmds/TopicCMD.cpp \
 	server/cmds/UserCMD.cpp \
 	server/cmds/BotCMD.cpp \
-	server/Initialization.cpp \
-	server/Routine.cpp \
-	server/Management.cpp \
 
 CXX = c++ -D MAX_CLIENTS=21 -D MAX_CANALS=42 -D BOT=1
 
