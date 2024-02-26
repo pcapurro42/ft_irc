@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 14:05:29 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:31:43 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void Server::createCanal(const std::string channels, const std::string nickname)
     canal.exist = true;
     canal.members.push_back(nickname);
     canal.operators.push_back(nickname);
-    canal.topic = "undefined";
+    canal.topic = "[NO TOPIC]";
     canal.op_topic = false;
     canal.invite_only = false;
     canal.pass_only = false;

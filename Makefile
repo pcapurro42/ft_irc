@@ -37,7 +37,7 @@ SRCS = main.cpp \
 	server/cmds/UserCMD.cpp \
 	server/cmds/BotCMD.cpp \
 
-CXX = c++ -D MAX_CLIENTS=21 -D MAX_CANALS=42 -D BOT=1
+CXX = c++ -D MAX_CLIENTS=21 -D MAX_CANALS=42 -D BOT=0
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
