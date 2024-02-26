@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:53:17 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:12:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int Server::executeKickCommand(std::string cmd, int id)
         else if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), _clients_data[id].nickname) != _canals[i].operators.end())
         {
             _canals[i].members.erase(std::find(_canals[i].members.begin(), _canals[i].members.end(), member));
+            if (std::find(_canals[i].operators.begin(), _canals[i].operators.end(), member) != _canals[i].operators.end())
+                _canals[i].operators.erase(std::find(_canals[i].operators.begin(), _canals[i].operators.end(), member));
             std::cout << getTime() << _clients_data[id].nickname << " kicked " << member << " from " << _canals[i].name <<  " (reason :'" << reason << "')." << std::endl;
 
             int target_id = searchClient(member) + 1;
