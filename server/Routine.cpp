@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 23:56:19 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 01:04:37 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,9 @@ void    Server::receiveData(int id)
 void    Server::LoopRoutine(void)
 {
     addSocket(_server_socket);
+    // _canals[0].exist = true;
+    // _canals[0].name = "#canal1";
+    // _canals[0].topic = "who are the patriots";
     while (6)
     {
         int value = poll(_sockets_array, _clients_slots + 1, 3000);

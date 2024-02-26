@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:43 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:49:32 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:53:22 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
     std::string topic = getArgument(cmd, 2);
     if (searchCanal(channels) == -1)
     {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (canal not found)." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (channel not found)." << std::endl;
         return (ERR_NOSUCHCHANNEL);
     }
     else if (searchCanal(channels) != -1){
