@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:56 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 18:00:07 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:14:41 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int Server::executeModeCommand(std::string cmd, int id)
                         opt++;
                     std::string pass = *opt;
                     cmds.erase(opt);
+                    executeModeKCommand(pass, i, id, sign);
                 }
                 else
                     executeModeKCommand("", i, id, sign);
