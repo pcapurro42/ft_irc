@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 19:27:50 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:32:14 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,8 @@ int Server::executeInviteCommand(std::string cmd, int id)
             std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (already member)." << std::endl;
             return (ERR_ALREADYINCHANNEL);
         }
-        else if (std::find(_canals[canal_id].invited.begin(), _canals[canal_id].invited.end(), target) != _canals[canal_id].invited.end())
-        {
-            std::cout << getTime() << "Error! " << sender << " failed to invite someone to " << canal << " (already invited)." << std::endl;
-            return (ERR_ALREADYINVITED);
-        }
-        _canals[canal_id].invited.push_back(target);
+        if (std::find(_canals[canal_id].invited.begin(), _canals[canal_id].invited.end(), target) == _canals[canal_id].invited.end()) 
+            _canals[canal_id].invited.push_back(target);
         std::cout << getTime() << sender << " invited " << target << " to join " << canal << "." << std::endl;
 
         std::string message = ":" + sender + " INVITE " + target + " " + canal + "\r\n";
