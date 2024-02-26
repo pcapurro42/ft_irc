@@ -137,7 +137,7 @@ int Server::executeJoinCommand(std::string cmd, int id)
                 k++;
             }
 
-            std::string topic = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
+            std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
 
             sendToEveryone(_clients_data[id].nickname + " \x1Dhas joined\x0f " + channels + ".\r\n", id, true);

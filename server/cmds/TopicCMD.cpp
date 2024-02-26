@@ -32,7 +32,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
             std::cout << getTime() << _clients_data[id].nickname << " requested the topic of " << channels << "." << std::endl;
             std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             if (_canals[searchCanal(channels)].topic == "")
-                msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :No topic is set\r\n";
+                msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :Undefined\r\n";
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
         }
         else
@@ -48,7 +48,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
                     {
                         _canals[searchCanal(channels)].topic = topic;
                         std::cout << getTime() << _clients_data[id].nickname << " changed the topic of " << channels << " to " << topic << "." << std::endl;
-                        std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + "set new topic :" + topic + "\r\n";
+                        std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :" + topic + "\r\n";
                         sendToEveryone(msg, id, 1);
                     }
                     else
@@ -60,7 +60,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
                 else{
                     _canals[searchCanal(channels)].topic = topic;
                     std::cout << getTime() << _clients_data[id].nickname << " changed the topic of " << channels << " to " << topic << "." << std::endl;
-                    std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + "set new topic :" + topic + "\r\n";
+                    std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :" + topic + "\r\n";
                     sendToEveryone(msg, id, 1);
                 }
             }
