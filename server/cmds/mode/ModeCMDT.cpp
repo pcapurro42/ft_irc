@@ -18,14 +18,14 @@ void    Server::executeModeTCommand(int canal_id, int id, char sign)
     {
         _canals[canal_id].op_topic = true;
         std::cout << getTime() << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to operators only." << std::endl;
-        std::string msg = ": MODE " + _canals[canal_id].name + " +t " + _clients_data[id].nickname + "\r\n";
+        std::string msg = ":" + _clients_data[id].nickname + " MODE " + _canals[canal_id].name + " +t " + _clients_data[id].nickname + "\r\n";
         sendToEveryone(msg, id + 1, true);
     }
     if (sign == '-' && _canals[canal_id].op_topic == true)
     {
         _canals[canal_id].op_topic = false;
         std::cout << getTime() << _clients_data[id].nickname << " gave " << _canals[canal_id].name << "'s right to modify topic to everyone." << std::endl;
-        std::string msg = ": MODE " + _canals[canal_id].name + " -t " + _clients_data[id].nickname + "\r\n";
+        std::string msg = ":" + _clients_data[id].nickname + " MODE " + _canals[canal_id].name + " -t " + _clients_data[id].nickname + "\r\n";
         sendToEveryone(msg, id + 1, true);
     }
 }
