@@ -30,9 +30,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
         if (getArgument(cmd, 2) == "")
         {
             std::cout << getTime() << _clients_data[id].nickname << " requested the topic of " << channels << "." << std::endl;
-            std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
-            if (_canals[searchCanal(channels)].topic == "")
-                msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :Undefined\r\n";
+            std::string msg = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
         }
         else
