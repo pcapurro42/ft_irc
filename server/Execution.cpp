@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 18:52:11 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:01:55 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,43 +189,44 @@ int     Server::validateCommandCall(std::string cmd_name, int id) const
 
 void    Server::executeCommand(std::string command, std::string cmd_name, int id)
 {
-    if (cmd_name != "PONG" && cmd_name != "pong")
+    if (cmd_name != "PONG")
         std::cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << std::endl;
 
     int value = validateCommandCall(cmd_name, id);
     if (value == 0)
     {
-        if (cmd_name == "PING" || cmd_name == "ping")
+        if (cmd_name == "PING")
             value = executePingCommand(command, id - 1);
-        else if (cmd_name == "PONG" || cmd_name == "pong")
+        else if (cmd_name == "PONG")
             value = executePongCommand(command, id - 1);
-        else if (cmd_name == "PASS" || cmd_name == "pass")
+        else if (cmd_name == "PASS")
             value = executePassCommand(command, id - 1);
-        else if (cmd_name == "QUIT" || cmd_name == "quit")
+        else if (cmd_name == "QUIT")
             value = executeQuitCommand(command, id - 1);
 
-        else if (cmd_name == "NICK" || cmd_name == "nick")
+        else if (cmd_name == "NICK")
             value = executeNickCommand(command, id - 1);
-        else if (cmd_name == "USER" || cmd_name == "user")
+        else if (cmd_name == "USER")
             value = executeUserCommand(command, id - 1);
         
-        else if (cmd_name == "JOIN" || cmd_name == "join")
+        else if (cmd_name == "JOIN")
             value = executeJoinCommand(command, id - 1);
-        else if (cmd_name == "PART" || cmd_name == "part")
+        else if (cmd_name == "PART")
             value = executePartCommand(command, id - 1);
-        else if (cmd_name == "PRIVMSG" || cmd_name == "privmsg")
+        else if (cmd_name == "PRIVMSG")
             value = executePrivmsgCommand(command, id - 1);
-        else if (cmd_name == "KICK" || cmd_name == "kick")
+        else if (cmd_name == "KICK")
             value = executeKickCommand(command, id - 1);
-        else if (cmd_name == "INVITE" || cmd_name == "invite")
+        else if (cmd_name == "INVITE")
             value = executeInviteCommand(command, id - 1);
-        else if (cmd_name == "TOPIC" || cmd_name == "topic")
+        else if (cmd_name == "TOPIC")
             value = executeTopicCommand(command, id - 1);
-        else if (cmd_name == "MODE" || cmd_name == "mode")
+        else if (cmd_name == "MODE")
             value = executeModeCommand(command, id - 1);
-        else if (cmd_name == "BOT" || cmd_name == "bot")
+        else if (cmd_name == "BOT")
             value = executeBotCommand(command, id - 1);
     }
-    else
+
+    if (value != 0)
         sendError(command.c_str(), id, value);
 }

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 14:07:28 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:00:30 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ void    Server::receiveData(int id)
                     while (std::count(cmd.begin(), cmd.end(), '\n') != 0)
                         cmd.erase(std::find(cmd.begin(), cmd.end(), '\n'));
                     std::string cmd_name = getArgument(cmd, 0);
+                    for (int i = 0; cmd_name[i] != '\0'; i++)
+                        cmd_name[i] = std::toupper(cmd_name[i]);
+
                     executeCommand(cmd, cmd_name, id);
                 }
             }
