@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:53:25 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 02:53:11 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,23 @@ std::string  Server::getArgument(const std::string cmd, int nb_arg) const
         }
     }
     return (argument);
+}
+
+std::vector<std::string> Server::splitStringToVector(std::string str) const
+{
+    std::vector<std::string>    array;
+    std::string                 entity;
+
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        while (str[i] == ' ' && str[i] != '\0')
+            i++;
+        while (str[i] != ' ' && str[i] != '\0')
+            entity = entity + str[i++];
+        array.push_back(entity);
+        entity.clear();
+    }
+    return (array);
 }
 
 std::string  Server::convertNumberToString(int value) const

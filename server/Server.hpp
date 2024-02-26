@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:43:30 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 02:49:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ class Server
         void            sendToEveryone(std::string message, int id, bool self);
         void            sendError(const char *command, int id, int value);
 
-        std::vector<std::string>  rectifyInput(std::string buffer) const;
+        std::vector<std::string>    rectifyInput(std::string buffer) const;
+        std::vector<std::string>    splitStringToVector(std::string str) const;
         
         std::string     getArgument(const std::string cmd, int nb_arg) const;
         std::string     convertNumberToString(int value) const;
@@ -172,10 +173,10 @@ class Server
         int             executeTopicCommand(std::string cmd, int id);
         
         int             verifyModeCMD(std::string cmd, int id) const;
-        void            executeModeICommand(int canal_id, int id);
-        void            executeModeTCommand(int canal_id, int id);
-        void            executeModeKCommand(std::string password, int canal_id, int id);
-        void            executeModeOCommand(std::string member, int canal_id, int id);
+        void            executeModeICommand(int canal_id, int id, char sign);
+        void            executeModeTCommand(int canal_id, int id, char sign);
+        void            executeModeKCommand(std::string password, int canal_id, int id, char sign);
+        void            executeModeOCommand(std::string member, int canal_id, int id, char sign);
         void            executeModeLCommand(int value, int canal_id, int id);
         int             executeModeCommand(std::string cmd, int id);
         
