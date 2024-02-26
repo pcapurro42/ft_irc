@@ -22,6 +22,8 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
         {
             _canals[canal_id].operators.erase(std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member));
             std::cout << getTime() << _clients_data[id].nickname << " removed operator role from " << member << "." << std::endl;
+            std::string msg = ":" + _clients_data[id].nickname + " MODE " + _canals[canal_id].name + " -o " + member + "\r\n";
+            sendToEveryChannelMembers(msg, _canals[canal_id].name);
         }
     }
     if (sign == '+')
@@ -30,6 +32,8 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
         {
             _canals[canal_id].operators.push_back(member);
             std::cout << getTime() << _clients_data[id].nickname << " gave operator role to " << member << "." << std::endl;
+            std::string msg = ":" + _clients_data[id].nickname + " MODE " + _canals[canal_id].name + " +o " + member + "\r\n";
+            sendToEveryChannelMembers(msg, _canals[canal_id].name);
         }
         else
             std::cout << getTime() << _clients_data[id].nickname << " failed to add " << member << " as an operator (already operator)." << std::endl;
