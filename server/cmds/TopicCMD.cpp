@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:43 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 03:56:56 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/26 04:04:22 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,12 @@
 int Server::executeTopicCommand(std::string cmd, int id)
 {
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
-    if (space_nb > 2)
-    {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
-        return (ERR_TOOMANYPARAMS);
-    }
-    else if (space_nb < 1)
+    if (space_nb < 1)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
     }
     std::string channels = getArgument(cmd, 1);
-    std::string topic = getArgument(cmd, 2);
     if (searchCanal(channels) == -1)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (channel not found)." << std::endl;
@@ -43,6 +37,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
         }
         else
         {
+            std::string topic = getMessage(cmd);
             std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
             if (it != _canals[searchCanal(channels)].members.end())
             {
