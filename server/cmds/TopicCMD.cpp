@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TopicCMD.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:43 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:53:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 03:56:56 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
                         _canals[searchCanal(channels)].topic = topic;
                         std::cout << getTime() << _clients_data[id].nickname << " changed the topic of " << channels << " to " << topic << "." << std::endl;
                         std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + "set new topic :" + topic + "\r\n";
-                        for (it = _canals[searchCanal(channels)].members.begin(); it != _canals[searchCanal(channels)].members.end(); it++)
-                            send(_sockets_array[searchClient(*it) + 1].fd, msg.c_str(), msg.size(), 0);
+                        sendToEveryone(msg, id, 1);
                     }
                     else
                     {
@@ -67,8 +66,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
                     _canals[searchCanal(channels)].topic = topic;
                     std::cout << getTime() << _clients_data[id].nickname << " changed the topic of " << channels << " to " << topic << "." << std::endl;
                     std::string msg = ":" + _clients_data[id].nickname + " TOPIC " + channels + "set new topic :" + topic + "\r\n";
-                    for (std::vector<std::string>::iterator it = _canals[searchCanal(channels)].members.begin(); it != _canals[searchCanal(channels)].members.end(); it++)
-                        send(_sockets_array[searchClient(*it) + 1].fd, msg.c_str(), msg.size(), 0);
+                    sendToEveryone(msg, id, 1);
                 }
             }
             else
