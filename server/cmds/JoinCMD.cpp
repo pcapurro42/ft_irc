@@ -20,7 +20,7 @@ void Server::createCanal(const std::string channels, const std::string nickname)
     canal.exist = true;
     canal.members.push_back(nickname);
     canal.operators.push_back(nickname);
-    canal.topic = "";
+    canal.topic = "undefined";
     canal.op_topic = false;
     canal.invite_only = false;
     canal.pass_only = false;
@@ -80,6 +80,8 @@ int Server::executeJoinCommand(std::string cmd, int id)
                 
                 std::string msg = ":" + _clients_data[id].nickname + " JOIN " + channels + " (creation)\r\n";
                 send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
+                std::string topic = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
+                send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
                 msg = _clients_data[id].nickname + " \x1Dhas created\x0f " + channels + ".\r\n";
                 sendToEveryone(msg, id + 1, true);
                 msg = _clients_data[id].nickname + " \x1Dhas joined\x0f " + channels + ".\r\n";
