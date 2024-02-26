@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 23:35:32 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:07:25 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void    Server::addClient(void)
 
         _clients_data[id - 1].connected = true;
         _clients_data[id - 1].ping = true;
-        _clients_data[id - 1].ping_nb = 0;
         _clients_data[id - 1].authentified = false;
         _clients_data[id - 1].identified = false;
         _clients_data[id - 1].set_nickname = false;

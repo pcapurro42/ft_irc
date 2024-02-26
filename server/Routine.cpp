@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 01:04:37 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:07:28 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void    Server::verifyTimeOut(void)
     {
         if (_clients_data[i].connected == true)
         {
-            if (_clients_data[i].ping == false && _clients_data[i].ping_nb == 3)
+            if (_clients_data[i].ping == false)
             {
                 std::cout << getTime() << _clients_data[i].nickname << " lost connection (time out) (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << std::endl;
                 removeClient(i + 1);
@@ -70,7 +70,6 @@ void    Server::sendPing(void)
             message = "PING :" + _clients_data[i].nickname + "\r\n";
             if (_clients_data[i].connected == true)
                 send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
-            _clients_data[i].ping_nb++;
             // std::cout << getTime() << "PING sent to " << _clients_data[i].nickname << std::endl;
         }
     }

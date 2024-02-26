@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 02:49:50 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:07:18 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct s_client_data
     bool    connected;
 
     bool    ping;
-    int     ping_nb;
     std::string  last_command;
 
     bool    set_nickname;
