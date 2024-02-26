@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 01:00:22 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:05:29 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,8 @@ int Server::executeJoinCommand(std::string cmd, int id)
             while (k != _canals[searchCanal(channels)].members.end())
             {
                 if (*k != _clients_data[id].nickname)
-                    send(_sockets_array[searchClient(*k) + 1].fd, msg.c_str(), msg.size(), 0), k++;
+                    send(_sockets_array[searchClient(*k) + 1].fd, msg.c_str(), msg.size(), 0);
+                k++;
             }
 
             std::string topic = ":" + _clients_data[id].nickname + " TOPIC " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
