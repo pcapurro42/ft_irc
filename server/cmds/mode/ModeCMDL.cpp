@@ -20,5 +20,7 @@ void    Server::executeModeLCommand(int value, int canal_id, int id)
     {
         _canals[canal_id].max = value;
         std::cout << getTime() << _clients_data[id].nickname << " changed the limit value of " << _canals[canal_id].name << "." << std::endl;
+        std::string message = ": MODE " + _canals[canal_id].name + " +l " + convertNumberToString(value) + "\r\n";
+        sendToEveryone(message, id + 1, true);
     }
 }
