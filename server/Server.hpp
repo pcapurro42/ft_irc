@@ -134,6 +134,7 @@ class Server
         void            executeCommand(std::string command, std::string cmd_name, int id);
         void            sendToEveryone(std::string message, int id, bool self);
         void            sendToEveryChannelMembers(std::string message, std::string channel);
+        void            sendNames(std::string channel);
         void            sendError(const char *command, int id, int value);
 
         std::vector<std::string>    rectifyInput(std::string buffer) const;

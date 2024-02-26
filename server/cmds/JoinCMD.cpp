@@ -86,7 +86,7 @@ int Server::executeJoinCommand(std::string cmd, int id)
                 sendToEveryone(msg, id + 1, true);
                 msg = _clients_data[id].nickname + " \x1Dhas joined\x0f " + channels + ".\r\n";
                 sendToEveryone(msg, id + 1, true);
-                
+                sendNames(channels);  
                 continue;
             }
         }
@@ -137,9 +137,41 @@ int Server::executeJoinCommand(std::string cmd, int id)
             send(_sockets_array[id + 1].fd, topic.c_str(), topic.size(), 0);
 
             sendToEveryone(_clients_data[id].nickname + " \x1Dhas joined\x0f " + channels + ".\r\n", id, true);
+            sendNames(channels);
         }
         else
             sendError(std::string("JOIN " + channels).c_str(), id + 1, error);
     }
     return (0);
+}
+
+bool isOp(std::string nickname, std::vector<std::string> operators){
+    for (size_t i = 0; i < operators.size(); ++i){
+        if (nickname == operators[i])
+            return true;
+    }
+    return false;
+}
+void Server::sendNames(std::string channel){
+    std::vector<std::string> members = _canals[searchCanal(channel)].members;
+    std::vector<std::string> ops = _canals[searchCanal(channel)].operators;
+    std::string names;
+    
+    for (size_t i = 0; i < members.size(); ++i){
+        if (isOp(members[i], ops))
+            names += "@" + members[i] + " ";
+        else
+            names += members[i] + " ";
+
+    }
+    
+    int i = searchCanal(channel);
+    std::vector<std::string>::iterator k;
+    for (k = _canals[i].members.begin(); k != _canals[i].members.end(); k++){
+        std::string msg = ":server 353 " + *k + " = " + channel + " :" + names + "\r\n";
+        send(_sockets_array[searchClient(*k) + 1].fd, msg.c_str(), msg.size(), 0);
+        msg = ":server 366 " + *k + " " + channel + " :End of /NAMES list\r\n";
+        send(_sockets_array[searchClient(*k) + 1].fd, msg.c_str(), msg.size(), 0);
+    }
+
 }
