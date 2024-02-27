@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 22:16:50 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:24:10 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void    Server::sendError(const char *command, int id, int value)
 
     if (value == ERR_INVALIDCOMMAND)
     {
-        std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid or unsupported command)." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid command)." << std::endl;
         message = "'" + std::string(command) + "': Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_UNKNOWNCOMMAND)
     {
+        std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (unknown or unsupported command)." << std::endl;
         message = "'" + std::string(command) + "': Invalid or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
