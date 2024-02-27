@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 00:31:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:36:13 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ int     Server::validateCommandCall(std::string cmd_name, int id) const
 void    Server::executeCommand(std::string command, std::string cmd_name, int id)
 {
     if (cmd_name != "PONG")
-        std::cout << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << std::endl;
+        std::cout << getTime() << "Command received from " << _clients_data[id - 1].nickname << " : '" << command << "'." << std::endl;
 
     int value = validateCommandCall(cmd_name, id);
     if (value == 0)
