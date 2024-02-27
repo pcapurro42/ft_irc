@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:32:21 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:20:38 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ std::string Server::getMessage(std::string cmd) const
 {
     std::string message = "";
     int i = 2;
-    while(i < 202 && getArgument(cmd, i) != "") // max 200 mots
+    while (getArgument(cmd, i) != "")
     {
+        if (message.size() + getArgument(cmd, i).size() > 400)
+            break ;
         message = message + getArgument(cmd, i);
         if (getArgument(cmd, i + 1) != "")
             message = message + " ";
