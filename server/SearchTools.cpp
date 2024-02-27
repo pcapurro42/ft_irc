@@ -61,3 +61,23 @@ bool    Server::isIdentified(std::string clientname) const
     }
     return (false);
 }
+
+bool Server::isOp(std::string nickname, std::string channel){
+    std::vector<std::string> operators = _canals[searchCanal(channel)].operators;
+    
+    for (size_t i = 0; i < operators.size(); ++i){
+        if (nickname == operators[i])
+            return true;
+    }
+    return false;
+}
+
+bool Server::isMember(std::string nickname, std::string channel){
+    std::vector<std::string> members = _canals[searchCanal(channel)].members;
+    
+    for (size_t i = 0; i < members.size(); ++i){
+        if (nickname == members[i])
+            return true;
+    }
+    return false;
+}

@@ -145,20 +145,14 @@ int Server::executeJoinCommand(std::string cmd, int id)
     return (0);
 }
 
-bool isOp(std::string nickname, std::vector<std::string> operators){
-    for (size_t i = 0; i < operators.size(); ++i){
-        if (nickname == operators[i])
-            return true;
-    }
-    return false;
-}
+
 void Server::sendNames(std::string channel){
     std::vector<std::string> members = _canals[searchCanal(channel)].members;
     std::vector<std::string> ops = _canals[searchCanal(channel)].operators;
     std::string names;
     
     for (size_t i = 0; i < members.size(); ++i){
-        if (isOp(members[i], ops))
+        if (isOp(members[i], channel))
             names += "@" + members[i] + " ";
         else
             names += members[i] + " ";

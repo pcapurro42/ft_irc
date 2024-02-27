@@ -16,7 +16,9 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
 {
     if (sign == '-')
     {
-        if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
+        if (!isOp(member, _canals[canal_id].name) && !isMember(member, _canals[canal_id].name))
+            std::cout << getTime() << _clients_data[id].nickname << " failed to remove operator role of " << member << " (user not in canal)." << std::endl;
+        else if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
             std::cout << getTime() << _clients_data[id].nickname << " failed to remove operator role of " << member << " (not operator)." << std::endl;
         else
         {
@@ -27,8 +29,10 @@ void    Server::executeModeOCommand(std::string member, int canal_id, int id, ch
         }
     }
     if (sign == '+')
-    {
-        if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
+    { 
+        if (!isOp(member, _canals[canal_id].name) && !isMember(member, _canals[canal_id].name))
+            std::cout << getTime() << _clients_data[id].nickname << " failed to give operator role to " << member << " (user not in canal)." << std::endl;
+        else if (std::find(_canals[canal_id].operators.begin(), _canals[canal_id].operators.end(), member) == _canals[canal_id].operators.end())
         {
             _canals[canal_id].operators.push_back(member);
             std::cout << getTime() << _clients_data[id].nickname << " gave operator role to " << member << "." << std::endl;

@@ -145,7 +145,9 @@ class Server
 
         int             searchCanal(std::string canal_name) const;
         int             searchClient(std::string clientname) const;
-
+        
+        bool            isOp(std::string nickname, std::string channel);
+        bool            isMember(std::string nickname, std::string channel);
         bool            isAuthentified(std::string clientname) const;
         bool            isIdentified(std::string clientname) const;
 
