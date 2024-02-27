@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:08 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:48:44 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:46:08 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int Server::executeNickCommand(std::string cmd, int id)
     }
     for (int i = 0; nickname[i] != '\0'; i++)
     {
-        if (std::isalpha(nickname[i]) == 0 && std::isdigit(nickname[i]) == 0)
+        if (std::isalpha(nickname[i]) == 0 && std::isdigit(nickname[i]) == 0 && nickname[i] != '-' && nickname[i] != '_')
         {
             std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a nickname (invalid character)." <<    std::endl;
             return (ERR_ERRONEUSNICKNAME);
