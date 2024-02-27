@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:03:04 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:12:45 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:26:20 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void    Server::executeModeKCommand(std::string password, int canal_id, int id, char sign)
 {
     if (sign == '+' && password == "")
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " set an invalid password." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to set a channel password (invalid)." << std::endl;
     else
     {
         if (sign == '+' && _canals[canal_id].pass_only == false)

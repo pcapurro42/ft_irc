@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:12:14 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:22:57 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int Server::executePartCommand(std::string cmd, int id)
         error = 0;
         if (searchCanal(channels) == -1)
         {
-            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to part a channel (does not exist)." << std::endl;
+            std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to leave a channel (does not exist)." << std::endl;
             error = ERR_NOSUCHCHANNEL;
         }
         std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
@@ -61,7 +61,7 @@ int Server::executePartCommand(std::string cmd, int id)
         else
         {
             if (error == 0){
-                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to part a channel (not in channel)." << std::endl;
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to leave a channel (not in channel)." << std::endl;
                 error = ERR_NOTONCHANNEL;
             }
         }

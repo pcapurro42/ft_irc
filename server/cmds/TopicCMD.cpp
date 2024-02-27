@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:43 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 22:15:31 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:24:39 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int Server::executeTopicCommand(std::string cmd, int id)
     std::string channels = getArgument(cmd, 1);
     if (searchCanal(channels) == -1)
     {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (channel not found)." << std::endl;
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to change/get (channel not found)." << std::endl;
         return (ERR_NOSUCHCHANNEL);
     }
     else if (searchCanal(channels) != -1){
         if (getArgument(cmd, 2) == "")
         {
-            std::cout << getTime() << _clients_data[id].nickname << " requested the topic of " << channels << "." << std::endl;
+            std::cout << getTime() << _clients_data[id].nickname << " read the topic of " << channels << "." << std::endl;
             std::string msg = ": 332 " + _clients_data[id].nickname + " " + channels + " :" + _canals[searchCanal(channels)].topic + "\r\n";
             send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);
         }
@@ -53,7 +53,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
                     }
                     else
                     {
-                        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not operator)." << std::endl;
+                        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to change the topic of " << channels << " (not operator)." << std::endl;
                         return (ERR_CHANOPRIVSNEEDED);
                     }
                 }
@@ -66,7 +66,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
             }
             else
             {
-                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to request (not in the channel)." << std::endl;
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to change the topic of " << channels << " (not operator)." << std::endl;
                 return (ERR_NOTONCHANNEL);
             }
         }
