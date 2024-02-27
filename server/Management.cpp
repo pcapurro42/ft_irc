@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 16:56:45 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 21:22:09 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,20 @@ void    Server::removeSocket(int id)
 void    Server::addClient(void)
 {
     int client_socket;
+    int status_flags;
 
     client_socket = accept(_server_socket, NULL, NULL);
-    fcntl(client_socket, F_SETFL, fcntl(client_socket, F_GETFL, 0) | O_NONBLOCK);
-    if (_clients_slots == MAX_CLIENTS)
+    if (client_socket == -1 || (status_flags = fcntl(client_socket, F_GETFL, 0)) == -1 || fcntl(client_socket, F_SETFL, status_flags | O_NONBLOCK) == -1)
+    {
+        std::cout << getTime() << "A client couldn't connect: server error." << std::endl;
+        if (client_socket != -1)
+        {
+            std::string message = ": 421 ERROR Server error.\r\n";
+            send(client_socket, message.c_str(), message.size(), 0);
+            close(client_socket);
+        }
+    }
+    else if (_clients_slots == MAX_CLIENTS)
     {
         std::cout << getTime() << "A client couldn't connect: server is full (" << _clients_slots << "/" << MAX_CLIENTS << ")." << std::endl;
         std::string message = ": 421 ERROR Server is full.\r\n";
