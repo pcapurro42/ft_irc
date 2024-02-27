@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:12:06 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:05:54 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int Server::executeKickCommand(std::string cmd, int id)
     {
         std::string canal = getArgument(cmd, 1);
         std::string member = getArgument(cmd, 2);
-        std::string reason = getArgument(cmd, 4);
+        std::string reason = getArgument(cmd, 3);
 
         if (reason.empty() == true)
             reason = "no reason";
