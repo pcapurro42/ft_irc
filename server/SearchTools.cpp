@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 17:57:09 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:43:54 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:37:32 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ bool    Server::isIdentified(std::string clientname) const
     return (false);
 }
 
-bool Server::isOp(std::string nickname, std::string channel){
+bool Server::isOp(std::string nickname, std::string channel) const
+{
     std::vector<std::string> operators = _canals[searchCanal(channel)].operators;
     
     for (size_t i = 0; i < operators.size(); ++i){
@@ -72,7 +73,8 @@ bool Server::isOp(std::string nickname, std::string channel){
     return false;
 }
 
-bool Server::isMember(std::string nickname, std::string channel){
+bool Server::isMember(std::string nickname, std::string channel) const
+{
     std::vector<std::string> members = _canals[searchCanal(channel)].members;
     
     for (size_t i = 0; i < members.size(); ++i){

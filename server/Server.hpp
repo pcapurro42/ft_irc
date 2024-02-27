@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:10:15 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:37:43 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ class Server
         int             searchCanal(std::string canal_name) const;
         int             searchClient(std::string clientname) const;
         
-        bool            isOp(std::string nickname, std::string channel);
-        bool            isMember(std::string nickname, std::string channel);
+        bool            isOp(std::string nickname, std::string channel) const;
+        bool            isMember(std::string nickname, std::string channel) const;
         bool            isAuthentified(std::string clientname) const;
         bool            isIdentified(std::string clientname) const;
 
