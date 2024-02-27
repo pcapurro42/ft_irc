@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 00:49:38 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:27:27 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int Server::executeUserCommand(std::string cmd, int id)
     if (client_realname.empty() == true || client_username.empty() == true || client_realname.size() > 42 || client_username.size() > 42)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to identify (invalid length)." << std::endl;
-        return (ERR_UNKNOWNCOMMAND);
+        return (ERR_INVALIDCOMMAND);
     }
 
     std::string username = getArgument(cmd, 1);

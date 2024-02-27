@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:11:46 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:27:42 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int Server::verifyInviteCMD(std::string cmd, int id) const
 {
     if (std::count(cmd.begin(), cmd.end(), '#') == 0)
     {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed an invalid or unsupported command." << std::endl;
-        return (ERR_UNKNOWNCOMMAND);
+        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed an invalid command." << std::endl;
+        return (ERR_INVALIDCOMMAND);
     }
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
 

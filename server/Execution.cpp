@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 00:24:10 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:26:20 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ void    Server::sendError(const char *command, int id, int value)
 
     if (value == ERR_INVALIDCOMMAND)
     {
-        std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (invalid command)." << std::endl;
-        message = "'" + std::string(command) + "': Invalid or unsupported command.\r\n";
+        message = "'" + std::string(command) + "': Invalid command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_UNKNOWNCOMMAND)
     {
-        std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (unknown or unsupported command)." << std::endl;
-        message = "'" + std::string(command) + "': Invalid or unsupported command.\r\n";
+        message = "'" + std::string(command) + "': Unknown or unsupported command.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_TOOMANYPARAMS || value == ERR_NEEDMOREPARAMS || value == ERR_NONICKNAMEGIVEN || value == ERR_KEYSET)
@@ -178,7 +176,10 @@ int     Server::validateCommandCall(std::string cmd_name, int id) const
         && cmd_name != "PRIVMSG" && cmd_name != "KICK" && cmd_name != "KICK" && cmd_name != "INVITE"
         && cmd_name != "INVITE" && cmd_name != "TOPIC" && cmd_name != "MODE" && cmd_name != "BOT"
         && cmd_name != "PASS" && cmd_name != "PING" && cmd_name != "PONG" && cmd_name != "QUIT")
-            return (ERR_UNKNOWNCOMMAND);
+    {
+        std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (unknown or unsupported command)." << std::endl;
+        return (ERR_UNKNOWNCOMMAND);
+    }
     else
     {
         if (isAuthentified(_clients_data[id - 1].nickname) == false)
