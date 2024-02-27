@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:50:01 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 20:02:32 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:38:47 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ Server::Server(const int port, const char *password)
         {
             _canals[i].exist = false;
             _canals[i].max = MAX_CLIENTS;
+            _canals[i].op_topic = false;
+            _canals[i].invite_only = false;
+            _canals[i].pass_only = false;
         }
         initializeServer();
     }
