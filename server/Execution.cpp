@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 00:26:20 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:31:33 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,12 +215,10 @@ void    Server::executeCommand(std::string command, std::string cmd_name, int id
             value = executePassCommand(command, id - 1);
         else if (cmd_name == "QUIT")
             value = executeQuitCommand(command, id - 1);
-
         else if (cmd_name == "NICK")
             value = executeNickCommand(command, id - 1);
         else if (cmd_name == "USER")
             value = executeUserCommand(command, id - 1);
-        
         else if (cmd_name == "JOIN")
             value = executeJoinCommand(command, id - 1);
         else if (cmd_name == "PART")
