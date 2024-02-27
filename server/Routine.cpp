@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 19:05:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 21:27:11 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,11 @@ void    Server::receiveData(int id)
 
         int value = recv(_sockets_array[id].fd, buffer, 511, 0);
         if (value == -1)
+        {
+            std::string message = ": 421 ERROR Data not received (server error).\r\n";
+            send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
             std::cerr << "Error! Couldn't receive data from Client #" << _clients_nb + 1 << "." << std::endl;
+        }
         else if (value == 0)
         {
             std::cout << getTime() << _clients_data[id - 1].nickname << " lost connection (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << std::endl;
