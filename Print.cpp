@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 23:41:19 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:52:31 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 20:06:03 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,42 @@ int printError(int value)
     }
     else if (value == 2)
     {
-        std::cerr << "\rVerifying input... Error!" << std::endl;
+        std::cerr << "\rVerifying inputs... Error!" << std::endl;
         std::cerr << "Invalid input." << std::endl;
         std::cerr << "Usage: ./ircserv <port> <password>" << std::endl;
     }
     else if (value == 3)
     {
-        std::cerr << "\rLaunching server... Error!" << std::endl;
-        std::cerr << "Could not create a socket." << std::endl;
+        std::cerr << "\rVerifying inputs... Error!" << std::endl;
+        std::cerr << "Invalid port value." << std::endl;
     }
     else if (value == 4)
     {
-        std::cerr << "\rLaunching server... Error!" << std::endl;
-        std::cerr << "Could not bind the socket." << std::endl;
+        std::cerr << "\rVerifying inputs... Error!" << std::endl;
+        std::cerr << "Invalid password (length)." << std::endl;
     }
     else if (value == 5)
     {
-        std::cerr << "\rLaunching server... Error!" << std::endl;
-        std::cerr << "Could not put the socket in listening mod." << std::endl;
+        std::cerr << "\rVerifying inputs... Error!" << std::endl;
+        std::cerr << "Invalid password (characters)." << std::endl;
     }
     else if (value == 6)
     {
         std::cerr << "\rLaunching server... Error!" << std::endl;
-        std::cerr << "Illegal macro value." << std::endl;
+        std::cerr << "Could not create a socket." << std::endl;
     }
+    else if (value == 7)
+    {
+        std::cerr << "\rLaunching server... Error!" << std::endl;
+        std::cerr << "Could not bind the socket." << std::endl;
+    }
+    else if (value == 8)
+    {
+        std::cerr << "\rLaunching server... Error!" << std::endl;
+        std::cerr << "Could not put the socket in listening mod." << std::endl;
+    }
+    else if (value == 9)
+        std::cerr << "Error! Illegal macro value." << std::endl;
     return (value);
 }
 

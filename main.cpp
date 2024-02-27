@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:16:07 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 18:52:18 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 20:04:47 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(const int argc, const char **argv)
     if (argc != 3)
         return (printError(1));
     else if (MAX_CANALS < 1 || MAX_CANALS > 1000 || MAX_CLIENTS < 1 || MAX_CLIENTS > 1000 || BOT < 0 || BOT > 1)
-        return (printError(6));
+        return (printError(9));
     else
     {
         printTitle();

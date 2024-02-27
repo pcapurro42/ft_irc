@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:26:55 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 20:09:47 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    Server::initializeServer(void)
     _server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     value = setsockopt(_server_socket, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(int));
     if (_server_socket == -1 || value == -1)
-        setFail(), printError(3);
+        setFail(), printError(6);
     else
     {
         int enable;
@@ -31,11 +31,11 @@ void    Server::initializeServer(void)
             addr_str.sin_zero[i] = 0;
         setsockopt(_server_socket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
         if (bind(_server_socket, reinterpret_cast<sockaddr *>(&addr_str), sizeof(addr_str)) == -1)
-            setFail(), printError(4);
+            setFail(), printError(7);
         else
         {
             if (listen(_server_socket, SOMAXCONN) == -1)
-                setFail(), printError(5);
+                setFail(), printError(8);
             else
                 std::cout << std::endl << "Server OK!" << std::endl;
         }
