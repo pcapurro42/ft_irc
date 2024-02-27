@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 22:22:57 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:42:58 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int Server::executePartCommand(std::string cmd, int id)
         std::vector<std::string>::iterator it = std::find(_canals[searchCanal(channels)].members.begin(), _canals[searchCanal(channels)].members.end(), _clients_data[id].nickname);
         if (error == 0 && it != _canals[searchCanal(channels)].members.end()){
             _canals[searchCanal(channels)].members.erase(it);
-            if (space_nb == 2){
+            if (space_nb == 2)
+            {
+                if (reason[0] == ':')
+                    reason = reason.c_str() + 1;
                 std::cout << getTime() << _clients_data[id].nickname << " has left " << channels << " :" << reason << std::endl;
                 std::string msg = ":" + _clients_data[id].nickname + " PART " + channels + " :" + reason + "\r\n";
                 send(_sockets_array[id + 1].fd, msg.c_str(), msg.size(), 0);

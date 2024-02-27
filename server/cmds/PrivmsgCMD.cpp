@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 22:20:38 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:44:04 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
             }
             else{
                 std::string message = getMessage(cmd);
+                if (message[0] == ':')
+                    message = message.c_str() + 1;
                 if (BOT == 1 && recipient == "Gipiti_bot"){
                     botTOTD(id, message);
                     return (0);
