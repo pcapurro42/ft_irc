@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 23:41:19 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:38:21 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:52:31 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void    printTitle(void)
     std::cout << " |  _|   | |      | ||  _ <| |___ " << std::endl;
     std::cout << " |_|     |_|_____|___|_| \\_\\____|" << std::endl;
     std::cout << "           |_____|               " << std::endl;
+    std::cout << "                                 " << std::endl;
+    std::cout << "          ## 42  Nice ##          " << std::endl;
+    std::cout << "     pcapurro - pory - bgales     " << std::endl;
     std::cout << std::endl;
 }
 
