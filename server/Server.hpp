@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 18:54:06 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:10:15 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ class Server
         int             validateCommandCall(std::string cmd_name, int id) const;
         void            executeCommand(std::string command, std::string cmd_name, int id);
         void            sendToEveryone(std::string message, int id, bool self);
-        void            sendToEveryChannelMembers(std::string message, std::string channel);
+        void            sendToEveryChannelMembers(std::string message, std::string channel, std::string client, bool self);
         void            sendNames(std::string channel);
         void            sendError(const char *command, int id, int value);
 

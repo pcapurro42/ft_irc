@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 19:21:23 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:12:06 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int Server::executeKickCommand(std::string cmd, int id)
             std::string message = ":" + _clients_data[id].nickname + " KICK " + canal + " " + member + " :" + reason + "\r\n";
             send(_sockets_array[target_id].fd, message.c_str(), message.size(), 0);
 
-            sendToEveryChannelMembers(message, _canals[i].name);
+            sendToEveryChannelMembers(message, _canals[i].name, _clients_data[id].nickname, true);
             sendToEveryone(_clients_data[id].nickname + " \x1Dhas left\x0f " + _canals[i].name + ".\r\n", id, true);
         }
         else

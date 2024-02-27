@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:21:47 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:24:36 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:12:14 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int Server::executePartCommand(std::string cmd, int id)
             }
 
             std::string msg = ":" + _clients_data[id].nickname + " PART " + channels + "\r\n";
-            sendToEveryChannelMembers(msg, channels);
+            sendToEveryChannelMembers(msg, channels, _clients_data[id].nickname, true);
             sendToEveryone(_clients_data[id].nickname + " \x1Dhas left\x0f " + channels + ".\r\n", id, true);
             
             if ((it = std::find(_canals[searchCanal(channels)].operators.begin(), _canals[searchCanal(channels)].operators.end(), _clients_data[id].nickname)) != _canals[searchCanal(channels)].operators.end())

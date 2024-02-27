@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 19:32:14 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:11:46 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int Server::executeInviteCommand(std::string cmd, int id)
 
         std::string message = ":" + sender + " INVITE " + target + " " + canal + "\r\n";
         send(_sockets_array[searchClient(target) + 1].fd, message.c_str(), message.size(), 0);
-        sendToEveryChannelMembers(message, canal);
+        sendToEveryChannelMembers(message, canal, sender, true);
     }
     return (0);
 }

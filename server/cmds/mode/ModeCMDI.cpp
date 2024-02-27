@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:02:02 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 18:11:20 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:12:34 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void    Server::executeModeICommand(int canal_id, int id, char sign)
         std::string message = _clients_data[id].nickname + "\x1D changed\x0f " + _canals[canal_id].name + "\x1D's access to invite only\x0f.\r\n";
         sendToEveryone(message, id + 1, true);
         message = ":" + _clients_data[id].nickname + " MODE " + _canals[canal_id].name + " +i\r\n";
-        sendToEveryChannelMembers(message, _canals[canal_id].name);
+        sendToEveryChannelMembers(message, _canals[canal_id].name, _clients_data[id].nickname, true);
     }
     if (sign == '-' && _canals[canal_id].invite_only == true)
     {
@@ -30,6 +30,6 @@ void    Server::executeModeICommand(int canal_id, int id, char sign)
         std::string message = _clients_data[id].nickname + "\x1D changed\x0f " + _canals[canal_id].name + "\x1D's access to public\x0f.\r\n";
         sendToEveryone(message, id + 1, true);
         message = ":" + _clients_data[id].nickname + " MODE " + _canals[canal_id].name + " -i\r\n";
-        sendToEveryChannelMembers(message, _canals[canal_id].name);
+        sendToEveryChannelMembers(message, _canals[canal_id].name, _clients_data[id].nickname, true);
     }
 }

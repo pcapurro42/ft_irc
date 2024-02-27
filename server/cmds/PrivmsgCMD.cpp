@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:27:45 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:32:21 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ std::string Server::getMessage(std::string cmd) const
             message = message + " ";
         i++;
     }
-    message = message.substr(1);
     return (message);
 }
 
@@ -55,9 +54,20 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
             }
             if (error == 0){
                 std::string message = getMessage(cmd);
-                std::string msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
-                
-                sendToEveryChannelMembers(msg, recipient);
+                std::string msg;
+
+                if (message[0] == ':')
+                {
+                    message = message.c_str() + 1;
+                    msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
+                    sendToEveryChannelMembers(msg, recipient, _clients_data[id].nickname, false);
+                }
+                else
+                {
+                    msg = ":" + _clients_data[id].nickname + " PRIVMSG " + recipient + " :" + message + "\r\n";
+                    sendToEveryChannelMembers(msg, recipient, _clients_data[id].nickname, true);
+                }
+                    
                 std::cout << getTime() << _clients_data[id].nickname << " sent a message to " << recipient << " : " << message << std::endl;
             }
             if (error != 0)
