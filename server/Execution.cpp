@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:18:20 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:16:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,17 @@ void    Server::sendError(const char *command, int id, int value)
     }
     else if (value == ERR_INVALIDCHANNELNAME)
     {
-        message = "'" + std::string(command) + "': Invalid channel name.(valid: #<name>)\r\n";
+        message = "'" + std::string(command) + "': Invalid channel name.\r\n";
+        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
+    }
+    else if (value == ERR_INVALIDCHANNELTOPIC)
+    {
+        message = "'" + std::string(command) + "': Invalid channel topic.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_TOOMANYMODEFLAGS)
     {
-        message = "'" + std::string(command) + "': Too many mode flags.(use flags one by one)\r\n";
+        message = "'" + std::string(command) + "': Too many mode flags (flags one by one).\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CANNOTSENDTOCHAN){

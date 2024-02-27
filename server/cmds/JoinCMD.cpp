@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:17:27 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 19:11:57 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:12:57 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,13 @@ int Server::executeJoinCommand(std::string cmd, int id)
         {
             if (_canals[MAX_CANALS - 1].exist == true)
             {
-                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to join a channel (too many channels)." << std::endl;
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to create a channel (too many channels)." << std::endl;
                 error = ERR_TOOMANYCHANNELS;
+            }
+            else if (channels.size() > 21)
+            {
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to create a channel (invalid name length)." << std::endl;
+                error = ERR_INVALIDCHANNELNAME;
             }
             else
             {
