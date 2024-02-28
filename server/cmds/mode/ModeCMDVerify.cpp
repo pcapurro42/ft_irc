@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:58:31 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 02:38:35 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:50:54 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int Server::verifyModeCMD(std::string cmd, int id) const
             std::cout << getTime() << "Error! " << _clients_data[id].nickname << " searched for a non-existent channel." << std::endl;
             return (ERR_NOSUCHCHANNEL);
         }
-            return (0);
+        return (0);
     }
     
     if (std::count(cmd.begin(), cmd.end(), '#') == 0 || (std::count(cmd.begin(), cmd.end(), '+') == 0 && std::count(cmd.begin(), cmd.end(), '-') == 0) || std::count(cmd.begin(), cmd.end(), '*') != 0)
