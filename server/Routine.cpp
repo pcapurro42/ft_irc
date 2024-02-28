@@ -170,10 +170,10 @@ void    Server::LoopRoutine(void)
         }
         else
         {
-            removeEmptyChannels();
             verifyTimeOut();
             sendPing();
         }
+        removeEmptyChannels();
     }
     sendToEveryone("Server is shutting down...\r\n", 0, true);
 }
