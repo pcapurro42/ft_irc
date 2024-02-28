@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   Initialization.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:26:55 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 21:16:46 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:08:40 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+void    Server::init_clients(void){
+    for (int i = 0; i < MAX_CLIENTS; ++i)
+    {
+        _clients_data[i].nickname = "";
+        _clients_data[i].username = "";
+        _clients_data[i].realname = "";
+        _clients_data[i].number = 0;
+        _clients_data[i].authentified = false;
+        _clients_data[i].identified = false;
+        _clients_data[i].connected = false;
+        _clients_data[i].ping = false;
+        _clients_data[i].last_command = "";
+        _clients_data[i].set_nickname = false;
+        _clients_data[i].set_username = false;
+    }
+}
 
 void    Server::initializeServer(void)
 {

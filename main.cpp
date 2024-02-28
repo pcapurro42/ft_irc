@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:16:07 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 20:04:47 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:11:57 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int main(const int argc, const char **argv)
         printTitle();
 
         Server server(atoi(argv[1]), argv[2]);
+        server.init_clients();
 
         if (server.fail() == true)
             return (1);

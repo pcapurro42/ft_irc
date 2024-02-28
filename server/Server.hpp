@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 02:19:00 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:12:11 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ class Server
         void            setFail();
 
         void            LoopRoutine(void);
+        void            init_clients(void);
 
     private:
         void            initializeServer(void);
@@ -179,6 +180,7 @@ class Server
         void            botTOTD(int id, std::string msg);
 
         void            createCanal(const std::string channels, const std::string nickname);
+
 
         int             _port;
         std::string     _password;
