@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 22:16:13 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 01:14:40 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@
 # define ERR_INVALIDCHANNELNAME 470
 # define ERR_INVALIDCHANNELTOPIC 473
 # define ERR_TOOMANYMODEFLAGS 472
-# define ERR_CANNOTSENDTOCHAN 404
 # define ERR_INACTIVEBOT 406
 
 # ifndef MAX_CLIENTS

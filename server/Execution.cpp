@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 01:01:35 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 01:14:34 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void    Server::sendError(const char *command, int id, int value)
     }
     else if (value == ERR_NOTONCHANNEL)
     {
-        message = ": 404 " + std::string(command) + " :Presence in channel required\r\n";
+        // message = ": 404 " + std::string(command) + " :Presence in channel required\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_CHANOPRIVSNEEDED || value == ERR_NOPRIVILEGES)
     {
-        message = ": 482 " + std::string(command) + " :Privileges required\r\n";
+        // message = ": 482 " + std::string(command) + " :Privileges required\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_PASSWDMISMATCH)
@@ -103,17 +103,17 @@ void    Server::sendError(const char *command, int id, int value)
     }
     else if (value == ERR_TOOMANYCHANNELS)
     {
-        message = ": 403 " + std::string(command) + " :Too many channels\r\n";
+        // message = ": 403 " + std::string(command) + " :Too many channels\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_INVALIDCHANNELNAME)
     {
-        message = ": 403 " + std::string(command) + " :Invalid channel name\r\n";
+        // message = ": 403 " + std::string(command) + " :Invalid channel name\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_INVALIDCHANNELTOPIC)
     {
-        message = ": 403 " + std::string(command) + " :Invalid channel topic\r\n";
+        // message = ": 403 " + std::string(command) + " :Invalid channel topic\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
     else if (value == ERR_TOOMANYMODEFLAGS)
@@ -121,17 +121,9 @@ void    Server::sendError(const char *command, int id, int value)
         message = "'" + std::string(command) + "': Too many mode flags (flags one by one).\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
     }
-    else if (value == ERR_CANNOTSENDTOCHAN){
-        message = ": 403 " + std::string(command) + " :Cannot send to channel\r\n";
-        send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
-    }
     else if (value == ERR_INACTIVEBOT){
         message = "'" + std::string(command) + "': Bot is turned off.\r\n";
         send(_sockets_array[id].fd, message.c_str(), message.size(), 0);
-    }
-    else if (value ==  ERR_BADCHANNELKEY){
-        message = ": 403 " + std::string(command) + " :Incorrect password\r\n";
-        send(_sockets_array[id].fd, message.c_str(), message.length(), 0);
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 23:44:04 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 01:11:13 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
             if (searchCanal(recipient) == -1)
             {
                 std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (does not exist)." << std::endl;
-                error = ERR_CANNOTSENDTOCHAN;
+                error = ERR_NOSUCHCHANNEL;
             }
             std::vector<std::string>::iterator it = std::find(_canals[searchCanal(recipient)].members.begin(), _canals[searchCanal(recipient)].members.end(), _clients_data[id].nickname);
             if (error == 0 && it == _canals[searchCanal(recipient)].members.end())
