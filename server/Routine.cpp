@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 00:44:41 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 01:05:50 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void    Server::LoopRoutine(void)
     addSocket(_server_socket);
     while (6)
     {
-        int value = poll(_sockets_array, _clients_slots + 1, 2000);
+        int value = poll(_sockets_array, _clients_slots + 1, 3000);
         if (value == -1)
         {
             if (end_ != true)
