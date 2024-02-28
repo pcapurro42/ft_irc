@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   RandomTools.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 21:02:48 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/28 21:24:59 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-std::string Server::getMessage(std::string cmd) const
+std::string Server::getFullArgument(std::string cmd, int begin) const
 {
     std::string message = "";
-    int i = 2;
+    int i = begin;
     while (getArgument(cmd, i) != "")
     {
         message = message + getArgument(cmd, i);

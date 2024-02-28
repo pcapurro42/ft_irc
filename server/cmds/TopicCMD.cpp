@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:43 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 01:23:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:24:59 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int Server::executeTopicCommand(std::string cmd, int id)
         }
         else
         {
-            std::string topic = getMessage(cmd);
+            std::string topic = getFullArgument(cmd, 2);
             if (topic.size() > 200)
             {
                 std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to change the topic of " << channels << " (invalid length)." << std::endl;

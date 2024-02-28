@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 01:23:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:24:59 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ int Server::verifyKickCMD(std::string cmd, int id) const
     }
     int space_nb = std::count(cmd.begin(), cmd.end(), ' ');
     
-    if (space_nb > 4)
-    {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with too many paramaters." << std::endl;
-        return (ERR_TOOMANYPARAMS);
-    }
-    else if (space_nb < 3)
+    if (space_nb < 3)
     {
         std::cout << getTime() << "Error! " << _clients_data[id].nickname << " typed a command with not enough paramaters." << std::endl;
         return (ERR_NEEDMOREPARAMS);
@@ -34,7 +29,7 @@ int Server::verifyKickCMD(std::string cmd, int id) const
 
     std::string canal = getArgument(cmd, 1);
     std::string user = getArgument(cmd, 2);
-    std::string reason = getArgument(cmd, 3);
+    std::string reason = getFullArgument(cmd, 4);
 
     if (searchCanal(canal) == -1)
     {
@@ -63,7 +58,7 @@ int Server::executeKickCommand(std::string cmd, int id)
     {
         std::string canal = getArgument(cmd, 1);
         std::string member = getArgument(cmd, 2);
-        std::string reason = getArgument(cmd, 3);
+        std::string reason = getFullArgument(cmd, 4);
 
         if (reason.empty() == true)
             reason = "no reason";

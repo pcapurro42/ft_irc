@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PrivmsgCMD.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 21:02:25 by ory              ###   ########.fr       */
+/*   Updated: 2024/02/28 21:24:59 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
                 error = ERR_NOSUCHCHANNEL;
             }
             if (error == 0){
-                std::string message = getMessage(cmd);
+                std::string message = getFullArgument(cmd, 2);
                 std::string msg;
 
                 if (message[0] == ':')
@@ -66,14 +66,23 @@ int Server::executePrivmsgCommand(std::string cmd, int id)
                 std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (does not exist)." << std::endl;
                 sendError(std::string("PRIVMSG " + recipient).c_str(), id + 1, ERR_NOSUCHNICK);
             }
-            else{
-                std::string message = getMessage(cmd);
+            else if (getFullArgument(cmd, 2).size() > 200)
+            {
+                std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to send a message (invalid length)." << std::endl;
+                sendError(std::string("PRIVMSG " + recipient + " " + getFullArgument(cmd, 2)).c_str(), id + 1, ERR_INVALIDCOMMAND);
+            }
+            else
+            {
+                std::string message = getFullArgument(cmd, 2);
                 if (message[0] == ':')
                     message = message.c_str() + 1;
-                if (BOT == 1 && recipient == "Gipiti_bot"){
+                
+                if (BOT == 1 && recipient == "Gipiti_bot")
+                {
                     botTOTD(id, message);
-                    return (0);
+                    continue ;
                 }
+
                 std::cout << getTime() <<  std::count(message.begin(), message.end(), ' ') << std::endl;
                 if (message.find("DCC SEND") == 0 && std::count(message.begin(), message.end(), ' ') == 5)
                     message = "\x01" + message + "\x01";

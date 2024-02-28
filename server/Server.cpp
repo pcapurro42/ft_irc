@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:50:01 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 20:33:33 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:07:02 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ Server::Server(const int port, const char *password)
 
         for (int i = 0; i != MAX_CLIENTS + 1; i++)
             _sockets_array[i].fd = -6;
-        for (int i = 0; i < MAX_CLIENTS; ++i)
-        {            
+        for (int i = 0; i != MAX_CLIENTS; i++)
+        {
             _clients_data[i].number = 0;
             _clients_data[i].authentified = false;
             _clients_data[i].identified = false;
