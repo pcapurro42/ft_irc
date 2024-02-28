@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 02:17:46 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:39:01 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void    Server::sendToEveryChannelMembers(std::string message, std::string chann
 int     Server::validateCommandCall(std::string cmd_name, int id) const
 {
     if (cmd_name != "NICK" && cmd_name != "USER" && cmd_name != "JOIN" && cmd_name != "PART"
-        && cmd_name != "PRIVMSG" && cmd_name != "KICK" && cmd_name != "KICK" && cmd_name != "INVITE"
+        && cmd_name != "PRIVMSG" && cmd_name != "KICK" && cmd_name != "INVITE"
         && cmd_name != "INVITE" && cmd_name != "TOPIC" && cmd_name != "MODE" && cmd_name != "BOT"
         && cmd_name != "PASS" && cmd_name != "PING" && cmd_name != "PONG" && cmd_name != "QUIT" 
         && cmd_name != "WHO")
