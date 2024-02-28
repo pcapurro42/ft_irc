@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:31:34 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 01:20:54 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:17:46 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,8 @@ int     Server::validateCommandCall(std::string cmd_name, int id) const
     if (cmd_name != "NICK" && cmd_name != "USER" && cmd_name != "JOIN" && cmd_name != "PART"
         && cmd_name != "PRIVMSG" && cmd_name != "KICK" && cmd_name != "KICK" && cmd_name != "INVITE"
         && cmd_name != "INVITE" && cmd_name != "TOPIC" && cmd_name != "MODE" && cmd_name != "BOT"
-        && cmd_name != "PASS" && cmd_name != "PING" && cmd_name != "PONG" && cmd_name != "QUIT")
+        && cmd_name != "PASS" && cmd_name != "PING" && cmd_name != "PONG" && cmd_name != "QUIT" 
+        && cmd_name != "WHO")
     {
         std::cout << getTime() << "Error! " << _clients_data[id - 1].nickname << " failed to request (unknown or unsupported command)." << std::endl;
         return (ERR_UNKNOWNCOMMAND);
@@ -208,6 +209,8 @@ void    Server::executeCommand(std::string command, std::string cmd_name, int id
             value = executeUserCommand(command, id - 1);
         else if (cmd_name == "JOIN")
             value = executeJoinCommand(command, id - 1);
+        else if (cmd_name == "WHO")
+            value = executeWhoCommand(command, id - 1);
         else if (cmd_name == "PART")
             value = executePartCommand(command, id - 1);
         else if (cmd_name == "PRIVMSG")

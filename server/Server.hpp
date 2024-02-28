@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 01:14:40 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:19:00 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ class Server
         void            executeCommand(std::string command, std::string cmd_name, int id);
         void            sendToEveryone(std::string message, int id, bool self);
         void            sendToEveryChannelMembers(std::string message, std::string channel, std::string client, bool self);
-        void            sendNames(std::string channel);
         void            sendError(const char *command, int id, int value);
 
         std::vector<std::string>    rectifyInput(std::string buffer) const;

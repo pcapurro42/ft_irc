@@ -28,6 +28,7 @@ SRCS = main.cpp \
 	server/cmds/InviteCMD.cpp \
 	server/cmds/JoinCMD.cpp \
 	server/cmds/KickCMD.cpp \
+	server/cmds/WhoCMD.cpp \
 	server/cmds/NickCMD.cpp \
 	server/cmds/PartCMD.cpp \
 	server/cmds/PassCMD.cpp \
