@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   RandomTools.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 20:07:40 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:02:48 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+std::string Server::getMessage(std::string cmd) const
+{
+    std::string message = "";
+    int i = 2;
+    while (getArgument(cmd, i) != "")
+    {
+        message = message + getArgument(cmd, i);
+        if (getArgument(cmd, i + 1) != "")
+            message = message + " ";
+        if (message.size() + getArgument(cmd, i).size() > 200)
+            break ;
+        i++;
+    }
+    return (message);
+}
 
 bool    Server::validateInput(const int port_nb, const char *password) const
 {

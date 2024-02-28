@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   PrivmsgCMD.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:46:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 01:23:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:02:25 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Server.hpp"
-
-std::string Server::getMessage(std::string cmd) const
-{
-    std::string message = "";
-    int i = 2;
-    while (getArgument(cmd, i) != "")
-    {
-        if (message.size() + getArgument(cmd, i).size() > 200)
-            break ;
-        message = message + getArgument(cmd, i);
-        if (getArgument(cmd, i + 1) != "")
-            message = message + " ";
-        i++;
-    }
-    return (message);
-}
 
 int Server::executePrivmsgCommand(std::string cmd, int id)
 {
