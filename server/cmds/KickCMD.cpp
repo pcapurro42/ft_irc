@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:15 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 22:38:47 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:43:15 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ int Server::verifyKickCMD(std::string cmd, int id) const
     std::string canal = getArgument(cmd, 1);
     std::string user = getArgument(cmd, 2);
     std::string reason = getFullArgument(cmd, 3);
-
-    if (searchCanal(canal) == -1 && searchCanal(user) == 0)
-    {
-        std::cout << getTime() << "Error! " << _clients_data[id].nickname << " failed to use kick (wrong tab)." << std::endl;
-        return (ERR_INVALIDCOMMAND);
-    }
 
     if (reason.size() > 2 && (reason[0] == ':' && reason[1] == '#'))
         reason = getFullArgument(cmd, 4);
