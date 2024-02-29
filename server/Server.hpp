@@ -46,23 +46,23 @@
 
 # if MAX_CLIENTS > 1000
 #  undef MAX_CLIENTS
-#define MAX_CLIENTS_ 1001
+# define MAX_CLIENTS_ 1001
 # endif
 
 # if MAX_CANALS > 1000
 #  undef MAX_CANALS
-#define MAX_CANALS 1001
+# define MAX_CANALS 1001
 # endif
 
-#if BOT > 1
-#   undef BOT
-#define BOT 2
-#endif
+# if BOT > 1
+#  undef BOT
+# define BOT 2
+# endif
 
-#if BOT < 0
-#   undef BOT
+# if BOT < 0
+# undef BOT
 #define BOT -1
-#endif
+# endif
 
 # ifndef MAX_CLIENTS
 #  define MAX_CLIENTS 42
