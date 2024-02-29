@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:22:56 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 02:50:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:38:00 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,3 @@ int Server::executeModeCommand(std::string cmd, int id)
     }
     return (0);
 }
-
-// /MODE #canal1 +tkl pass 10 +o shalashaska
