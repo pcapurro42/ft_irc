@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 21:24:59 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:47:08 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ class Server
         void            receiveData(int id);
 
         std::string     getTime(void) const;
+        time_t          getActualTime(void) const;
         std::string     getFullArgument(std::string cmd, int begin) const;
 
         int             validateCommandCall(std::string cmd_name, int id) const;

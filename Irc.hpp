@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:31:21 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/25 19:38:52 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:47:19 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include <signal.h>
 # include <poll.h>
 # include <netdb.h>
+
+# include <sys/time.h>
 
 # include <algorithm>
 # include <vector>

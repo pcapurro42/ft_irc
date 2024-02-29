@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:50:37 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/28 21:24:59 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:46:53 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,18 @@ std::string  Server::convertNumberToString(int value) const
     return (std::string(buffer));
 }
 
-std::string Server::getTime(void) const{
+time_t  Server::getActualTime(void) const
+{
+    struct timeval  time;
+    time_t          actual_time;
+
+    gettimeofday(&time, NULL);
+    actual_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+    return (actual_time);
+}
+
+std::string Server::getTime(void) const
+{
     time_t rawtime;
     struct tm *timeinfo;
 
