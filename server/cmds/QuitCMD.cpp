@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 22:20:32 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/26 17:15:16 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:14:47 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int Server::executeQuitCommand(std::string cmd, int id)
         std::cout << getTime() << _clients_data[id].nickname << " left the server saying '" << message << "' (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << std::endl;
 
         std::string msg = _clients_data[id].nickname + " \x1Dleft the server saying\x0f '" + message + "'.\r\n";
-        sendToEveryone(msg, id + 1, true);
+        sendToEveryone(msg, id + 1, false);
         removeClient(id + 1);
     }
     else
     {
         std::string msg = _clients_data[id].nickname + " \x1Dleft the server\x0f.\r\n";
-        sendToEveryone(msg, id + 1, true);
+        sendToEveryone(msg, id + 1, false);
         removeClient(id + 1);
     }
     return (0);

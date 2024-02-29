@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:47:40 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/29 13:52:08 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:06:14 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ class Server
 
         int             addSocket(int socket);
         void            removeSocket(int id);
+        void            verifyGhostsClients(void);
         void            addClient(void);
         void            removeClient(int id);
         void            receiveData(int id);

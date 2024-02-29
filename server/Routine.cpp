@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:10:03 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/29 00:13:00 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:13:23 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void    Server::verifyTimeOut(void)
                 removeClient(i + 1);
 
                 std::string msg = _clients_data[i].nickname + " \x1Dleft the server.\x0f\r\n";
-                sendToEveryone(msg, i + 1, true);
+                sendToEveryone(msg, i + 1, false);
             }
             else
                 _clients_data[i].ping = false;

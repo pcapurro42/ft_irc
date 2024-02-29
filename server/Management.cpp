@@ -6,7 +6,7 @@
 /*   By: pcapurro <pcapurro@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:35:00 by pcapurro          #+#    #+#             */
-/*   Updated: 2024/02/27 21:22:09 by pcapurro         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:12:34 by pcapurro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,26 @@ void    Server::removeSocket(int id)
     _sockets_array[id].fd = -6;
 }
 
+void    Server::verifyGhostsClients(void)
+{
+    for (int i = 0; i != MAX_CLIENTS; i++)
+    {
+        if (_clients_data[i].connected == true && _clients_data[i].authentified == false)
+        {
+            std::cout << getTime() << "A client left the server (time out) (" << _clients_slots - 1 << "/" << MAX_CLIENTS << ")." << std::endl;
+            std::string message = "No password received. Disconnecting...\r\n";
+            send(_sockets_array[i + 1].fd, message.c_str(), message.size(), 0);
+            removeClient(i + 1);
+        }
+    }
+}
+
 void    Server::addClient(void)
 {
     int client_socket;
     int status_flags;
 
+    verifyGhostsClients();
     client_socket = accept(_server_socket, NULL, NULL);
     if (client_socket == -1 || (status_flags = fcntl(client_socket, F_GETFL, 0)) == -1 || fcntl(client_socket, F_SETFL, status_flags | O_NONBLOCK) == -1)
     {
